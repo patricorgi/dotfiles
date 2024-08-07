@@ -1,0 +1,4 @@
+Browser.Name: TRootBrowser
+Browser.ExpandDirectories: no
+X11.UseXft: no
+Cocoa.EnableAntiAliasing: no

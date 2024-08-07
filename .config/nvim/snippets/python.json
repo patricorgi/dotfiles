@@ -1,0 +1,93 @@
+{
+  "df.Histo1D": {
+    "prefix": "histo1d",
+    "body": ["df.Histo1D((${1:binning}), \"${2:branch}\")"]
+  },
+  "Read Yaml": {
+    "prefix": "ryaml",
+    "body": [
+      "with open(${1:yamlfile}, 'r') as f:",
+      "\t${2:content} = yaml.safe_load(f)",
+      "\t${0}"
+    ]
+  },
+  "main": {
+    "prefix": "main",
+    "body": [
+      "def main():",
+      "\t${0}",
+      "",
+      "",
+      "if __name__ == \"__main__\":",
+      "\tmain()"
+    ]
+  },
+  "yearpol": {
+    "prefix": "year",
+    "body": [
+      "ps.add_argument(\"--year\", choices=[\"16\", \"17\", \"18\"])",
+      "ps.add_argument(\"--pol\", choices=[\"Down\", \"Up\"])",
+      "year = args.year",
+      "pol = args.pol"
+    ]
+  },
+  "cwd": {
+    "prefix": "cwd",
+    "body": ["cwd = get_cwd(__file__)"]
+  },
+  "numcpu": {
+    "prefix": "numcpu",
+    "body": ["ROOT.RooFit.NumCPU(${1})"]
+  },
+  "th1d": {
+    "prefix": "th1d",
+    "body": ["ROOT.TH1D(\"${1:h}\", \"${2:h}\", ${3:binning})"]
+  },
+  "th2d": {
+    "prefix": "th2d",
+    "body": ["ROOT.TH2D(\"${1:h}\", \"${2:h}\", ${3:binning})"]
+  },
+  "Multithreading": {
+    "prefix": "mt",
+    "body": ["ROOT.EnableImplicitMT()"]
+  },
+  "Multithreading Disable": {
+    "prefix": "mtd",
+    "body": ["ROOT.DisableImplicitMT()"]
+  },
+  "Import ROOT": {
+    "prefix": "root",
+    "body": ["import ROOT", "ROOT.gROOT.SetBatch(True)"]
+  },
+  "canvas": {
+    "prefix": "canvas",
+    "body": [
+      "c = ROOT.TCanvas(\"c\", \"c\", 800, 600)",
+      "${2}",
+      "c.SaveAs(\"${1:test.pdf}\")"
+    ]
+  },
+  "import matplotlib": {
+    "prefix": "mpl",
+    "body": ["import matplotlib as mpl", "mpl.use(\"Agg\")"]
+  },
+  "argg": {
+    "prefix": "argg",
+    "body": [
+      "from argparse import ArgumentParser as AP",
+      "from argparse import ArgumentDefaultsHelpFormatter as ADHF",
+      "ps = AP(formatter_class=ADHF)",
+      "ps.add_argument(\"--test\", action=\"store_true\")",
+      "args = ps.parse_args()"
+    ]
+  },
+  "paras": {
+    "prefix": "paras",
+    "body": [
+      "import os",
+      "import sys",
+      "sys.path.append(os.environ[\"MAJORANA\"])",
+      "from paras import *"
+    ]
+  }
+}
