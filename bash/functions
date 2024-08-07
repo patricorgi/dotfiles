@@ -1,0 +1,46 @@
+#!/bin/bash
+
+function s() {
+	kitty +kitten ssh "$@" || ssh "$@"
+}
+
+function i() {
+	filename="${1}"
+	if [[ "${filename}" == *.pdf ]]; then
+		convert -trim -density 300 "${filename}" PNG:- | kitty +kitten icat
+	else
+		kitty +kitten icat "${filename}"
+	fi
+}
+
+function lf() {
+	while [ ! -f "$1" ]; do
+		echo "Waiting for $1 to be created..."
+		sleep 1 # or less like 0.2
+	done
+	less +F -R "$1"
+}
+
+function rl() {
+	[ -n "$TMUX" ] && export DISPLAY=$(tmux show-env | sed -n 's/^DISPLAY=//p')
+	root -l --web=off "${1}"
+}
+
+function rb() {
+	[ -n "$TMUX" ] && export DISPLAY=$(tmux show-env | sed -n 's/^DISPLAY=//p')
+	rootbrowse "${1}"
+}
+
+function xo() {
+	[ -n "$TMUX" ] && export DISPLAY=$(tmux show-env | sed -n 's/^DISPLAY=//p')
+	xdg-open "${1}" &
+}
+
+function rmnfs() {
+    if [ -z "$1" ]; then
+        echo "Usage: rmnfs <nfs_file>"
+        return 1
+    fi
+    local nfs_file="$1"
+    lsof | awk '/\.'$nfs_file'/ {print $2}' | xargs kill -9
+}
