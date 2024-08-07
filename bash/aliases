@@ -1,0 +1,89 @@
+#!/bin/bash
+
+# Aliases
+if [[ -x $(command -v exa) ]]; then
+	alias ls='exa'
+	alias l='exa --sort Name'
+	alias ll='exa --sort Name --long'
+	alias lh='exa --sort newest --group --long'
+else
+	alias ls='ls --color=auto'
+	alias lh='ls -alhrt --time-style=long-iso'
+fi
+alias mv='mv -i' # confirm override when moving
+alias cp='cp -i' # confirm override when copying
+
+# vim
+alias vim='nvim'
+alias v='vim'
+alias vo='vim -O'
+alias vp='vim -p'
+alias l='less'
+# vanilla vim profiling helper
+alias vprofile='p <(curl -sSL https://raw.githubusercontent.com/hyiltiz/vim-plugins-profile/master/vim-plugins-profile.py)'
+
+# utilities
+alias p='python3'
+alias bp='bpython'
+alias rp='realpath'
+alias t='type'
+alias b='bat'
+alias r='yazi'
+alias tm="tmux new -A -s main"
+alias rs="rsync -avh --progress --stats"
+alias ht='htop -u $USER'
+
+# grep
+alias gpy='grep -rn --include \*.py'
+alias gcpp='grep -rn --include \*.cpp --include \*.h'
+
+# check usage
+alias listsize='du -shc ./*'
+alias dirsize='du -hs .'
+alias cpu='ps -eo user,cmd:120,%cpu --sort=+%cpu'
+alias mem='ps -eo user,cmd:120,%mem --sort=+%mem'
+
+# screen
+alias sls='screen -ls'
+alias sr='screen -r'
+alias sS='screen -S'
+
+# tmux
+alias tn='tmux new-session -s main'
+alias ta='tmux attach'
+alias tls='tmux ls'
+alias tss="vim -c \":Telescope tmux sessions quit_on_select=true\""
+alias tmv='tmux rename-session -t'
+alias tk='tmux kill-session -t'
+
+# navigation
+alias zz='z -'
+alias cf='cd ~/dotfiles/'
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias .....='cd ../../../..'
+
+# git
+alias gco='git checkout'
+alias gcm='git commit -m'
+alias gg='git status'
+alias gdiff='git diff'
+alias gpull='git pull'
+alias gpush='git push'
+alias glogg='git logg'
+alias gbr='git branch'
+alias sc="~/dotfiles/scripts/source_control.sh"
+alias lg='lazygit'
+alias lp='lazygit -p'
+
+# open dotfiles in vim
+alias vv="$EDITOR ~/.config/nvim"
+alias vn="$EDITOR ~/.newsboat/config"
+alias vb="$EDITOR ~/.bashrc"
+alias vy="$EDITOR ~/.config/alacritty/alacritty.toml"
+alias vk="$EDITOR ~/.config/kitty/kitty.conf"
+alias vw="$EDITOR ~/.config/wezterm/wezterm.lua"
+alias vs="$EDITOR ~/.ssh/config"
+alias vt="$EDITOR ~/.tmux.conf"
+alias sb='source ~/.bashrc'
