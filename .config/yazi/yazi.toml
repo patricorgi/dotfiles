@@ -1,0 +1,160 @@
+# A TOML linter such as https://taplo.tamasfe.dev/ can use this schema to validate your config.
+# If you encounter any issues, please make an issue at https://github.com/yazi-rs/schemas.
+"$schema" = "https://yazi-rs.github.io/schemas/yazi.json"
+
+[manager]
+linemode       = "size_and_mtime"
+ratio          = [1, 3, 2]
+show_hidden    = false
+show_symlink   = true
+sort_by        = "natural"
+sort_dir_first = true
+sort_reverse   = true
+sort_sensitive = true
+
+[preview]
+cache_dir       = ""
+image_delay     = 0
+max_height      = 5000
+max_width       = 5000
+tab_size        = 2
+ueberzug_offset = [0, 0, 0, 0]
+ueberzug_scale  = 1
+
+[opener]
+edit = [{ run = 'nvim "$@"', block = true, for = "unix" }, { run = 'code "%*"', orphan = true, for = "windows" }]
+extract = [{ run = 'unar "$1"', desc = "Extract here", for = "unix" }, { run = 'unar "%1"', desc = "Extract here", for = "windows" }]
+open = [
+  { run = 'xdg-open "$@"', desc = "Open", for = "linux" },
+  { run = 'open "$@"', desc = "Open", for = "macos" },
+  { run = 'start "" "%1"', orphan = true, desc = "Open", for = "windows" },
+]
+play = [
+  { run = 'mpv --vo=libmpv --geometry=50% --no-border --focus-on=open --mute=yes "$@"', orphan = true, for = "unix" },
+  { run = 'mpv "%1"', orphan = true, for = "windows" },
+  { run = '''mediainfo "$1"; echo "Press enter to exit"; read''', block = true, desc = "Show media info", for = "unix" },
+]
+reveal = [
+  { run = 'open -R "$1"', desc = "Reveal", for = "macos" },
+  { run = 'explorer /select, "%1"', orphan = true, desc = "Reveal", for = "windows" },
+  { run = '''exiftool "$1"; echo "Press enter to exit"; read''', block = true, desc = "Show EXIF", for = "unix" },
+]
+rootbrowse = [{ run = 'rootbrowse "$1"', orphan = true, for = "unix" }]
+sioyek = [{ run = 'sioyek "$1"', orphan = true, for = "unix" }]
+
+[open]
+rules = [
+  # 
+  { name = "*/", use = ["edit", "open", "reveal"] },
+  { mime = "text/*", use = ["edit", "reveal"] },
+  { mime = "image/*", use = ["open", "reveal"] },
+  { mime = "video/*", use = ["play", "reveal"] },
+  { mime = "audio/*", use = ["play", "reveal"] },
+  { mime = "inode/x-empty", use = ["edit", "reveal"] },
+  { mime = "application/json", use = ["edit", "reveal"] },
+  { mime = "application/pdf", use = ["sioyek", "reveal"] },
+  { mime = "*/javascript", use = ["edit", "reveal"] },
+  { name = "*.root", use = ["rootbrowse"] },
+  { name = "*.zip", use = ["extract", "reveal"] },
+  { mime = "*", use = ["open", "reveal"] },
+]
+
+[tasks]
+bizarre_retry    = 5
+image_alloc      = 536870912 # 512MB
+image_bound      = [0, 0]
+macro_workers    = 25
+micro_workers    = 10
+suppress_preload = false
+
+[plugin]
+previewers = [
+  { name = "*/", run = "folder", sync = true },
+  # Code
+  { mime = "text/*", run = "code" },
+  { mime = "*/xml", run = "code" },
+  { mime = "*/javascript", run = "code" },
+  { mime = "*/x-wine-extension-ini", run = "code" },
+  # JSON
+  { mime = "application/json", run = "json" },
+  # Image
+  { mime = "image/vnd.djvu", run = "noop" },
+  { mime = "image/*", run = "image" },
+  # Video
+  { mime = "video/*", run = "video" },
+  # PDF
+  { mime = "application/pdf", run = "pdf" },
+  # Archive
+  { mime = "application/zip", run = "archive" },
+  { mime = "application/gzip", run = "archive" },
+  { mime = "application/x-tar", run = "archive" },
+  { mime = "application/x-bzip", run = "archive" },
+  { mime = "application/x-bzip2", run = "archive" },
+  { mime = "application/x-7z-compressed", run = "archive" },
+  { mime = "application/x-rar", run = "archive" },
+  { mime = "application/xz", run = "archive" },
+]
+
+[input]
+# cd
+cd_offset = [0, 2, 50, 3]
+cd_origin = "top-center"
+cd_title  = "Change directory:"
+
+# create
+create_offset = [0, 2, 50, 3]
+create_origin = "top-center"
+create_title  = ["Create:", "Create (dir):"]
+
+# rename
+rename_offset = [0, 1, 50, 3]
+rename_origin = "hovered"
+rename_title  = "Rename:"
+
+# trash
+trash_offset = [0, 2, 50, 3]
+trash_origin = "top-center"
+trash_title  = "Move {n} selected file{s} to trash? (y/N)"
+
+# delete
+delete_offset = [0, 2, 50, 3]
+delete_origin = "top-center"
+delete_title  = "Delete {n} selected file{s} permanently? (y/N)"
+
+# filter
+filter_offset = [0, 2, 50, 3]
+filter_origin = "top-center"
+filter_title  = "Filter:"
+
+# find
+find_offset = [0, 2, 50, 3]
+find_origin = "top-center"
+find_title  = ["Find next:", "Find previous:"]
+
+# search
+search_offset = [0, 2, 50, 3]
+search_origin = "top-center"
+search_title  = "Search:"
+
+# shell
+shell_offset = [0, 2, 50, 3]
+shell_origin = "top-center"
+shell_title  = ["Shell:", "Shell (block):"]
+
+# overwrite
+overwrite_offset = [0, 2, 50, 3]
+overwrite_origin = "top-center"
+overwrite_title  = "Overwrite an existing file? (y/N)"
+
+# quit
+quit_offset = [0, 2, 50, 3]
+quit_origin = "top-center"
+quit_title  = "{n} task{s} running, sure to quit? (y/N)"
+
+[select]
+open_offset = [0, 1, 50, 7]
+open_origin = "hovered"
+open_title  = "Open with:"
+
+[log]
+enabled = false

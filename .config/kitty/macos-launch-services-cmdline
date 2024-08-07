@@ -1,0 +1,2 @@
+--listen-on unix:/tmp/mykitty
+--single-instance
