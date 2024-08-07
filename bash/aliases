@@ -1,0 +1,84 @@
+#!/bin/bash
+
+# Aliases
+if [[ -x $(command -v eza) ]]; then
+	alias ls='eza --icons'
+	alias l='eza --icons --sort Name'
+	alias ll='eza --icons --sort Name --long'
+	alias lh='eza --icons --sort newest --group --long'
+else
+	alias ls='ls --color=auto'
+	alias lh='ls -alhrt --time-style=long-iso'
+fi
+alias mv='mv -i' # confirm override when moving
+alias cp='cp -i' # confirm override when copying
+
+# vim
+alias v='nvim'
+alias vo='nvim -O'
+alias vd='nvim -d'
+
+# utilities
+alias p='python3'
+alias rp='realpath'
+alias t='type'
+alias b='bat'
+alias y='yazi'
+alias tm="tmux new -A -s main"
+alias rs="rsync -avh --progress --stats"
+alias ht='htop -u $USER'
+alias sm='snakemake'
+alias gn='ganga -i ~/dotfiles/scripts/gangaUtilities.py'
+alias ggn='ganga -i --no-mon  ~/dotfiles/scripts/gangaUtilities.py'
+
+# grep
+alias gpy='grep -rn --include \*.py'
+alias gcpp='grep -rn --include \*.cpp --include \*.h'
+
+# check usage
+alias listsize='du -shc ./*'
+alias dirsize='du -hs .'
+alias cpu='ps -eo user,cmd:120,%cpu --sort=+%cpu'
+alias mem='ps -eo user,cmd:120,%mem --sort=+%mem'
+
+# screen
+alias sls='screen -ls'
+alias sr='screen -r'
+alias sS='screen -S'
+
+# tmux
+alias tn='tmux new-session -s main'
+alias ta='tmux attach'
+alias tls='tmux ls'
+alias tss="vim -c \":Telescope tmux sessions quit_on_select=true\""
+alias tmv='tmux rename-session -t'
+alias tk='tmux kill-session -t'
+
+# navigation
+alias zz='z -'
+alias cf='cd ~/dotfiles/'
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias .....='cd ../../../..'
+
+# git
+alias gco='git checkout'
+alias gcm='git commit -m'
+alias gg='git status'
+alias gdiff='git diff'
+alias gpull='git pull'
+alias gpush='git push'
+alias glogg='git logg'
+alias gbr='git branch'
+alias sc="~/dotfiles/scripts/source_control.sh"
+alias lg='lazygit'
+alias lp='lazygit -p'
+
+# open dotfiles in vim
+alias vv="nvim ~/.config/nvim"
+alias vb="nvim ~/.bashrc"
+alias vs="nvim ~/.ssh/config"
+alias vt="nvim ~/.tmux.conf"
+alias sb='source ~/.bashrc'
+alias va='nvim ~/.config/aerospace/aerospace.toml'
