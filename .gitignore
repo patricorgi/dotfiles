@@ -1,0 +1,16 @@
+*.pyc
+.DS_Store
+*info.plist
+.config/lazygit/state.yml
+.config/ranger/trash_history
+.config/lazygit/state.yml
+.config/raycast/extensions
+.config/htop/htoprc
+.config/nvim/lazy-lock.json
+local.sh
+.config/astronvim
+.config/yazi
+.config/jellyfin
+install
+.config/neofetch
+.config/snakemake
