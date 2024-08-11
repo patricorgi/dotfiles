@@ -11,10 +11,10 @@ return {
       lookahead = true,
       keymaps = {
         -- let mini.ai handle following
-        -- ['aa'] = { query = '@parameter.outer', desc = 'a argument' },
-        -- ['ia'] = { query = '@parameter.inner', desc = 'inner part of a argument' },
-        -- ['af'] = { query = '@function.outer', desc = 'a function region' },
-        -- ['if'] = { query = '@function.inner', desc = 'inner part of a function region' },
+        ['aa'] = { query = '@parameter.outer', desc = 'a argument' },
+        ['ia'] = { query = '@parameter.inner', desc = 'inner part of a argument' },
+        ['af'] = { query = '@function.outer', desc = 'a function region' },
+        ['if'] = { query = '@function.inner', desc = 'inner part of a function region' },
         ['ar'] = { query = '@return.outer', desc = 'a return' },
         ['ir'] = { query = '@return.outer', desc = 'inner return' },
         ['ac'] = { query = '@class.outer', desc = 'a of a class' },
