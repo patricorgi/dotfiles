@@ -11,26 +11,6 @@ vim.opt.termguicolors = true
 -- Make line numbers default
 vim.opt.relativenumber = true
 vim.opt.number = true
--- smart line number
-vim.api.nvim_create_autocmd({ 'InsertEnter' }, {
-  desc = 'Disable relative line number when entering insert mode',
-  callback = function()
-    local buftype = vim.bo.buftype
-    if buftype == '' then
-      vim.opt.relativenumber = false
-      vim.opt.number = true
-    end
-  end,
-})
-vim.api.nvim_create_autocmd({ 'InsertLeave' }, {
-  desc = 'Enable relative line number when leaving insert mode',
-  callback = function()
-    local buftype = vim.bo.buftype
-    if buftype == '' then
-      vim.opt.relativenumber = true
-    end
-  end,
-})
 
 -- enable soft line wrap
 vim.opt.wrap = true
