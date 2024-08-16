@@ -1,0 +1,16 @@
+ignore-article "regex:https?://.*(yande|konachan).*" "title =~ \" censored \""
+ignore-article "regex:https?://.*(yande|konachan).*" "title =~ \" censored$\""
+ignore-article "regex:https?://.*(yande|konachan).*" "title =~ \"^censored \""
+ignore-article "regex:https?://.*(yande|konachan).*" "title =~ \"kazuha\""
+ignore-article "regex:https?://.*youtube.*" "title =~ \"Sponsored\""
+ignore-article "regex:https?://.*idownloadblog.*" "title =~ \"jailbreak\""
+ignore-article "regex:https?://.*idownloadblog.*" "title =~ \"Misaka\""
+ignore-article "regex:https?://.*idownloadblog.*" "title =~ \"Rumor:\""
+ignore-article "https://www.macstories.net/feed/" "title =~ \"Sponsor\""
+ignore-article "https://rsshub.app/bilibili/user/video/1449473" "title !~ \"集锦\""
+ignore-article "http://www.hacg.la/wp/feed/" "link =~ \"\/game\""
+ignore-article "regex:https?://.*bilibili.*" "title =~ \"小米\""
+ignore-article "regex:https?://.*bilibili.*" "title =~ \"三星\""
+ignore-article "regex:https?://.*bilibili.*" "title =~ \"明日方舟\""
+
+

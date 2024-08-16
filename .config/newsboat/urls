@@ -1,0 +1,64 @@
+--[Featured]----------------------------------------------------------
+"query:󰚩 Unread tech:tags # \"geek\" and unread = \"yes\""
+"query:󰎕 Unread news:tags # \"news\" and unread = \"yes\""
+"query:󰴈 Unread nsfw:tags # \"nsfw\" and unread = \"yes\""
+"query: Unwatched video:tags # \"video\" and unread = \"yes\""
+"query:󱉲 Unread: unread = \"yes\""
+--[YouTube]-----------------------------------------------------------
+https://www.youtube.com/feeds/videos.xml?channel_id=UCj34AOIMl_k1fF7hcBkD_dw youtube video "~󰗃 EverythingApplePro"
+https://www.youtube.com/feeds/videos.xml?channel_id=UCpnuadQ_w3r6f4Q_NRlqd-w youtube video "~󰗃 Kraig Adams"
+https://www.youtube.com/feeds/videos.xml?channel_id=UCO8GewbsHFFmJn4kLLq1WXQ youtube video "~󰗃 Maaaxter English 麦琪英文"
+https://www.youtube.com/feeds/videos.xml?channel_id=UCpcqUJ8sf8a40TTBpu6Ca4A youtube video "~󰗃 Janice Studies"
+https://www.youtube.com/feeds/videos.xml?channel_id=UCIiotNwafpxC9eS-M_58VlA youtube video "~󰗃 Peter Akkies"
+https://www.youtube.com/feeds/videos.xml?channel_id=UCBJycsmduvYEL83R_U4JriQ youtube video "~󰗃 MKBHD"
+--[Bilibili]----------------------------------------------------------
+https://rsshub.app/bilibili/user/video/286187082 bilibili video "~󰟴 大耳朵TV"
+https://rsshub.app/bilibili/user/video/454108534 bilibili video "~󰟴 胡海泉"
+https://rsshub.app/bilibili/user/video/1630683578 bilibili video "~󰟴 努巴尼守望先锋"
+https://rsshub.app/bilibili/user/video/1449473 bilibili video "~󰟴 新热血英豪"
+https://rsshub.app/bilibili/user/video/4564056 bilibili video "~󰟴 龙崎棒棒糖"
+https://rsshub.app/bilibili/user/video/748709 bilibili video "~󰟴 Chimera君"
+https://rsshub.app/bilibili/user/video/2026561407 bilibili video "~󰟴 王冰冰"
+https://rsshub.app/bilibili/user/video/423895 bilibili video "~󰟴 怕上火暴王老菊"
+https://rsshub.app/bilibili/user/video/419220 bilibili video "~󰟴 神奇陆夫人"
+https://rsshub.app/bilibili/user/video/673816 bilibili video "~󰟴 谜之声"
+https://rsshub.app/bilibili/user/video/168598 bilibili video "~󰟴 逍遥散人"
+https://rsshub.app/bilibili/user/video/585267 bilibili video "~󰟴 纯黑"
+https://rsshub.app/bilibili/user/video/14110780 bilibili video "~󰟴 凉风Kaze"
+https://rsshub.app/bilibili/user/video/433351 bilibili video "~󰟴 老E"
+https://rsshub.app/bilibili/user/video/13046 bilibili video "~󰟴 少年Pi"
+https://rsshub.app/bilibili/user/video/546195 bilibili video "~󰟴 老番茄"
+https://rsshub.app/bilibili/user/video/122879 bilibili video "~󰟴 敖厂长"
+https://rsshub.app/bilibili/user/video/13081489 bilibili video tech "~󰟴 TheCW"
+https://rsshub.app/bilibili/user/video/216156027 bilibili video "~󰟴 小高姐的魔法调料"
+https://rsshub.app/bilibili/user/video/176037767 bilibili video "~󰟴 我是郭杰瑞"
+https://rsshub.app/bilibili/user/video/11124724 bilibili video "~󰟴 龚浩宇"
+https://rsshub.app/bilibili/user/video/1007043700 bilibili video "~󰟴 世界美食official"
+https://rsshub.app/bilibili/user/video/1544008396 bilibili video "~󰟴 梗百科"
+--[Weibo]-------------------------------------------------------------
+https://rsshub.app/weibo/user/1896754093/1 weibo "~ 萝卜素丸子"
+https://rsshub.app/weibo/user/1002143827/1 weibo Game "~ 怕上火暴王老菊"
+https://rsshub.app/weibo/user/2868626764/1 weibo Game "~ 纯黑GK"
+https://rsshub.app/weibo/user/2761139954/1 weibo Game "~ 老E_EdmundDZhang"
+--[News]--------------------------------------------------------------
+feeds://sumailsyr.sharepoint.com/sites/PostdocResources/_layouts/15/listfeed.aspx?List=%7B29F602E4%2D7233%2D4FB5%2D937E%2D2196F9DDD5DD%7D&Source=https%3A%2F%2Fsumailsyr%2Esharepoint%2Ecom%2Fsites%2FPostdocResources%2FLists%2FEvents%2Fcalendar%2Easpx news "~ Postdoc Resources: Events"
+https://idioms.thefreedictionary.com/_/WoD/rss.aspx?type=idiom news "~ Idiom of the day"
+--[Geek]--------------------------------------------------------------
+https://forum.keyboardmaestro.com/c/announce.rss geek
+http://www.idownloadblog.com/feed/ geek
+--[GitHub]------------------------------------------------------------
+https://github.com/FelixKratz/JankyBorders/releases.atom "~ JankyBorders"
+https://github.com/FelixKratz/SketchyBar/releases.atom "~ SketchyBar"
+https://github.com/koekeishiya/yabai/releases.atom "~ yabai"
+https://github.com/sxyazi/yazi/releases.atom "~ yazi"
+https://github.com/kvndrsslr/sketchybar-app-font/releases.atom "~ sketchybar-app-font"
+--[Downloads]---------------------------------------------------------
+https://rsshub.app/yande.re/post/popular_recent/1w "~󰸉 yande.re" nsfw
+https://rsshub.app/konachan/post/popular_recent/1w "~󰸉 Konachan" nsfw
+https://konachan.com/post/piclens?tags=loli "~󰸉 Konachan - loli" nsfw
+https://yande.re/post/piclens?tags=loli "~󰸉 yande.re - loli" nsfw
+https://rsshub.app/javbus/star/xf8 nsfw "~👯工藤拉拉" nsfw
+https://rsshub.app/javbus/star/q5z nsfw "~👯户田真琴" nsfw
+http://www.hacg.la/wp/feed/ Downloads nsfw "~Ħ 琉璃神社" nsfw
+https://rsshub.app/nhentai/search/language:chinese%20lolicon%20-%22mind%20break%22%20-vomit%20-ryona%20-prolapse%20-%22stomach%20deformation%22 Downloads nsfw "~👧nHentai - lolicon"
+https://rsshub.app/nhentai/search/language:chinese%20-tag:lolicon%20-tag:scat%20-tag:guro%20-tag:yaoi%20-tag:giantess%20-tag:netorare%20-tag:%22full%20censorship%22%20-tag:bondage%20-tag:torture%20-tag:insect%20-tag:worm%20-tag:bestiality%20-tag:birth%20-tag:blood%20-tag:amputeed%20-tag:monster%20-tag:milf%20-tag:dilf%20-tag:muscle%20-tag:machine%20-tag:%22huge%20breasts%22%20-tag:webtoon%20-tag:nobody%20-tag:corruption%20-tag:ryona%20-tag:miniguy%20-tag:%22males%20only%22%20-tag:non-h%20%20-artist:%22aizen%20mana%22%20-artist:yukichi%20-artist:heianmochao%20-artist:hasuno%20-artist:yun%20-artist:%22mizuki%20eimu%22%20%20-%22Yuwa%20wa%20tataki%20yo%22%20-%22kazemati%20ito%20usagi%20yama%20mo%20naka%22%20-%22Nagumo%20juri%22%20-%E5%89%91%E8%BD%A9%E8%BE%957%20-%E7%A9%BA%E9%97%B4%E9%94%99%E4%B9%B1%20-Secco%20-%22Tanaka%20Rin%22 Downloads nsfw "~nHentai - others"

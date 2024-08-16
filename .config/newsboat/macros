@@ -1,0 +1,4 @@
+macro v set browser "nohup ~/.newsboat/scripts/openMpv.sh '%u' &> /dev/null &" ; open-in-browser-and-mark-read ; set browser "open -a Arc '%u'"
+macro d set browser "osascript -e 'tell application \"Keyboard Maestro Engine\" to do script \"5A3B8BC3-6A4C-48EE-BD72-44FB78C2E5AA\" with parameter \"%u\"' &> /dev/null &" ; open-in-browser-and-mark-read ; set browser "open -a Arc '%u'"
+macro i set html-renderer "/bin/cat" ; set pager "~/.newsboat/scripts/acgwallpaper.py" ; open ; set pager internal; next
+macro a set browser 'awrit' ; open-in-browser-and-mark-read ; set browser "open -a Arc '%u'"
