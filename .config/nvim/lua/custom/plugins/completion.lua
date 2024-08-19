@@ -21,10 +21,21 @@ return { -- Autocompletion
           'rafamadriz/friendly-snippets',
           event = 'VeryLazy',
           config = function()
+            require('luasnip.loaders.from_lua').load {
+              paths = { '~/.config/nvim/lua/snippets' },
+            }
             require('luasnip.loaders.from_vscode').lazy_load()
           end,
         },
       },
+      config = function()
+        local ls = require 'luasnip'
+        vim.keymap.set({ 'i', 's' }, '<C-e>', function()
+          if ls.choice_active() then
+            ls.change_choice(1)
+          end
+        end)
+      end,
     },
     'saadparwaiz1/cmp_luasnip',
 
