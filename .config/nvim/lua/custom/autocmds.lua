@@ -1,6 +1,10 @@
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 
+local function augroup(name)
+  return vim.api.nvim_create_augroup('lazyvim_' .. name, { clear = true })
+end
+
 -- Highlight when yanking (copying) text
 --  Try it with `yap` in normal mode
 --  See `:help vim.highlight.on_yank()`
@@ -25,12 +29,7 @@ vim.filetype.add {
   pattern = {
     ['.*'] = {
       function(path, buf)
-        if vim.bo[buf].filetype ~= 'bigfile' and path and vim.fn.getfsize(path) > vim.g.bigfile_size then
-          vim.opt.cursorline = false
-          return 'bigfile'
-        else
-          return nil
-        end
+        return vim.bo[buf].filetype ~= 'bigfile' and path and vim.fn.getfsize(path) > vim.g.bigfile_size and 'bigfile' or nil
       end,
     },
   },
