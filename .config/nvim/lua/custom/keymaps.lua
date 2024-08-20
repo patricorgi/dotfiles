@@ -17,22 +17,23 @@ vim.keymap.set('n', 'H', '<cmd>bprev<cr>', { desc = 'Go to prev buffer' })
 vim.keymap.set('n', '+', '<C-w>|<C-w>_')
 vim.keymap.set('n', '=', '<C-w>=')
 -- close all other buffers except current one
-vim.keymap.set('n', '<leader>bc', ':%bdelete|edit#|bdelete#<CR>', { noremap = true, silent = true })
--- vim.keymap.set('n', '<leader>bc', function()
---   local filetypes = { 'OverseerList', 'Terminal' }
---   local current_buf = vim.fn.bufnr '%'
---   local buffers = vim.fn.getbufinfo { bufloaded = 1 }
---
---   for _, buffer in ipairs(buffers) do
---     local bufnr = buffer.bufnr
---     local buf_filetype = vim.api.nvim_buf_get_option(bufnr, 'filetype')
---
---     -- Close the buffer if it is not the current one and not in the specified filetypes
---     if bufnr ~= current_buf and not vim.tbl_contains(filetypes, buf_filetype) then
---       vim.cmd('bd ' .. bufnr)
---     end
---   end
--- end, { noremap = true, silent = true })
+vim.keymap.set('n', '<leader>bc', function()
+  -- define filetypes not to be deleted
+  local filetypes = { 'OverseerList', 'Terminal', 'quickfix' }
+
+  local current_buf = vim.fn.bufnr '%'
+  local buffers = vim.fn.getbufinfo { bufloaded = 1 }
+
+  for _, buffer in ipairs(buffers) do
+    local bufnr = buffer.bufnr
+    local buf_filetype = vim.api.nvim_get_option_value('filetype', { buf = bufnr })
+
+    -- Close the buffer if it is not the current one and not in the specified filetypes
+    if bufnr ~= current_buf and not vim.tbl_contains(filetypes, buf_filetype) then
+      vim.cmd('Bdelete ' .. bufnr)
+    end
+  end
+end, { noremap = true, silent = true })
 
 vim.keymap.set('t', '<C-h>', [[<Cmd>wincmd h<CR>]], { desc = 'Move focus to the left window' })
 vim.keymap.set('t', '<C-j>', [[<Cmd>wincmd j<CR>]], { desc = 'Move focus to the lower window' })
