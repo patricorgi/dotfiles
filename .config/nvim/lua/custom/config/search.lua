@@ -15,7 +15,6 @@ local reveal_in_neotree = function()
   }
   vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<Esc>', true, false, true), 'n', true)
 end
-vim.keymap.set('n', '<leader>fs', require('search').open)
 require('search').setup {
   mappings = { -- optional: configure the mappings for switching tabs (will be set in normal and insert mode(!))
     next = '<Tab>',
