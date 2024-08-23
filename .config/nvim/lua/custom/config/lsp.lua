@@ -1,5 +1,4 @@
 local icons = require 'custom.ui.icons'
-local palette = require('catppuccin.palettes').get_palette 'mocha'
 
 vim.diagnostic.config {
   virtual_text = {
@@ -75,21 +74,23 @@ vim.api.nvim_create_autocmd('LspAttach', {
     --  the definition of its *type*, not where it was *defined*.
     map('<leader>D', require('telescope.builtin').lsp_type_definitions, 'Type Definition')
 
-    -- Fuzzy find all the symbols in your current document.
-    --  Symbols are things like variables, functions, types, etc.
-    map('<leader>ls', require('telescope.builtin').lsp_document_symbols, 'Document Symbols')
+    -- -- Fuzzy find all the symbols in your current document.
+    -- --  Symbols are things like variables, functions, types, etc.
+    -- map('<leader>ls', require('telescope.builtin').lsp_document_symbols, 'Document Symbols')
 
-    -- Fuzzy find all the symbols in your current workspace.
-    --  Similar to document symbols, except searches over your entire project.
-    map('<leader>lS', require('telescope.builtin').lsp_dynamic_workspace_symbols, 'Workspace Symbols')
+    -- -- Fuzzy find all the symbols in your current workspace.
+    -- --  Similar to document symbols, except searches over your entire project.
+    -- map('<leader>lS', require('telescope.builtin').lsp_dynamic_workspace_symbols, 'Workspace Symbols')
 
     -- Rename the variable under your cursor.
     --  Most Language Servers support renaming across files, etc.
+    map('<leader>rn', vim.lsp.buf.rename, 'Lsp Rename')
     map('<leader>lr', vim.lsp.buf.rename, 'Lsp Rename')
 
     -- Execute a code action, usually your cursor needs to be on top of an error
     -- or a suggestion from your LSP for this to activate.
     map('<leader>la', vim.lsp.buf.code_action, 'Lsp Action')
+    map('<leader>ca', vim.lsp.buf.code_action, 'Lsp Action')
 
     -- WARN: This is not Goto Definition, this is Goto Declaration.
     --  For example, in C this would take you to the header.
