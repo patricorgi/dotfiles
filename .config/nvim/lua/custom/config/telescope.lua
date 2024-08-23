@@ -38,6 +38,8 @@ vim.keymap.set('n', '<leader>fw', '<cmd>Telescope live_grep_args<cr>', { desc = 
 vim.keymap.set('n', '<leader>fd', builtin.diagnostics, { desc = 'Find Diagnostics' })
 vim.keymap.set('n', '<leader>fr', builtin.resume, { desc = 'Find Resume' })
 vim.keymap.set('n', '<leader>fg', '<cmd>Telescope git_submodules<cr>', { desc = 'Find Git submodules' })
+vim.keymap.set('n', '<leader>fs', builtin.lsp_document_symbols, { desc = 'Find Document Symbols' })
+vim.keymap.set('n', '<leader>fS', builtin.lsp_dynamic_workspace_symbols, { desc = 'Find Workspace Symbols' })
 
 -- Slightly advanced example of overriding default behavior and theme
 vim.keymap.set('n', '<leader>f/', function()
@@ -58,5 +60,5 @@ end, { desc = 'Search / in Open Files' })
 
 -- Shortcut for searching your Neovim configuration files
 vim.keymap.set('n', '<leader>sn', function()
-  builtin.find_files { cwd = vim.fn.stdpath 'config' }
-end, { desc = 'Find Neovim files' })
+  builtin.find_files { cwd = vim.env.HOME .. '/dotfiles' }
+end, { desc = 'Find Config Files' })
