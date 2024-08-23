@@ -85,7 +85,7 @@ M.Mode = {
       niI = 'i',
       niR = 'r',
       niV = 'Nv',
-      nt = '',
+      nt = '',
       v = '',
       vs = 'Vs',
       V = '-',
@@ -114,6 +114,7 @@ M.Mode = {
     },
     mode_colors = {
       n = palette.blue,
+      nt = palette.red,
       i = palette.green,
       v = palette.mauve,
       V = palette.mauve,
@@ -125,7 +126,7 @@ M.Mode = {
       R = palette.peach,
       r = palette.peach,
       ['!'] = palette.red,
-      t = palette.lavender,
+      t = palette.green,
     },
   },
   -- We can now access the value of mode() that, by now, would have been
@@ -221,21 +222,21 @@ M.Git = {
   {
     provider = function(self)
       local count = self.status_dict.added or 0
-      return count > 0 and ('+' .. count)
+      return count > 0 and (' +' .. count)
     end,
     hl = { fg = colors.git_add },
   },
   {
     provider = function(self)
       local count = self.status_dict.removed or 0
-      return count > 0 and ('-' .. count)
+      return count > 0 and (' -' .. count)
     end,
     hl = { fg = colors.git_del },
   },
   {
     provider = function(self)
       local count = self.status_dict.changed or 0
-      return count > 0 and ('~' .. count)
+      return count > 0 and (' ~' .. count)
     end,
     hl = { fg = colors.git_change },
   },
@@ -332,7 +333,7 @@ M.FileFlags = {
     end,
     provider = function(self)
       if vim.api.nvim_get_option_value('buftype', { buf = self.bufnr }) == 'terminal' then
-        return ' 􀩼 '
+        return ' '
       else
         return ' '
       end
