@@ -6,6 +6,8 @@ export RIPGREP_CONFIG_PATH=$XDG_CONFIG_HOME/ripgreprc
 export EDITOR="nvim"
 export VISUAL=$EDITOR
 export GIT_EDITOR=$EDITOR
+export XRD_LOGLEVEL="Debug"
+export X509_USER_PROXY=$HOME/.grid.proxy
 
 [ -f "$HOME/dotfiles/local.sh" ] && source "$HOME/dotfiles/local.sh"
 [ -f "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
