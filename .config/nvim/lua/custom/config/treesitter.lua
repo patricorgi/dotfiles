@@ -27,6 +27,9 @@ require('nvim-treesitter.configs').setup {
     --  the list of additional_vim_regex_highlighting and disabled languages for indent.
     additional_vim_regex_highlighting = { 'ruby' },
   },
+  disable = function(lang, bufnr)
+    return lang == 'yaml' and vim.api.nvim_buf_line_count(bufnr) > 5000
+  end,
   indent = { enable = true, disable = { 'ruby' } },
 }
 
