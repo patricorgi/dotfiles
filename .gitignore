@@ -10,7 +10,8 @@
 local.sh
 .config/karabiner
 .config/astronvim
-.config/yazi
+.config/yazi/scripts
+.config/yazi/keymap.toml
 .config/jellyfin
 install
 .config/neofetch
