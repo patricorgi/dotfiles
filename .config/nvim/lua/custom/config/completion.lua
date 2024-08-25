@@ -86,15 +86,9 @@ cmp.setup {
     --    https://github.com/L3MON4D3/LuaSnip?tab=readme-ov-file#keymaps
   },
   sources = {
-    {
-      name = 'lazydev',
-      -- set group index to 0 to skip loading LuaLS completions as lazydev recommends it
-      group_index = 0,
-    },
-    { name = 'nvim_lsp' },
-    { name = 'nvim_lsp_signature_help' },
-    { name = 'luasnip' },
-    { name = 'path' },
+    { name = 'luasnip', priority = 1000 },
+    { name = 'nvim_lsp', priority = 800 },
+    { name = 'path', priority = 600 },
     {
       name = 'buffer',
       option = {
@@ -102,7 +96,14 @@ cmp.setup {
           return vim.api.nvim_list_bufs()
         end,
       },
+      priority = 400
     },
+    {
+      name = 'lazydev',
+      -- set group index to 0 to skip loading LuaLS completions as lazydev recommends it
+      group_index = 0,
+    },
+    { name = 'nvim_lsp_signature_help' },
   },
 }
 
