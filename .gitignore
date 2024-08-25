@@ -9,7 +9,8 @@
 .config/nvim/lazy-lock.json
 local.sh
 .config/astronvim
-.config/yazi
+.config/yazi/scripts
+.config/yazi/keymap.toml
 .config/jellyfin
 install
 .config/neofetch
