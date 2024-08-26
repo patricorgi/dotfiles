@@ -11,9 +11,9 @@ export X509_USER_PROXY=$HOME/.grid.proxy
 
 [ -f "$HOME/dotfiles/local.sh" ] && source "$HOME/dotfiles/local.sh"
 [ -f "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
-[ -d "$HOME/.config/nvm" ] && export NVM_DIR="$HOME/.config/nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+# [ -d "$HOME/.config/nvm" ] && export NVM_DIR="$HOME/.config/nvm"
+# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 [ -f "$HOME/dotfiles/bash/aliases" ] && source $HOME/dotfiles/bash/aliases
 [ -f "$HOME/dotfiles/bash/functions" ] && source $HOME/dotfiles/bash/functions
 
