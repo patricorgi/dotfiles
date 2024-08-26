@@ -24,7 +24,7 @@ require('lazy').setup({
   { 'mong8se/actually.nvim', lazy = false },
 
   -- current best multicursor IMHO
-  { 'mg979/vim-visual-multi', lazy = true, keys = { '<C-n>' } },
+  { 'mg979/vim-visual-multi', lazy = true, keys = { { '<C-n>', mode = { 'n', 'x' } } } },
 
   -- kitty conf file highlight
   { 'fladson/vim-kitty', ft = { 'kitty' } },
