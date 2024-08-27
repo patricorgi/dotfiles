@@ -15,3 +15,11 @@ local.sh
 install
 .config/neofetch
 .config/snakemake
+.config/newsboat/scripts
+.config/newsboat/cache.db
+.config/newsboat/history.cmdline
+.config/newsboat/ignores
+.config/newsboat/macros
+.config/newsboat/queue
+.config/newsboat/urls
+*.swp
