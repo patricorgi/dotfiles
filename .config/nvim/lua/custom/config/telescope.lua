@@ -4,6 +4,7 @@
 -- [[ Configure Telescope ]]
 -- See `:help telescope` and `:help telescope.setup()`
 local actions = require 'telescope.actions'
+local custom_utils = require 'custom.utils'
 require('telescope').setup {
   defaults = {
     sorting_strategy = 'ascending',
@@ -74,5 +75,12 @@ end, { desc = 'Search / in Open Files' })
 
 -- Shortcut for searching your Neovim configuration files
 vim.keymap.set('n', '<leader>sn', function()
-  builtin.find_files { cwd = vim.env.HOME .. '/dotfiles' }
+  builtin.find_files {
+    cwd = vim.env.HOME .. '/dotfiles',
+    attach_mappings = function(_, map)
+      map('i', '<C-r>', custom_utils.reveal_in_neotree)
+      map('i', '<CR>', custom_utils.edit_respect_winfixbuf)
+      return true
+    end,
+  }
 end, { desc = 'Find Config Files' })
