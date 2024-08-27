@@ -32,6 +32,8 @@ alias r='yazi'
 alias tm="tmux new -A -s main"
 alias rs="rsync -avh --progress --stats"
 alias ht='htop -u $USER'
+alias sm='snakemake'
+alias smu='snakemake --unlock'
 
 # grep
 alias gpy='grep -rn --include \*.py'
