@@ -7,7 +7,7 @@ return {
     { '<leader>nr', '<cmd>Neotree reveal<cr>', desc = 'Reveal in Neotree' },
   },
   dependencies = {
-    'akinsho/toggleterm.nvim',
+    { 'akinsho/toggleterm.nvim', event = 'VeryLazy' },
   },
   config = function()
     require 'custom.config.neo-tree'
