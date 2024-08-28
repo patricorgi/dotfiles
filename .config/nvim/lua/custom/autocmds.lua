@@ -29,7 +29,12 @@ vim.filetype.add {
   pattern = {
     ['.*'] = {
       function(path, buf)
-        return vim.bo[buf].filetype ~= 'bigfile' and path and vim.fn.getfsize(path) > vim.g.bigfile_size and 'bigfile' or nil
+        if vim.bo[buf].filetype ~= 'bigfile' and path and vim.fn.getfsize(path) > vim.g.bigfile_size then
+          vim.opt.cursorline = false
+          return 'bigfile'
+        else
+          return nil
+        end
       end,
     },
   },
