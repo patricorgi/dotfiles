@@ -2,6 +2,7 @@ return {
   {
     -- Main LSP Configuration
     'neovim/nvim-lspconfig',
+    event = { 'BufReadPost', 'BufNewFile' },
     dependencies = {
       -- Automatically install LSPs and related tools to stdpath for Neovim
       { 'williamboman/mason.nvim', event = 'VeryLazy', config = true }, -- NOTE: Must be loaded before dependants
@@ -13,6 +14,7 @@ return {
     config = function()
       require 'custom.config.lsp'
     end,
+    cmd = { 'LspInfo', 'LspInstall', 'LspUninstall' },
   },
   {
     -- `lazydev` configures Lua LSP for your Neovim config, runtime and plugins
