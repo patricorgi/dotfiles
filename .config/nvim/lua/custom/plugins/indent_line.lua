@@ -1,6 +1,9 @@
 return {
   'lukas-reineke/indent-blankline.nvim',
   event = 'VeryLazy',
+  enabled = function()
+    return vim.bo.filetype ~= 'bigfile'
+  end,
   -- Enable `lukas-reineke/indent-blankline.nvim`
   -- See `:help ibl`
   main = 'ibl',
