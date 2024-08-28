@@ -287,6 +287,27 @@ run = ['layout floating', 'move-node-to-workspace S']
 if.app-id = 'com.titanium.OnyX'
 run = ['layout floating', 'move-node-to-workspace S']
 
+# Settings
+[[on-window-detected]]
+if.app-id = 'com.runningwithcrayons.Alfred-Preferences'
+run = 'move-node-to-workspace S'
+
+[[on-window-detected]]
+if.app-id = 'com.stairways.keyboardmaestro.editor'
+run = 'move-node-to-workspace S'
+
+[[on-window-detected]]
+if.app-id = 'com.apple.ScriptEditor2'
+run = 'move-node-to-workspace S'
+
+[[on-window-detected]]
+if.app-id = 'com.apple.systempreferences'
+run = ['layout floating', 'move-node-to-workspace S']
+
+[[on-window-detected]]
+if.app-id = 'com.titanium.OnyX'
+run = ['layout floating', 'move-node-to-workspace S']
+
 # Terminal
 [[on-window-detected]]
 if.app-id = 'net.kovidgoyal.kitty'
