@@ -19,17 +19,19 @@ vim.keymap.set('n', '=', '<C-w>=')
 -- close all other buffers except current one
 vim.keymap.set('n', '<leader>bc', function()
   -- define filetypes not to be deleted
-  local filetypes = { 'OverseerList', 'Terminal', 'quickfix' }
+  local filetypes = { 'OverseerList', 'Terminal', 'quickfix', 'terminal' }
+  local buftypes = { 'terminal', 'toggleterm' }
 
   local current_buf = vim.fn.bufnr '%'
   local buffers = vim.fn.getbufinfo { bufloaded = 1 }
 
   for _, buffer in ipairs(buffers) do
     local bufnr = buffer.bufnr
-    local buf_filetype = vim.api.nvim_get_option_value('filetype', { buf = bufnr })
+    local filetype = vim.api.nvim_get_option_value('filetype', { buf = bufnr })
+    local buftype = vim.api.nvim_get_option_value('buftype', { buf = bufnr })
 
     -- Close the buffer if it is not the current one and not in the specified filetypes
-    if bufnr ~= current_buf and not vim.tbl_contains(filetypes, buf_filetype) then
+    if bufnr ~= current_buf and not vim.tbl_contains(filetypes, filetype) and not vim.tbl_contains(buftypes, buftype) then
       vim.cmd('Bdelete ' .. bufnr)
     end
   end
