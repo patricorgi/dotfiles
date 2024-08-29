@@ -45,8 +45,9 @@ vim.keymap.set('n', '<leader>fS', builtin.lsp_dynamic_workspace_symbols, { desc 
 -- Slightly advanced example of overriding default behavior and theme
 vim.keymap.set('n', '<leader>f/', function()
   -- You can pass additional configuration to Telescope to change the theme, layout, etc.
-  builtin.current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
+  builtin.current_buffer_fuzzy_find(require('telescope.themes').get_ivy {
     previewer = false,
+    skip_empty_lines = true,
   })
 end, { desc = 'Find / Fuzzily search in current buffer' })
 
