@@ -6,7 +6,9 @@ if [ $# -lt 2 ]; then
 	exit 1
 fi
 host=$1
-filepath=$2
-filebasename=$(basename $filepath)
-localtmpfile=/tmp/$filebasename
-scp $host:$filepath /tmp/$filebasename && open -a Yoink $localtmpfile
+for filepath in "${@:2}"; do
+	filebasename=$(basename $filepath)
+	localtmpfile=/tmp/$filebasename
+	echo scp $host:$filepath /tmp/$filebasename && open -a Yoink $localtmpfile
+	scp $host:$filepath /tmp/$filebasename && open -a Yoink $localtmpfile
+done
