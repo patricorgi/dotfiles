@@ -17,10 +17,6 @@ alias cp='cp -i' # confirm override when copying
 alias vim='nvim'
 alias v='vim'
 alias vo='vim -O'
-alias vp='vim -p'
-alias l='less'
-# vanilla vim profiling helper
-alias vprofile='p <(curl -sSL https://raw.githubusercontent.com/hyiltiz/vim-plugins-profile/master/vim-plugins-profile.py)'
 
 # utilities
 alias p='python3'
@@ -80,12 +76,12 @@ alias lg='lazygit'
 alias lp='lazygit -p'
 
 # open dotfiles in vim
-alias vv="$EDITOR ~/.config/nvim"
-alias vn="$EDITOR ~/.newsboat/config"
-alias vb="$EDITOR ~/.bashrc"
-alias vy="$EDITOR ~/.config/alacritty/alacritty.toml"
-alias vk="$EDITOR ~/.config/kitty/kitty.conf"
-alias vw="$EDITOR ~/.config/wezterm/wezterm.lua"
-alias vs="$EDITOR ~/.ssh/config"
-alias vt="$EDITOR ~/.tmux.conf"
+alias vv="nvim ~/.config/nvim"
+alias vn="nvim ~/.newsboat/config"
+alias vb="nvim ~/.bashrc"
+alias vy="nvim ~/.config/alacritty/alacritty.toml"
+alias vk="nvim ~/.config/kitty/kitty.conf"
+alias vw="nvim ~/.config/wezterm/wezterm.lua"
+alias vs="nvim ~/.ssh/config"
+alias vt="nvim ~/.tmux.conf"
 alias sb='source ~/.bashrc'
