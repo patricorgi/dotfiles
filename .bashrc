@@ -2,32 +2,23 @@
 
 [[ $- != *i* ]] && return
 export XDG_CONFIG_HOME="$HOME/.config"
-export RIPGREP_CONFIG_PATH=$XDG_CONFIG_HOME/ripgreprc
 export EDITOR="nvim"
 export VISUAL=$EDITOR
 export GIT_EDITOR=$EDITOR
 export XRD_LOGLEVEL="Debug"
-export X509_USER_PROXY=$HOME/.grid.proxy
-
+[ -x "$(command -v ganga)" ] && export X509_USER_PROXY=$HOME/.grid.proxy
 [ -f "$HOME/dotfiles/local.sh" ] && source "$HOME/dotfiles/local.sh"
+[ -f "$HOME/dotfiles/bash/aliases" ] && source "$HOME/dotfiles/bash/aliases"
+[ -f "$HOME/dotfiles/bash/functions" ] && source "$HOME/dotfiles/bash/functions"
+[ -f "$HOME/dotfiles/bash/completes" ] && source "$HOME/dotfiles/bash/completes"
 [ -f "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
-# [ -d "$HOME/.config/nvm" ] && export NVM_DIR="$HOME/.config/nvm"
-# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
-[ -f "$HOME/dotfiles/bash/aliases" ] && source $HOME/dotfiles/bash/aliases
-[ -f "$HOME/dotfiles/bash/functions" ] && source $HOME/dotfiles/bash/functions
 
 [ -x "$(command -v starship)" ] && eval "$(starship init bash)"
 [ -x "$(command -v zoxide)" ] && eval "$(zoxide init --cmd cd bash)"
 [ -x "$(command -v bat)" ] && export BAT_THEME="Catppuccin-mocha"
 
-# TODO: organizing complete settings
-complete -f -X '*.@(tex|bk|pdf|yaml|log|root|joblib)' p python python3
-complete -f -X '*.@(pdf|yaml|log|joblib|py)' rl root
-complete -f -X '*.@(root|joblib|py|yaml|sh|digi|log|cpp|h)' xo
-complete -f -X '*.@(o|so|so.!(conf|*/*)|a|[rs]pm|gif|jp?(e)g|mp3|mp?(e)g|avi|asf|ogg|class|foo|bar|pdf)' v vi vim gvim rvim view rview rgvim rgview gview
-
 # FZF
+export RIPGREP_CONFIG_PATH=$XDG_CONFIG_HOME/ripgreprc
 export FZF_DEFAULT_COMMAND="rg --files"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_CTRL_T_OPTS='--preview ""' # disable FZF preview
@@ -38,3 +29,7 @@ export FZF_DEFAULT_OPTS=" \
 [ -f "$HOME/.fzf.bash" ] && source "$HOME/.fzf.bash"
 bind "$(bind -s | command grep '^"\\ec"' | sed 's/ec/ed/')"
 [[ $- =~ i ]] && bind '"\ec": nop'
+
+# [ -d "$HOME/.config/nvm" ] && export NVM_DIR="$HOME/.config/nvm"
+# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
