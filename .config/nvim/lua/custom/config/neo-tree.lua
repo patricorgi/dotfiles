@@ -114,11 +114,16 @@ neotree.setup {
           vim.fn.jobstart("export DISPLAY=$(tmux show-env | sed -n 's/^DISPLAY=//p'); xdg-open " .. node.path .. ' || evince ' .. node.path)
         end
       elseif node.ext == 'root' then
-        vim.notify 'Load in toggleterm...'
-        local toggleterm = require 'toggleterm'
-        toggleterm.exec_command(string.format('cmd=".q"', node.path, node.path), 2)
-        toggleterm.exec_command(string.format('cmd="rl %s"', node.path, node.path), 2)
-        -- toggleterm.exec_command(string.format('cmd="new TBrowser"', node.path, node.path), 2)
+        local tmux = require 'tmux-awesome-manager.src.term'
+        tmux.run {
+          cmd = "bash -i -c 'root -l " .. node.path .. "'",
+          name = 'Open ROOT File',
+          open_as = 'pane',
+          orientation = 'horizontal',
+          close_on_timer = 1,
+          visit_first_call = true, -- will not focus the pane
+          focus_when_call = true, -- Instead of focusing, will open a new pane in the same place as before
+        }()
       else
         state.commands.open(state)
       end
