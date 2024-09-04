@@ -86,3 +86,5 @@ vim.keymap.set('n', '<leader>sn', function()
     end,
   }
 end, { desc = 'Find Config Files' })
+
+vim.keymap.set('n', '<leader>tm', '<CMD>Telescope tmux-awesome-manager list_terms<CR>', { desc = 'TAM list_terms' })
