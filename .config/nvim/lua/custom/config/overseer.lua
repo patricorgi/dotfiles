@@ -27,9 +27,13 @@ vim.api.nvim_create_autocmd('QuitPre', {
 })
 
 vim.keymap.set('n', '<Leader>or', '<cmd>OverseerRun<cr>', { desc = 'Overseer run templates' })
+vim.keymap.set('n', '<Leader>rl', '<cmd>OverseerRun<cr>', { desc = 'Overseer run templates' })
 vim.keymap.set('n', '<Leader>oR', '<cmd>OverseerRestartLast<cr>', { desc = 'Overseer restart last command' })
+vim.keymap.set('n', '<Leader>rr', '<cmd>OverseerRestartLast<cr>', { desc = 'Overseer restart last command' })
 vim.keymap.set('n', '<Leader>ot', '<cmd>OverseerToggle<cr>', { desc = 'Overseer toggle task list' })
+vim.keymap.set('n', '<Leader>rt', '<cmd>OverseerToggle<cr>', { desc = 'Overseer toggle task list' })
 vim.keymap.set('n', '<Leader>oa', '<cmd>OverseerQuickAction<cr>', { desc = 'Overseer quick action list' })
+vim.keymap.set('n', '<Leader>ra', '<cmd>OverseerToggle<cr>', { desc = 'Overseer toggle task list' })
 overseer.setup {
   dap = false,
   strategy = 'terminal',
