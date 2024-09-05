@@ -4,7 +4,7 @@ return {
   keys = {
     { 'B', '<cmd>Neotree toggle<cr>', desc = 'Toggle Neotree' },
     { '<leader>e', '<cmd>Neotree toggle<cr>', desc = 'Toggle Neotree' },
-    { '<leader>nr', '<cmd>Neotree reveal<cr>', desc = 'Reveal in Neotree' },
+    { '<leader>R', '<cmd>Neotree reveal<cr>', desc = 'Reveal in Neotree' },
   },
   dependencies = {
     { 'akinsho/toggleterm.nvim', event = 'VeryLazy' },
