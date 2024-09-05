@@ -35,10 +35,12 @@ return { -- Useful plugin to show you pending keybinds.
 
     -- Document existing key chains
     require('which-key').add {
+      { '<leader>n', group = 'Note', mode = 'n', icon = ' ' },
       { '<leader>g', group = 'Git' },
       { '<leader>b', group = 'Buffer', mode = 'n', icon = ' ' },
       { '<leader>l', group = 'Lsp', mode = 'n', icon = '󰿘 ' },
-      { '<leader>o', group = 'Overseer tasks', mode = 'n', icon = '󰑮 ' },
+      { '<leader>o', group = '[Deprecate] Overseer tasks', mode = 'n', icon = '󰑮 ' },
+      { '<leader>r', group = 'Overseer tasks', mode = 'n', icon = '󰑮 ' },
       { '<leader>f', group = 'Find', mode = 'n' },
       { '<leader>s', group = 'Search', mode = 'n' },
       { '<leader>x', group = 'Trouble', mode = 'n', icon = ' ' },
