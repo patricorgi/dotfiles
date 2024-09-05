@@ -93,10 +93,15 @@ cmp.setup {
       name = 'buffer',
       option = {
         get_bufnrs = function()
-          return vim.api.nvim_list_bufs()
+          local buf = vim.api.nvim_get_current_buf()
+          local byte_size = vim.api.nvim_buf_get_offset(buf, vim.api.nvim_buf_line_count(buf))
+          if byte_size > 1024 * 1024 then -- 1 Megabyte max
+            return {}
+          end
+          return { buf }
         end,
       },
-      priority = 400
+      priority = 400,
     },
     {
       name = 'lazydev',
