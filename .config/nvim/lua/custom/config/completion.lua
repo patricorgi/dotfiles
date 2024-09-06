@@ -11,7 +11,9 @@ vim.api.nvim_set_hl(0, 'CmpFloatBorder', { fg = palette.surface1, bg = palette.s
 local cmp = require 'cmp'
 cmp.setup {
   formatting = {
-    format = require('lspkind').cmp_format(),
+    format = require('lspkind').cmp_format { maxwidth = 30, ellipsis_char = '   ' },
+    expandable_indicator = true,
+    fields = { 'abbr', 'kind', 'menu' },
   },
   -- formatting = {
   --   fields = { 'kind', 'abbr', 'menu' },
