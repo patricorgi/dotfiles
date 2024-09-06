@@ -155,7 +155,6 @@ capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp'
 local mason_servers = {
   clangd = { capabilities = { offsetEncoding = 'utf-8' }, cmd = { 'clangd' } },
   ['clang-format'] = { capabilities = { offsetEncoding = 'utf-8' }, cmd = { 'clang-format' } },
-  yapf = { capabilities = { offsetEncoding = 'utf-8' }, cmd = { 'yapf' } },
   pylsp = {
     pyflake = { enabled = false },
     pylint = { enabled = false },
