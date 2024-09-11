@@ -170,6 +170,7 @@ local mason_servers = {
       },
     },
   },
+  ruff = {}
 }
 
 require('mason').setup()
