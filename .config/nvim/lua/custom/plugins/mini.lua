@@ -4,6 +4,7 @@ return { -- Collection of various small independent plugins/modules
   dependencies = {
     {
       'echasnovski/mini.icons',
+      event = 'VeryLazy',
       opts = function(_, opts)
         if vim.g.icons_enabled == false then
           opts.style = 'ascii'
