@@ -1,6 +1,11 @@
 return {
   'nvim-treesitter/nvim-treesitter-textobjects',
-  event = 'VeryLazy',
+  keys = {
+    'i',
+    'a',
+    ']',
+    '[',
+  },
   dependencies = {
     { 'nvim-treesitter/nvim-treesitter' },
     { 'ghostbuster91/nvim-next' },
