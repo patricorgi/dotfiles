@@ -25,18 +25,6 @@ return { -- Collection of various small independent plugins/modules
         require('mini.icons').setup { style = 'glyph' }
       end,
     },
-    {
-      'echasnovski/mini.ai',
-      event = 'User AstroFile',
-      opts = {},
-      specs = {
-        {
-          'catppuccin',
-          optional = true,
-          opts = { integrations = { mini = true } },
-        },
-      },
-    },
   },
   config = function()
     require('mini.icons').setup {}
