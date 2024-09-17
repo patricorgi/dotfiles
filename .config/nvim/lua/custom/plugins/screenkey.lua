@@ -6,6 +6,5 @@ return {
   keys = {
     { '<leader>ts', '<cmd>Screenkey<cr>', desc = 'Toggle ScreenKey' },
   },
-  event = 'VeryLazy',
   version = '*', -- or branch = "dev", to use the latest commit
 }
