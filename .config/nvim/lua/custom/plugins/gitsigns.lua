@@ -5,7 +5,12 @@
 return {
   {
     'lewis6991/gitsigns.nvim',
-    event = 'VeryLazy',
+    event = 'InsertEnter',
+    keys = {
+      ']h',
+      '[h',
+      '<leader>h',
+    },
     opts = {
       signs = {
         add = { text = '┃' },
