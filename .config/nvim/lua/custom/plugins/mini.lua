@@ -4,6 +4,7 @@ return { -- Collection of various small independent plugins/modules
   dependencies = {
     {
       'echasnovski/mini.icons',
+      event = 'VeryLazy',
       opts = function(_, opts)
         if vim.g.icons_enabled == false then
           opts.style = 'ascii'
@@ -23,18 +24,6 @@ return { -- Collection of various small independent plugins/modules
       config = function()
         require('mini.icons').setup { style = 'glyph' }
       end,
-    },
-    {
-      'echasnovski/mini.ai',
-      event = 'User AstroFile',
-      opts = {},
-      specs = {
-        {
-          'catppuccin',
-          optional = true,
-          opts = { integrations = { mini = true } },
-        },
-      },
     },
   },
   config = function()
