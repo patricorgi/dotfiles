@@ -170,7 +170,7 @@ local mason_servers = {
       },
     },
   },
-  ruff = {}
+  ruff = {},
 }
 
 require('mason').setup()
@@ -181,8 +181,8 @@ require('mason').setup()
 -- vim.list_extend(ensure_installed, {
 --   'stylua', -- Used to format Lua code
 -- })
-local ensure_installed = { 'yapf', 'shfmt', 'stylua', 'snakefmt', 'lua-language-server' }
-require('mason-tool-installer').setup { ensure_installed = ensure_installed }
+-- local ensure_installed = { 'yapf', 'shfmt', 'stylua', 'snakefmt', 'lua-language-server' }
+-- require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
 require('mason-lspconfig').setup {
   handlers = {
