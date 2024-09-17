@@ -1,7 +1,13 @@
 return {
   'mistricky/codesnap.nvim',
   build = 'make',
-  event = 'VeryLazy',
+  cmd = {
+    'CodeSnap',
+    'CodeSnapSave',
+    'CodeSnapASCII',
+    'CodeSnapHighlight',
+    'CodeSnapSaveHighlight',
+  },
   config = function()
     require('codesnap').setup {
       watermark = '',
