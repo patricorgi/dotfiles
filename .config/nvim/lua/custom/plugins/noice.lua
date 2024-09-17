@@ -1,6 +1,6 @@
 return {
   'folke/noice.nvim',
-  event = 'VeryLazy',
+  keys = { ':', '/', '?' }, -- lazy load cmp on more keys along with insert mode
   config = function()
     require('noice').setup {
       presets = {
