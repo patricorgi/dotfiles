@@ -9,7 +9,7 @@ return {
       'williamboman/mason-lspconfig.nvim',
       { 'WhoIsSethDaniel/mason-tool-installer.nvim', event = 'VeryLazy' },
       -- Allows extra capabilities provided by nvim-cmp
-      { 'hrsh7th/cmp-nvim-lsp', event = 'VeryLazy' },
+      { 'hrsh7th/cmp-nvim-lsp', event = 'InsertEnter' },
     },
     config = function()
       require 'custom.config.lsp'
@@ -50,7 +50,7 @@ return {
   { 'patricorgi/vim-snakemake', ft = 'Snakefile' },
   {
     'ray-x/lsp_signature.nvim',
-    event = 'VeryLazy',
+    ft = { 'python', 'cpp' },
     main = 'lsp_signature',
     opts = {
       hint_enable = false, -- disable hints as it will crash in some terminal

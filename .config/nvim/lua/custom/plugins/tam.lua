@@ -1,7 +1,10 @@
 return {
   'otavioschwanck/tmux-awesome-manager.nvim',
-  event = 'VeryLazy',
-  config = function ()
-   require('custom.config.tam')
-  end
+  keys = {
+    '<leader>sc',
+    '<leader>tm',
+  },
+  config = function()
+    require 'custom.config.tam'
+  end,
 }
