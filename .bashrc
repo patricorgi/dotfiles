@@ -13,6 +13,7 @@ export XRD_LOGLEVEL="Debug"
 [ -f "$HOME/dotfiles/bash/completes" ] && source "$HOME/dotfiles/bash/completes"
 [ -f "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
 
+[ -x "$(command -v direnv)" ] && eval "$(direnv hook bash)"
 [ -x "$(command -v starship)" ] && eval "$(starship init bash)"
 [ -x "$(command -v zoxide)" ] && eval "$(zoxide init --cmd cd bash)"
 [ -x "$(command -v bat)" ] && export BAT_THEME="Catppuccin-mocha"
