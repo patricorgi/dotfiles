@@ -10,6 +10,34 @@ local fmt = require('luasnip.extras.fmt').fmt
 
 ls.add_snippets('typst', {
   s(
+    '#align',
+    c(1, {
+      fmt('#set align({})', { i(1, 'center') }),
+      fmt('#align({})[{}]', { i(1, 'center'), i(2) }),
+    })
+  ),
+  s(
+    'align',
+    c(1, {
+      fmt('#set align({})', { i(1, 'center') }),
+      fmt('#align({})[{}]', { i(1, 'center'), i(2) }),
+    })
+  ),
+  s(
+    '#text',
+    c(1, {
+      fmt('#set text(size: {}pt)', { i(1, '18') }),
+      fmt('#text(size: {}pt)[{}]', { i(1, '18'), i(2) }),
+    })
+  ),
+  s(
+    'text',
+    c(1, {
+      fmt('#set text(size: {}pt)', { i(1, '18') }),
+      fmt('#text(size: {}pt)[{}]', { i(1, '18'), i(2) }),
+    })
+  ),
+  s(
     'N2',
     t {
       'N#sub[2]',
@@ -21,22 +49,22 @@ ls.add_snippets('typst', {
       'CO#sub[2]',
     }
   ),
-  s('side-by-side', fmt('#side-by-side(columns: ({}))[{}]', { i(1, '1fr, 1fr'), i(2) })),
+  s('side-by-side', c(1, { fmt('#side-by-side[{}][{}]', { i(1), i(2) }), fmt('#side-by-side(columns: ({}))[{}][{}]', { i(1, '1fr, 2fr'), i(2), i(3) }) })),
+  s('#side-by-side', c(1, { fmt('#side-by-side[{}][{}]', { i(1), i(2) }), fmt('#side-by-side(columns: ({}))[{}][{}]', { i(1, '1fr, 2fr'), i(2), i(3) }) })),
   s(
     'table',
     fmt(
       [[
     #table(
       columns: ({}),
-      inset: 10pt,
       align: ({}),
       {},
     )
     ]],
       {
-        i(1, 'auto, auto, auto, auto'),
-        i(2, 'left, left, left, left'),
-        i(3, '[C1], [C2], [C3], [C4]'),
+        i(1, 'auto, auto'),
+        i(2, 'left, left'),
+        i(3, '[C1], [C2]'),
       }
     )
   ),
@@ -44,7 +72,6 @@ ls.add_snippets('typst', {
     'image',
     c(1, {
       fmt('#image("{}")', { i(1) }),
-      fmt('#align(center)[#image("{}")]', { i(1) }),
       fmt(
         [[
 #figure(
@@ -77,7 +104,8 @@ ls.add_snippets('typst', {
       }
     )
   ),
-  s('link', fmt('#link("{}")[{}]', { i(1), i(2) })),
+  s('link', fmt('#link("{}")[{}]', { i(1, 'http://'), i(2, 'displayed text') })),
+  s('url', fmt('#link("{}")[{}]', { i(1, 'http://'), i(2, 'displayed text') })),
   s(
     'slide',
     c(1, {
