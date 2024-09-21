@@ -17,6 +17,7 @@ require('conform').setup {
     sh = { 'shfmt' },
     snakemake = { 'snakefmt' },
     markdown = { 'prettierd', 'cbfmt' },
+    typst = { 'typstyle' },
   },
   formatters = {
     cbfmt = { command = 'cbfmt', args = { '-w', '--config', vim.fn.expand '~' .. '/.config/cbfmt.toml', '$FILENAME' } },
