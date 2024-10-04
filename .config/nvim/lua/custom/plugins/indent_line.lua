@@ -1,22 +1,22 @@
+local palette = require('catppuccin.palettes').get_palette 'mocha'
 return {
-  'lukas-reineke/indent-blankline.nvim',
-  keys = {
-    'j',
-    'k',
-  },
+  'shellRaining/hlchunk.nvim',
   enabled = function()
     return vim.bo.filetype ~= 'bigfile'
   end,
-  -- Enable `lukas-reineke/indent-blankline.nvim`
-  -- See `:help ibl`
-  main = 'ibl',
-  opts = {
-    indent = { char = ' ' },
-    scope = {
-      char = '┋',
-      highlight = 'Comment',
-      show_start = false,
-      show_end = false,
-    },
-  },
+  event = { 'BufReadPre', 'BufNewFile' },
+  config = function()
+    require('hlchunk').setup {
+      chunk = {
+        enable = true,
+      },
+      indent = {
+        enable = vim.bo.filetype == 'python',
+      },
+      line_num = {
+        enable = true,
+        style = palette.yellow,
+      },
+    }
+  end,
 }
