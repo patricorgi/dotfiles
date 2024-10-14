@@ -1,5 +1,37 @@
 {
   "nodes": {
+    "aerospace": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1728844289,
+        "narHash": "sha256-b2jXF4oEqnV/jeCwqxH422UV8wd26sok4JH06lXPFs0=",
+        "owner": "nikitabobko",
+        "repo": "homebrew-tap",
+        "rev": "2ef82b750260cabbdb4610b4315dca2a19e76614",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nikitabobko",
+        "repo": "homebrew-tap",
+        "type": "github"
+      }
+    },
+    "borders": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1710407834,
+        "narHash": "sha256-nFfpcreYCqE/jCzY0mNeO+ZArUF9oMasG1r+R019MI4=",
+        "owner": "FelixKratz",
+        "repo": "homebrew-formulae",
+        "rev": "135452bb73f5fee5b31ca726b9eecdedb5f6492e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "FelixKratz",
+        "repo": "homebrew-formulae",
+        "type": "github"
+      }
+    },
     "brew-src": {
       "flake": false,
       "locked": {
@@ -226,6 +258,8 @@
     },
     "root": {
       "inputs": {
+        "aerospace": "aerospace",
+        "borders": "borders",
         "home-manager": "home-manager",
         "homebrew-bundle": "homebrew-bundle",
         "homebrew-cask": "homebrew-cask",
