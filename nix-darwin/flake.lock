@@ -1,5 +1,37 @@
 {
   "nodes": {
+    "aerospace": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1728844289,
+        "narHash": "sha256-b2jXF4oEqnV/jeCwqxH422UV8wd26sok4JH06lXPFs0=",
+        "owner": "nikitabobko",
+        "repo": "homebrew-tap",
+        "rev": "2ef82b750260cabbdb4610b4315dca2a19e76614",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nikitabobko",
+        "repo": "homebrew-tap",
+        "type": "github"
+      }
+    },
+    "borders": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1731946498,
+        "narHash": "sha256-uPhKE6hdhuSgyt41TiIxIIu6FNd08naNujpYx91J03U=",
+        "owner": "FelixKratz",
+        "repo": "homebrew-formulae",
+        "rev": "8cd8fae90b2e154e3fa3092cc5f8e3a6e963acd0",
+        "type": "github"
+      },
+      "original": {
+        "owner": "FelixKratz",
+        "repo": "homebrew-formulae",
+        "type": "github"
+      }
+    },
     "brew-src": {
       "flake": false,
       "locked": {
@@ -42,16 +74,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1726989464,
-        "narHash": "sha256-Vl+WVTJwutXkimwGprnEtXc/s/s8sMuXzqXaspIGlwM=",
+        "lastModified": 1733050161,
+        "narHash": "sha256-lYnT+EYE47f5yY3KS/Kd4pJ6CO9fhCqumkYYkQ3TK20=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "2f23fa308a7c067e52dfcc30a0758f47043ec176",
+        "rev": "62d536255879be574ebfe9b87c4ac194febf47c5",
         "type": "github"
       },
       "original": {
         "owner": "nix-community",
-        "ref": "release-24.05",
+        "ref": "release-24.11",
         "repo": "home-manager",
         "type": "github"
       }
@@ -210,22 +242,24 @@
     },
     "nixpkgs_3": {
       "locked": {
-        "lastModified": 1730829933,
-        "narHash": "sha256-0MNjhJc3zRVRb4gZhehWp7lqelgwQWWDw/pTZdw6xGQ=",
+        "lastModified": 1733433744,
+        "narHash": "sha256-Q0U0vvcGXdHVrWzeeH8xRzJR7OQiWeKmbDeM+GocCmU=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "44d825393bc00db4865123d4474ea075937473f6",
+        "rev": "ee5bcb611fe13ee2e5f4ab573fccb8432649ce21",
         "type": "github"
       },
       "original": {
         "owner": "nixos",
-        "ref": "release-24.05",
+        "ref": "release-24.11",
         "repo": "nixpkgs",
         "type": "github"
       }
     },
     "root": {
       "inputs": {
+        "aerospace": "aerospace",
+        "borders": "borders",
         "home-manager": "home-manager",
         "homebrew-bundle": "homebrew-bundle",
         "homebrew-cask": "homebrew-cask",
