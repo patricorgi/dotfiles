@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/run/current-system/sw/bin/bash
 
 hostname="$1"
 if [ -x "$(command -v aerospace)" ]; then
