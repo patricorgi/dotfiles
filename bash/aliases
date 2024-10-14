@@ -77,7 +77,7 @@ alias lp='lazygit -p'
 
 # open dotfiles in vim
 alias vv="nvim ~/.config/nvim"
-alias vn="nvim ~/.newsboat/config"
+alias vn="nvim ~/dotfiles/nix-darwin/flake.nix"
 alias vb="nvim ~/.bashrc"
 alias vy="nvim ~/.config/alacritty/alacritty.toml"
 alias vk="nvim ~/.config/kitty/kitty.conf"
