@@ -22,10 +22,12 @@ require('conform').setup {
     snakemake = { 'snakefmt' },
     markdown = { 'prettierd', 'cbfmt' },
     typst = { 'typstyle' },
+    nix = { 'nixfmt' }
   },
   formatters = {
     cbfmt = { command = 'cbfmt', args = { '-w', '--config', vim.fn.expand '~' .. '/.config/cbfmt.toml', '$FILENAME' } },
     yapf = { command = 'yapf' },
+    nix = { command = 'nixfmt' }
   },
 }
 
