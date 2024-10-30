@@ -65,22 +65,15 @@ vim.keymap.set('n', '<leader>fw', '<cmd>Telescope live_grep_args<cr>', { desc = 
 vim.keymap.set('n', '<leader>fd', builtin.diagnostics, { desc = 'Find Diagnostics' })
 vim.keymap.set('n', '<leader>fr', builtin.resume, { desc = 'Find Resume' })
 vim.keymap.set('n', '<leader>fg', '<cmd>Telescope git_submodules<cr>', { desc = 'Find Git submodules' })
+vim.keymap.set('n', '<leader>ls', require('aerial').toggle, { desc = 'Find Document Symbols' })
+vim.keymap.set('n', '<leader>fS', builtin.lsp_dynamic_workspace_symbols, { desc = 'Find Workspace Symbols' })
 vim.keymap.set('n', '<leader>fs', function()
   if custom_utils.is_lsp_attached() then
     builtin.lsp_document_symbols { symbol_width = 0.8 }
   else
     require('telescope').extensions.aerial.aerial()
   end
-  -- -- require('telescope').extensions.aerial.aerial()
-  -- local status_ok, _ = pcall(require('telescope.builtin').lsp_document_symbols)
-  -- if status_ok then
-  --   require('telescope.builtin').lsp_document_symbols()
-  -- else
-  --   require('telescope').extensions.aerial.aerial()
-  -- end
 end, { desc = 'Find Document Symbols' })
-vim.keymap.set('n', '<leader>ls', require('aerial').toggle, { desc = 'Find Document Symbols' })
-vim.keymap.set('n', '<leader>fS', builtin.lsp_dynamic_workspace_symbols, { desc = 'Find Workspace Symbols' })
 
 -- Slightly advanced example of overriding default behavior and theme
 vim.keymap.set('n', '<leader>f/', function()
