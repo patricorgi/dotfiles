@@ -35,6 +35,33 @@ require('lazy').setup({
   -- Highlight todo, notes, etc in comments
   { 'folke/todo-comments.nvim', ft = { 'cpp', 'python', 'sh' }, dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
 
+  -- move between vim and tmux pane
+  {
+    'christoomey/vim-tmux-navigator',
+    keys = {
+      { '<c-h>', '<cmd><C-U>TmuxNavigateLeft<cr>' },
+      { '<c-j>', '<cmd><C-U>TmuxNavigateDown<cr>' },
+      { '<c-k>', '<cmd><C-U>TmuxNavigateUp<cr>' },
+      { '<c-l>', '<cmd><C-U>TmuxNavigateRight<cr>' },
+      { '<c-\\>', '<cmd><C-U>TmuxNavigatePrevious<cr>' },
+    },
+  },
+
+  -- lazygit
+  {
+    'kdheepak/lazygit.nvim',
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+    },
+    cmd = { 'LazyGit', 'LazyGitCurrentFile' },
+    keys = {
+      { '<leader>gg', '<cmd>LazyGitCurrentFile<CR>', desc = 'Open LazyGit' },
+    },
+    config = function()
+      vim.g.lazygit_floating_window_scaling_factor = 0.95
+    end,
+  },
+
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   { import = 'custom.plugins' },
 }, {
