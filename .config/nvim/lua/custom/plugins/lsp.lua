@@ -71,5 +71,25 @@ return {
       require 'custom.config.conform'
     end,
   },
-  { 'patricorgi/vim-snakemake', ft = 'Snakefile' },
+  { 'patricorgi/vim-snakemake', ft = { 'Snakefile', 'snakemake' } },
+  {
+    'ray-x/lsp_signature.nvim',
+    ft = { 'python', 'cpp' },
+    main = 'lsp_signature',
+    opts = {
+      hint_enable = false, -- disable hints as it will crash in some terminal
+    },
+    specs = {
+      {
+        'folke/noice.nvim',
+        optional = true,
+        opts = {
+          lsp = {
+            signature = { enabled = false },
+            hover = { enabled = false },
+          },
+        },
+      },
+    },
+  },
 }
