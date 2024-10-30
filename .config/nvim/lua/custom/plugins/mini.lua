@@ -1,4 +1,5 @@
-return { -- Collection of various small independent plugins/modules
+return {
+  { -- Collection of various small independent plugins/modules
   'echasnovski/mini.nvim',
   event = 'VeryLazy',
   dependencies = {
@@ -30,4 +31,19 @@ return { -- Collection of various small independent plugins/modules
     require('mini.icons').setup {}
     require('mini.ai').setup {}
   end,
-}
+},{
+  'echasnovski/mini.ai',
+  keys = {
+    'i',
+    'a',
+    ']',
+    '[',
+  },
+  specs = {
+    {
+      'catppuccin',
+      optional = true,
+      opts = { integrations = { mini = true } },
+    },
+  },
+}}
