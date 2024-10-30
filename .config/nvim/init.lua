@@ -4,7 +4,6 @@ require 'custom.keymaps'
 require 'custom.autocmds'
 require 'custom.filetypes'
 
--- [[ Install `lazy.nvim` plugin manager ]]
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
 if not vim.uv.fs_stat(lazypath) then
   local lazyrepo = 'https://github.com/folke/lazy.nvim.git'
@@ -15,10 +14,7 @@ if not vim.uv.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
--- [[ Configure and install plugins ]]
 require('lazy').setup({
-
-  -- Detect tabstop and shiftwidth automatically
   'tpope/vim-sleuth',
   { 'fladson/vim-kitty', ft = 'kitty', tag = 'v1.1' },
   { 'stevearc/dressing.nvim', event = 'VeryLazy', opts = {} },

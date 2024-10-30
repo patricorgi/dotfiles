@@ -41,25 +41,19 @@ cmp.setup {
   --
   -- No, but seriously. Please read `:help ins-completion`, it is really good!
   mapping = cmp.mapping.preset.insert {
-    -- Select the next item
     ['<C-n>'] = cmp.mapping.select_next_item(),
-    -- Select the previous item
     ['<C-p>'] = cmp.mapping.select_prev_item(),
+    ['<C-y>'] = cmp.mapping.confirm { select = true },
 
-    -- Scroll the documentation window back / forward
     ['<C-b>'] = cmp.mapping.scroll_docs(-4),
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
 
-    -- Accept (yes) the completion.
-    --  This will auto-import if your LSP supports it.
-    --  This will expand snippets if the LSP sent a snippet.
-    ['<C-y>'] = cmp.mapping.confirm { select = true },
-    ['<C-j>'] = cmp.mapping(function()
+    ['<C-d>'] = cmp.mapping(function()
       if luasnip.expand_or_locally_jumpable() then
         luasnip.expand_or_jump()
       end
     end, { 'i', 's' }),
-    ['<C-k>'] = cmp.mapping(function()
+    ['<C-a>'] = cmp.mapping(function()
       if luasnip.locally_jumpable(-1) then
         luasnip.jump(-1)
       end
