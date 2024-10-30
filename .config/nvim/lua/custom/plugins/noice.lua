@@ -1,5 +1,8 @@
 return {
   'folke/noice.nvim',
+  dependencies = {
+    'MunifTanjim/nui.nvim',
+  },
   keys = { ':', '/', '?' }, -- lazy load cmp on more keys along with insert mode
   config = function()
     require('noice').setup {
