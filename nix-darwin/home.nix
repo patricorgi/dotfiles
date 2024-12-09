@@ -16,7 +16,7 @@
   ];
   home.username = "patricorgi";
   home.homeDirectory = "/Users/patricorgi";
-  home.stateVersion = "24.05"; # Please read the comment before changing.
+  home.stateVersion = "24.11"; # Please read the comment before changing.
 
   # Makes sense for user specific applications that shouldn't be available system-wide
   home.packages =
