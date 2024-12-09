@@ -2,13 +2,13 @@
   description = "corgi flake";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/release-24.05";
+    nixpkgs.url = "github:nixos/nixpkgs/release-24.11";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     nix-darwin.url = "github:LnL7/nix-darwin";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
     nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
     home-manager = {
-      url = "github:nix-community/home-manager/release-24.05";
+      url = "github:nix-community/home-manager/release-24.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     homebrew-bundle = {
@@ -165,6 +165,8 @@
               "NSGlobalDomain" = {
                 "com.apple.sound.beep.feedback" = 1;
                 AppleReduceDesktopTinting = 1;
+                NSWindowShouldDragOnGesture = 1;
+                NSAutomaticWindowAnimationsEnabled = 0;
                 KB_DoubleQuoteOption = "\"abc\"";
                 KB_SingleQuoteOption = "'abc'";
                 NSUserQuotesArray = [
