@@ -5,7 +5,7 @@ config:
   icon-position: "left" # show the icon to the "left" or "right" of the window name (defaults to left)
 
 icons:
-  nvim: ""
+  nvim: ""
   vim: ""
   bash: ""
   htop: "󰓅"
@@ -13,3 +13,9 @@ icons:
   lazygit: ""
   less: ""
   yazi: "󰇥"
+  python2.7: ""
+  python3.10: ""
+  python3.11: ""
+  python3.12: ""
+  python3: ""
+  python: ""
