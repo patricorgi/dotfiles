@@ -7,7 +7,7 @@ return {
     math.randomseed(os.time())
     dashboard.section.header.val = ascii_arts[math.random(1, #ascii_arts)]
     dashboard.section.header.opts = {
-      -- position = 'center',
+      position = 'left',
       hl = 'SpecialComment',
     }
     alpha.setup(dashboard.opts)

@@ -7,18 +7,8 @@ return {
       {
         'stevearc/aerial.nvim',
         opts = {},
-        dependencies = {
-          'nvim-tree/nvim-web-devicons',
-        },
       },
       'nvim-lua/plenary.nvim',
-      {
-        'nvim-telescope/telescope-fzf-native.nvim',
-        build = 'make',
-        cond = function()
-          return vim.fn.executable 'make' == 1
-        end,
-      },
       {
         'nvim-telescope/telescope-live-grep-args.nvim',
         keys = {
@@ -36,14 +26,6 @@ return {
     },
     config = function()
       require 'custom.config.telescope'
-    end,
-  },
-  {
-    'FabianWirth/search.nvim',
-    event = 'VeryLazy',
-    dependencies = { 'nvim-telescope/telescope.nvim' },
-    config = function()
-      require 'custom.config.search'
     end,
   },
 }

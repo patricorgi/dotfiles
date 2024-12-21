@@ -1,8 +1,7 @@
 return {
   'kaarmu/typst.vim',
-  ft = 'typst',
-  lazy = false,
+  ft = { 'typst' },
   init = function()
-    vim.g.typst_pdf_viewer = "/Applications/sioyek.app"
-  end
+    vim.g.typst_pdf_viewer = '/Applications/sioyek.app'
+  end,
 }
