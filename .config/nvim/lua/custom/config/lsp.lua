@@ -90,7 +90,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
     -- Execute a code action, usually your cursor needs to be on top of an error
     -- or a suggestion from your LSP for this to activate.
     map('<leader>la', vim.lsp.buf.code_action, 'Lsp Action')
-    map('<leader>ca', vim.lsp.buf.code_action, 'Lsp Action')
 
     -- WARN: This is not Goto Definition, this is Goto Declaration.
     --  For example, in C this would take you to the header.
@@ -154,11 +153,6 @@ capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp'
 --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
 local mason_servers = {
   clangd = { capabilities = { offsetEncoding = 'utf-8' }, cmd = { 'clangd' } },
-  ['clang-format'] = { capabilities = { offsetEncoding = 'utf-8' }, cmd = { 'clang-format' } },
-  pylsp = {
-    pyflake = { enabled = false },
-    pylint = { enabled = false },
-  },
   lua_ls = {
     settings = {
       Lua = {

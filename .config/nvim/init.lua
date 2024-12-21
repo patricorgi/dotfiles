@@ -3,7 +3,6 @@ require 'custom.keymaps'
 require 'custom.autocmds'
 require 'custom.filetypes'
 
--- [[ Install `lazy.nvim` plugin manager ]]
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
 if not vim.uv.fs_stat(lazypath) then
   local lazyrepo = 'https://github.com/folke/lazy.nvim.git'
@@ -14,28 +13,11 @@ if not vim.uv.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
--- [[ Configure and install plugins ]]
 require('lazy').setup({
-
-  -- Detect tabstop and shiftwidth automatically
   'tpope/vim-sleuth',
-
-  -- quick remedy when tab-complete-then-enter fails you, e.g. `nvim init.l`
-  { 'mong8se/actually.nvim', lazy = false },
-
-  -- current best multicursor IMHO
   { 'mg979/vim-visual-multi', lazy = true, keys = { { '<C-n>', mode = { 'n', 'x' } } } },
-
-  -- kitty conf file highlight
-  { 'fladson/vim-kitty', ft = { 'kitty' } },
-
-  -- Use `opts = {}` to force a plugin to be loaded.
   { 'stevearc/dressing.nvim', event = 'VeryLazy', opts = {} },
-
-  -- Highlight todo, notes, etc in comments
   { 'folke/todo-comments.nvim', ft = { 'cpp', 'python', 'sh' }, dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
-
-  -- move between vim and tmux pane
   {
     'christoomey/vim-tmux-navigator',
     keys = {
@@ -46,8 +28,6 @@ require('lazy').setup({
       { '<c-\\>', '<cmd><C-U>TmuxNavigatePrevious<cr>' },
     },
   },
-
-  -- lazygit
   {
     'kdheepak/lazygit.nvim',
     dependencies = {
@@ -58,11 +38,9 @@ require('lazy').setup({
       { '<leader>gg', '<cmd>LazyGitCurrentFile<CR>', desc = 'Open LazyGit' },
     },
     config = function()
-      vim.g.lazygit_floating_window_scaling_factor = 0.95
+      vim.g.lazygit_floating_window_scaling_factor = 0.9
     end,
   },
-
-  -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   { import = 'custom.plugins' },
 }, {
   ui = {
