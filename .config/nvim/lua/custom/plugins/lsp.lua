@@ -21,7 +21,7 @@ return {
         },
       },
       'williamboman/mason-lspconfig.nvim',
-      { 'hrsh7th/cmp-nvim-lsp', event = 'InsertEnter' },
+      -- { 'hrsh7th/cmp-nvim-lsp', event = 'InsertEnter' },
     },
     config = function()
       require 'custom.config.lsp'
