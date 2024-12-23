@@ -1,4 +1,5 @@
 local icons = require 'custom.ui.icons'
+local custom_utils = require 'custom.utils'
 
 vim.diagnostic.config {
   virtual_text = {
@@ -158,7 +159,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
 --  When you add nvim-cmp, luasnip, etc. Neovim now has *more* capabilities.
 --  So, we create new capabilities with nvim cmp, and then broadcast that to the servers.
 local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
+capabilities = vim.tbl_deep_extend('force', capabilities, require('blink.cmp').get_lsp_capabilities())
 
 -- Enable the following language servers
 --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
@@ -210,25 +211,46 @@ require('mason').setup()
 -- local ensure_installed = { 'yapf', 'shfmt', 'stylua', 'snakefmt', 'lua-language-server' }
 -- require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
-require('mason-lspconfig').setup {
-  handlers = {
-    function(server_name)
-      local server = mason_servers[server_name] or {}
-      -- This handles overriding only values explicitly passed
-      -- by the server configuration above. Useful when disabling
-      -- certain features of an LSP (for example, turning off formatting for tsserver)
-      server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
-      -- NOTE: Uncomment this line if you want to change hover highlight
-      -- But this will change help page highlight too!
-      -- vim.api.nvim_set_hl(0, 'NormalFloat', { bg = palette.crust, fg = palette.text })
-      server.handler = {
-        ['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, { border = 'single' }),
-        ['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = 'single' }),
-      }
-      require('lspconfig')[server_name].setup(server)
-    end,
-  },
+-- require('mason-lspconfig').setup {
+--   handlers = {
+--     function(server_name)
+--       local server = mason_servers[server_name] or {}
+--       -- This handles overriding only values explicitly passed
+--       -- by the server configuration above. Useful when disabling
+--       -- certain features of an LSP (for example, turning off formatting for tsserver)
+--       server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
+--       -- NOTE: Uncomment this line if you want to change hover highlight
+--       -- But this will change help page highlight too!
+--       -- vim.api.nvim_set_hl(0, 'NormalFloat', { bg = palette.crust, fg = palette.text })
+--       server.handler = {
+--         ['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, { border = 'single' }),
+--         ['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = 'single' }),
+--       }
+--       require('lspconfig')[server_name].setup(server)
+--     end,
+--   },
+-- }
+-- Define custom handlers for hover and signature help
+local lspconfig = require 'lspconfig'
+local custom_handlers = {
+  ['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, { border = 'single' }),
+  ['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = 'single' }),
 }
+-- Function to set up an LSP server
+local function setup_server(server_name, config)
+  -- Extend capabilities with defaults and server-specific capabilities
+  config.capabilities = vim.tbl_deep_extend('force', {}, capabilities, config.capabilities or {})
+
+  -- Add custom handlers for hover and signature help
+  config.handlers = vim.tbl_deep_extend('force', {}, custom_handlers, config.handlers or {})
+
+  -- Set up the LSP server
+  lspconfig[server_name].setup(config)
+end
+-- Set up each server
+for server_name, config in pairs(mason_servers) do
+  setup_server(server_name, config)
+end
 
 local local_servers = {
   basedpyright = {
