@@ -462,4 +462,18 @@ M.ShowCmd = {
   end,
   provider = '%3.5(%S%)',
 }
+
+M.SearchOccurrence = {
+  condition = function ()
+    return vim.v.hlsearch == 1
+  end,
+  provider = function ()
+	local sinfo = vim.fn.searchcount { maxcount = 0 }
+	local search_stat = sinfo.incomplete > 0 and '[?/?]'
+		or sinfo.total > 0 and ('[%s/%s]'):format(sinfo.current, sinfo.total)
+		or ""
+        return search_stat
+  end,
+}
+
 return M

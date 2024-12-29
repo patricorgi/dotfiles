@@ -5,6 +5,7 @@ return { -- statusline
   components.RightPadding(components.FilePathBlock, 2),
   components.RightPadding(components.Git, 2),
   components.RightPadding(components.Diagnostics),
+  components.RightPadding(components.SearchOccurrence),
   components.Fill,
   components.MacroRecording,
   components.Fill,
