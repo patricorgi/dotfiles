@@ -1,4 +1,4 @@
-#!/run/current-system/sw/bin/bash
+#!/opt/homebrew/bin/bash
 
 focus_kitty_window() {
 	search="$1"
