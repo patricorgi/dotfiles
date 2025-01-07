@@ -17,7 +17,6 @@ vim.opt.rtp:prepend(lazypath)
 require('lazy').setup({
   'tpope/vim-sleuth',
   { 'fladson/vim-kitty', ft = 'kitty', tag = 'v1.1' },
-  { 'stevearc/dressing.nvim', event = 'VeryLazy', opts = {} },
   { 'folke/todo-comments.nvim', event = { 'BufReadPost', 'BufNewFile' }, dependencies = { 'nvim-lua/plenary.nvim' }, opts = {} },
   {
     'christoomey/vim-tmux-navigator',
