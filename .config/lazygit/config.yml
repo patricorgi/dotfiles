@@ -37,7 +37,7 @@ gui:
       - ⣷
 
 os:
-  edit: "nvim {{filename}}"
+  editPreset: "nvim-remote"
 promptToReturnFromSubprocess: false
 keybinding:
   # universal: 
