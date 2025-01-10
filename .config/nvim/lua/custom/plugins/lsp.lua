@@ -5,6 +5,7 @@ if proxy then
 else
   pip_args = {}
 end
+
 return {
   {
     'neovim/nvim-lspconfig',
@@ -13,38 +14,23 @@ return {
     dependencies = {
       {
         'williamboman/mason.nvim',
-        event = 'VeryLazy',
+        event = { 'VimEnter' },
         opts = {
           pip = {
             upgrade_pip = false,
             install_args = pip_args,
           },
+          ui = {
+            border = 'single',
+            width = 0.7,
+            height = 0.7,
+          },
         },
       },
-      -- 'williamboman/mason-lspconfig.nvim',
-      -- { 'hrsh7th/cmp-nvim-lsp', event = 'InsertEnter' },
+      { 'rmagatti/goto-preview', keys = { 'gp', 'gP' }, opts = {} },
     },
     config = function()
       require 'custom.config.lsp'
     end,
   },
-  {
-    'stevearc/conform.nvim',
-    event = { 'BufWritePre', 'InsertEnter' },
-    cmd = { 'ConformInfo', 'FormatEnable', 'FormatDisable' },
-    keys = {
-      {
-        '<leader>lf',
-        function()
-          require('conform').format { async = true, lsp_fallback = true }
-        end,
-        mode = '',
-        desc = 'Lsp Format buffer',
-      },
-    },
-    config = function()
-      require 'custom.config.conform'
-    end,
-  },
-  { 'patricorgi/vim-snakemake', ft = { 'Snakefile', 'snakemake' } },
 }
