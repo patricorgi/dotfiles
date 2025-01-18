@@ -74,10 +74,7 @@ vim.keymap.set('n', '<leader>fs', function()
     require('telescope').extensions.aerial.aerial()
   end
 end, { desc = 'Find Document Symbols' })
-
--- Slightly advanced example of overriding default behavior and theme
 vim.keymap.set('n', '<leader>f/', function()
-  -- You can pass additional configuration to Telescope to change the theme, layout, etc.
   builtin.current_buffer_fuzzy_find(require('telescope.themes').get_ivy {
     previewer = true,
     skip_empty_lines = true,
@@ -93,5 +90,3 @@ vim.keymap.set('n', '<leader>fc', function()
     end,
   }
 end, { desc = 'Find Config Files' })
-
-vim.keymap.set('n', '<leader>tm', '<CMD>Telescope tmux-awesome-manager list_terms<CR>', { desc = 'TAM list_terms' })
