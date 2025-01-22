@@ -3,9 +3,6 @@ require('blink.cmp').setup {
     ['<C-u>'] = { 'scroll_documentation_up', 'fallback' },
     ['<C-d>'] = { 'scroll_documentation_down', 'fallback' },
   },
-  snippets = {
-    preset = 'luasnip',
-  },
   sources = {
     default = { 'snippets', 'lsp', 'path', 'buffer' },
     providers = {
@@ -59,15 +56,3 @@ require('blink.cmp').setup {
     nerd_font_variant = 'normal',
   },
 }
-
-local luasnip = require 'luasnip'
-vim.keymap.set({ 'i', 's' }, '<Tab>', function()
-  if luasnip.expand_or_locally_jumpable() then
-    luasnip.expand_or_jump()
-  end
-end)
-vim.keymap.set({ 'i', 's' }, '<S-Tab>', function()
-  if luasnip.locally_jumpable(-1) then
-    luasnip.jump(-1)
-  end
-end)
