@@ -85,7 +85,12 @@ require('snacks').setup {
       -- { section = 'startup' },
     },
   },
-  statuscolumn = {},
+  statuscolumn = {
+    folds = {
+      open = true, -- show open fold icons
+      git_hl = false, -- use Git Signs hl for fold icons
+    },
+  },
 }
 
 ---@type table<number, {token:lsp.ProgressToken, msg:string, done:boolean}[]>
