@@ -23,19 +23,15 @@ require('blink.cmp').setup {
     menu = {
       border = 'single',
       draw = {
-        columns = { { 'label', 'label_description', gap = 1 }, { 'kind_icon', 'kind' } },
         treesitter = { 'lsp' },
+        columns = { { 'kind_icon' }, { 'label', gap = 1 } },
         components = {
-          kind_icon = {
-            highlight = function(ctx)
-              local _, hl, _ = require('mini.icons').get('lsp', ctx.kind)
-              return hl
+          label = {
+            text = function(ctx)
+              return require('colorful-menu').blink_components_text(ctx)
             end,
-          },
-          kind = {
             highlight = function(ctx)
-              local _, hl, _ = require('mini.icons').get('lsp', ctx.kind)
-              return hl
+              return require('colorful-menu').blink_components_highlight(ctx)
             end,
           },
         },
