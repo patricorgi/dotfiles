@@ -67,6 +67,10 @@ local custom_handlers = {
 }
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = vim.tbl_deep_extend('force', capabilities, require('blink.cmp').get_lsp_capabilities())
+capabilities.textDocument.foldingRange = {
+  dynamicRegistration = false,
+  lineFoldingOnly = true,
+}
 local function setup_server(server_name, config)
   config.capabilities = vim.tbl_deep_extend('force', {}, capabilities, config.capabilities or {})
   config.handlers = vim.tbl_deep_extend('force', {}, custom_handlers, config.handlers or {})
@@ -126,6 +130,18 @@ vim.api.nvim_create_autocmd('LspAttach', {
     )
 
     local client = vim.lsp.get_client_by_id(event.data.client_id)
+    -- FIXME: folding with lsp
+    -- if client and client.supports_method 'textDocument/foldingRange' then
+    --   local win = vim.api.nvim_get_current_win()
+    --   vim.wo[win][0].foldmethod = 'expr'
+    --   vim.wo[win][0].foldexpr = 'v:lua.vim.lsp.foldexpr()'
+    --   vim.notify 'Enable folding with LSP'
+    -- end
+    -- if client and client.supports_method 'textDocument/foldingRange' then
+    --   local win = vim.api.nvim_get_current_win()
+    --   vim.wo[win][0].foldexpr = 'v:lua.vim.lsp.foldexpr()'
+    -- end
+
     -- Inlay hint
     if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
       -- vim.lsp.inlay_hint.enable()
@@ -154,6 +170,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
         callback = function(event2)
           vim.lsp.buf.clear_references()
           vim.api.nvim_clear_autocmds { group = 'kickstart-lsp-highlight', buffer = event2.buf }
+          -- vim.cmd 'setl foldexpr <'
         end,
       })
     end
