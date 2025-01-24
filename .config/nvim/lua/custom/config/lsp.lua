@@ -67,6 +67,10 @@ local custom_handlers = {
 }
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = vim.tbl_deep_extend('force', capabilities, require('blink.cmp').get_lsp_capabilities())
+capabilities.textDocument.foldingRange = {
+  dynamicRegistration = false,
+  lineFoldingOnly = true,
+}
 local function setup_server(server_name, config)
   config.capabilities = vim.tbl_deep_extend('force', {}, capabilities, config.capabilities or {})
   config.handlers = vim.tbl_deep_extend('force', {}, custom_handlers, config.handlers or {})
