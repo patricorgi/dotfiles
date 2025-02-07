@@ -1,0 +1,14 @@
+{
+  "callout done": {
+    "prefix": "done",
+    "body": ["> [!DONE]"]
+  },
+  "callout todo": {
+    "prefix": "todo",
+    "body": ["> [!TODO]"]
+  },
+  "callout wip": {
+    "prefix": "wip",
+    "body": ["> [!WIP]"]
+  }
+}
