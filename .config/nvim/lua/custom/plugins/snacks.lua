@@ -9,6 +9,7 @@ return {
     {
       '<leader>gg',
       function()
+        ---@diagnostic disable-next-line: missing-fields
         Snacks.lazygit { cwd = Snacks.git.get_root() }
       end,
       desc = 'Lazygit current buffer',

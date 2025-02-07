@@ -1,5 +1,6 @@
 -- UI touches
 local icons = require 'custom.ui.icons'
+local util = require 'lspconfig.util'
 vim.diagnostic.config {
   virtual_text = {
     spacing = 4,
@@ -23,6 +24,7 @@ vim.diagnostic.config {
 
 -- Main table for all LSP opts
 local servers = {
+  tinymist = {},
   lua_ls = {
     settings = {
       Lua = {
@@ -33,7 +35,6 @@ local servers = {
     },
   },
   clangd = { capabilities = { offsetEncoding = 'utf-8' }, cmd = { 'clangd' } },
-  ruff = {},
   basedpyright = {
     settings = {
       basedpyright = {
@@ -41,7 +42,6 @@ local servers = {
       },
     },
     root_dir = function(fname)
-      local util = require 'lspconfig.util'
       local dir_name = util.root_pattern(unpack {
         'pyproject.toml',
         'setup.py',
@@ -58,6 +58,9 @@ local servers = {
       end
     end,
   },
+  ruff = {},
+  marksman = {},
+  texlab = {},
 }
 
 -- Set up all server
