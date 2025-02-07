@@ -12,8 +12,10 @@ return {
     'echasnovski/mini.nvim',
     {
       'MeanderingProgrammer/render-markdown.nvim',
-      opts = { file_types = { 'markdown', 'Avante' } },
       ft = { 'markdown', 'Avante' },
+      config = function()
+        require 'custom.config.render-markdown'
+      end,
     },
   },
 }
