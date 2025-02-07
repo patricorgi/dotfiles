@@ -1,6 +1,12 @@
 ---@diagnostic disable: missing-fields
 require('snacks').setup {
-  styles = { notification = { border = 'single' }, notification_history = { border = 'single', width = 0.9, height = 0.9, minimal = true } },
+  styles = {
+    notification = { border = 'single' },
+    notification_history = { border = 'single', width = 0.9, height = 0.9, minimal = true },
+    snacks_image = {
+      border = 'single',
+    },
+  },
   indent = {
     indent = {
       char = ' ',
