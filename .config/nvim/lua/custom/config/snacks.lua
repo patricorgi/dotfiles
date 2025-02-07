@@ -1,6 +1,12 @@
 ---@diagnostic disable: missing-fields
 require('snacks').setup {
-  styles = { notification = { border = 'single' }, notification_history = { border = 'single', width = 0.9, height = 0.9, minimal = true } },
+  styles = {
+    notification = { border = 'single' },
+    notification_history = { border = 'single', width = 0.9, height = 0.9, minimal = true },
+    snacks_image = {
+      border = 'single',
+    },
+  },
   indent = {
     indent = {
       char = ' ',
@@ -90,6 +96,37 @@ require('snacks').setup {
       open = true, -- show open fold icons
       git_hl = true, -- use Git Signs hl for fold icons
     },
+  },
+  image = {
+    enabled = true,
+    doc = {
+      enabled = true,
+      inline = false,
+      float = true,
+      max_width = 40,
+      max_height = 30,
+    },
+    resolve = function(_, src)
+      local vault_path = vim.fn.expand '~' .. '/Library/Mobile Documents/iCloud~md~obsidian/Documents/Obsidian Vault'
+
+      -- when the file path is *attachments/*
+      local att_path = src:match '(attachments/.*)'
+      if att_path then
+        return vault_path .. '/' .. att_path
+      end
+
+      -- when the file path is pure basename without any directory component
+      if not src:match '[/\\]' then
+        return vault_path .. '/attachments/' .. src
+      end
+
+      -- when the file path is absolute path
+      if src:match '^/' then
+        return src
+      end
+
+      return src
+    end,
   },
 }
 
