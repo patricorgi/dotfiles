@@ -10,10 +10,6 @@ return {
     'MunifTanjim/nui.nvim',
     'zbirenbaum/copilot.lua',
     'echasnovski/mini.nvim',
-    {
-      'MeanderingProgrammer/render-markdown.nvim',
-      opts = { file_types = { 'markdown', 'Avante' } },
-      ft = { 'markdown', 'Avante' },
-    },
+    'MeanderingProgrammer/render-markdown.nvim',
   },
 }
