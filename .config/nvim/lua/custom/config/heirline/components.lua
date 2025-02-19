@@ -336,7 +336,7 @@ M.Diagnostics = {
   on_click = {
     name = 'heirline_diagnostic',
     callback = function()
-      require('telescope.builtin').diagnostics()
+      Snacks.picker.diagnostics_buffer()
     end,
   },
 } -- Diagnostics
