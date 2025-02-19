@@ -58,7 +58,7 @@ require('snacks').setup {
           key = 'f',
           desc = 'Find files',
           action = function()
-            require('telescope.builtin').find_files()
+            Snacks.picker.files()
           end,
         },
         {
@@ -66,7 +66,7 @@ require('snacks').setup {
           key = 'o',
           desc = 'Find history',
           action = function()
-            require('telescope.builtin').oldfiles()
+            Snacks.picker.recent()
           end,
         },
         { icon = ' ', key = 'e', desc = 'New file', action = ':enew' },
@@ -128,6 +128,17 @@ require('snacks').setup {
       return src
     end,
   },
+  picker = {
+    matcher = {
+      frecency = true,
+      cwd_bonus = true,
+      history_bonus = true,
+    },
+    formatters = {
+      icon_width = 3,
+    },
+  },
+  terminal = {},
 }
 
 ---@type table<number, {token:lsp.ProgressToken, msg:string, done:boolean}[]>
