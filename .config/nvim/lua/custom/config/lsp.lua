@@ -60,7 +60,21 @@ local servers = {
   },
   ruff = {},
   marksman = {},
-  texlab = {},
+  texlab = {
+    settings = {
+      texlab = {
+        diagnostics = {
+          ignoredPatterns = {
+            'Overfull',
+            'Underfull',
+            'Package hyperref Warning',
+            'Float too large for page',
+            'contains only floats',
+          },
+        },
+      },
+    },
+  },
 }
 
 -- Set up all server
