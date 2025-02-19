@@ -10,12 +10,6 @@ return {
     'MunifTanjim/nui.nvim',
     'zbirenbaum/copilot.lua',
     'echasnovski/mini.nvim',
-    {
-      'MeanderingProgrammer/render-markdown.nvim',
-      ft = { 'markdown', 'Avante' },
-      config = function()
-        require 'custom.config.render-markdown'
-      end,
-    },
+    'MeanderingProgrammer/render-markdown.nvim',
   },
 }
