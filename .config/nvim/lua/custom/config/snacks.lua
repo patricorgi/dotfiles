@@ -58,7 +58,7 @@ require('snacks').setup {
           key = 'f',
           desc = 'Find files',
           action = function()
-            require('telescope.builtin').find_files()
+            Snacks.picker.files()
           end,
         },
         {
@@ -66,7 +66,7 @@ require('snacks').setup {
           key = 'o',
           desc = 'Find history',
           action = function()
-            require('telescope.builtin').oldfiles()
+            Snacks.picker.recent()
           end,
         },
         { icon = ' ', key = 'e', desc = 'New file', action = ':enew' },
