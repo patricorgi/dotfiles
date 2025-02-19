@@ -16,6 +16,9 @@ require('nvim-treesitter.configs').setup {
     'vimdoc',
     'snakemake',
   },
+  ignore_install = {
+    'latex',
+  },
   auto_install = true,
   highlight = {
     enable = true,
