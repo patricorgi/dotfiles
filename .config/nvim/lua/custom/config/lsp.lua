@@ -115,12 +115,16 @@ vim.api.nvim_create_autocmd('LspAttach', {
           vim.notify('No definition found', vim.log.levels.INFO)
         else
           -- vim.lsp.buf.definition()
-          require('telescope.builtin').lsp_definitions()
+          -- require('telescope.builtin').lsp_definitions()
+          require('snacks').picker.lsp_definitions()
         end
       end)
     end, 'Goto Definition')
     map('gD', vim.lsp.buf.declaration, 'Goto Declaration')
-    map('gr', require('telescope.builtin').lsp_references, 'Goto References')
+    map('gr', function()
+      -- require('telescope.builtin').lsp_references()
+      require('snacks').picker.lsp_references()
+    end, 'Goto References')
 
     map('<leader>la', vim.lsp.buf.code_action, 'Lsp Action')
     map('<leader>rn', vim.lsp.buf.rename, 'Lsp Rename')
