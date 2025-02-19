@@ -58,7 +58,7 @@ require('snacks').setup {
           key = 'f',
           desc = 'Find files',
           action = function()
-            require('telescope.builtin').find_files()
+            Snacks.picker.files()
           end,
         },
         {
@@ -66,7 +66,7 @@ require('snacks').setup {
           key = 'o',
           desc = 'Find history',
           action = function()
-            require('telescope.builtin').oldfiles()
+            Snacks.picker.recent()
           end,
         },
         { icon = ' ', key = 'e', desc = 'New file', action = ':enew' },
@@ -92,14 +92,7 @@ require('snacks').setup {
       -- { section = 'startup' },
     },
   },
-  statuscolumn = {
-    left = { 'fold', 'git', 'mark', 'sign' }, -- priority of signs on the left (high to low)
-    right = {}, -- priority of signs on the right (high to low)
-    folds = {
-      open = true, -- show open fold icons
-      git_hl = false, -- use Git Signs hl for fold icons
-    },
-  },
+  statuscolumn = {},
   image = {
     enabled = true,
     doc = {
