@@ -7,46 +7,46 @@ require('snacks').setup {
       border = 'single',
     },
   },
-  indent = {
-    indent = {
-      char = ' ',
-      only_scope = true,
-      only_current = true,
-      hl = {
-        'SnacksIndent1',
-        'SnacksIndent2',
-        'SnacksIndent3',
-        'SnacksIndent4',
-        'SnacksIndent5',
-        'SnacksIndent6',
-        'SnacksIndent7',
-        'SnacksIndent8',
-      },
-    },
-    animate = {
-      duration = {
-        step = 10,
-        duration = 100,
-      },
-    },
-    scope = {
-      enabled = true, -- enable highlighting the current scope
-      priority = 200,
-      char = '┊',
-      underline = false, -- underline the start of the scope
-      only_current = true, -- only show scope in the current window
-      hl = {
-        'SnacksIndent1',
-        'SnacksIndent2',
-        'SnacksIndent3',
-        'SnacksIndent4',
-        'SnacksIndent5',
-        'SnacksIndent6',
-        'SnacksIndent7',
-        'SnacksIndent8',
-      },
-    },
-  },
+  -- indent = {
+  --   indent = {
+  --     char = ' ',
+  --     only_scope = true,
+  --     only_current = true,
+  --     hl = {
+  --       'SnacksIndent1',
+  --       'SnacksIndent2',
+  --       'SnacksIndent3',
+  --       'SnacksIndent4',
+  --       'SnacksIndent5',
+  --       'SnacksIndent6',
+  --       'SnacksIndent7',
+  --       'SnacksIndent8',
+  --     },
+  --   },
+  --   animate = {
+  --     duration = {
+  --       step = 10,
+  --       duration = 100,
+  --     },
+  --   },
+  --   scope = {
+  --     enabled = true, -- enable highlighting the current scope
+  --     priority = 200,
+  --     char = '┊',
+  --     underline = false, -- underline the start of the scope
+  --     only_current = true, -- only show scope in the current window
+  --     hl = {
+  --       'SnacksIndent1',
+  --       'SnacksIndent2',
+  --       'SnacksIndent3',
+  --       'SnacksIndent4',
+  --       'SnacksIndent5',
+  --       'SnacksIndent6',
+  --       'SnacksIndent7',
+  --       'SnacksIndent8',
+  --     },
+  --   },
+  -- },
   lazygit = {},
   notifier = {},
   bufdelete = {},
@@ -58,7 +58,7 @@ require('snacks').setup {
           key = 'f',
           desc = 'Find files',
           action = function()
-            require('telescope.builtin').find_files()
+            Snacks.picker.files()
           end,
         },
         {
@@ -66,7 +66,7 @@ require('snacks').setup {
           key = 'o',
           desc = 'Find history',
           action = function()
-            require('telescope.builtin').oldfiles()
+            Snacks.picker.recent()
           end,
         },
         { icon = ' ', key = 'e', desc = 'New file', action = ':enew' },
@@ -92,14 +92,7 @@ require('snacks').setup {
       -- { section = 'startup' },
     },
   },
-  statuscolumn = {
-    left = { 'fold', 'git', 'mark', 'sign' }, -- priority of signs on the left (high to low)
-    right = {}, -- priority of signs on the right (high to low)
-    folds = {
-      open = true, -- show open fold icons
-      git_hl = false, -- use Git Signs hl for fold icons
-    },
-  },
+  statuscolumn = {},
   image = {
     enabled = true,
     doc = {
