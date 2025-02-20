@@ -1,3 +1,4 @@
+local custom_pickers = require 'custom.pickers'
 vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true, desc = 'Move cursor down' })
 vim.keymap.set('x', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true, desc = 'Move cursor down' })
 vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true, desc = 'Move cursor up' })
@@ -35,3 +36,5 @@ vim.keymap.set('n', '<leader>tz', function()
   feedkeys(t('<leader>th', true, true, true), 'm', false)
   feedkeys(t('<leader>td', true, true, true), 'm', false)
 end, { noremap = true, silent = true, desc = 'Toggle distraction free' })
+
+vim.keymap.set('n', '<leader>fg', custom_pickers.pick_repositories)
