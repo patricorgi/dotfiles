@@ -511,4 +511,12 @@ M.SearchOccurrence = {
   end,
 }
 
+M.SimpleIndicator = {
+  condition = function()
+    return vim.g.simple_indicator_on
+  end,
+  hl = { fg = palette.sky },
+  provider = '',
+}
+
 return M
