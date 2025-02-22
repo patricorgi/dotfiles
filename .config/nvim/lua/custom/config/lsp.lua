@@ -94,6 +94,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
     end
 
     map('gd', function()
+      vim.g.simple_indicator_on = true
       local params = vim.lsp.util.make_position_params()
       vim.lsp.buf_request(params.bufnr, 'textDocument/definition', params, function(_, result, _, _)
         if not result or vim.tbl_isempty(result) then
@@ -103,6 +104,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
           -- require('telescope.builtin').lsp_definitions()
           require('snacks').picker.lsp_definitions()
         end
+        vim.g.simple_indicator_on = false
       end)
     end, 'Goto Definition')
     map('gD', vim.lsp.buf.declaration, 'Goto Declaration')
