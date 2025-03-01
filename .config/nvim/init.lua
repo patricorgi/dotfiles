@@ -16,7 +16,6 @@ vim.opt.rtp:prepend(lazypath)
 
 require('lazy').setup({
   { 'tpope/vim-sleuth', event = { 'BufReadPost', 'BufNewFile' } },
-  { 'stevearc/aerial.nvim', event = { 'BufReadPost', 'BufNewFile' } },
   { 'fladson/vim-kitty', ft = 'kitty', tag = 'v1.1' },
   { 'folke/todo-comments.nvim', event = { 'BufReadPost', 'BufNewFile' }, dependencies = { 'nvim-lua/plenary.nvim' }, opts = {} },
   {
