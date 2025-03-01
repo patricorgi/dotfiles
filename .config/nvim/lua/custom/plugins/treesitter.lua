@@ -1,5 +1,5 @@
 return {
-  'nvim-treesitter/nvim-treesitter',
+  'patricorgi/nvim-treesitter',
   build = ':TSUpdate',
   event = { 'BufReadPost', 'BufNewFile' },
   config = function()
