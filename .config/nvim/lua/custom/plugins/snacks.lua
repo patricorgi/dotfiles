@@ -2,7 +2,7 @@
 return {
   'folke/snacks.nvim',
   lazy = false,
-  dependencies = { 'stevearc/aerial.nvim', opts = {} },
+  -- dependencies = { 'stevearc/aerial.nvim', opts = {} },
   config = function()
     require 'custom.config.snacks'
   end,
@@ -168,7 +168,8 @@ return {
         if has_lsp_symbols() then
           Snacks.picker.lsp_symbols(picker_opts)
         else
-          require('aerial').snacks_picker(picker_opts)
+          Snacks.picker.treesitter()
+          -- require('aerial').snacks_picker(picker_opts)
         end
       end,
       desc = 'LSP Symbols',
@@ -195,7 +196,8 @@ return {
         if has_lsp_symbols() then
           Snacks.picker.lsp_symbols(picker_opts)
         else
-          require('aerial').snacks_picker(picker_opts)
+          Snacks.picker.treesitter()
+          -- require('aerial').snacks_picker(picker_opts)
         end
       end,
       desc = 'LSP Symbols',
