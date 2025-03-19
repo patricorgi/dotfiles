@@ -128,18 +128,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
       require('snacks').picker.lsp_references()
     end, 'Goto References')
 
-    map('gp', function(opts)
-      local params = vim.lsp.util.make_position_params()
-      vim.lsp.buf_request(params.bufnr, 'textDocument/definition', params, function(_, result, _, _)
-        if not result or vim.tbl_isempty(result) then
-          vim.notify('No definition found', vim.log.levels.INFO)
-        else
-          require('goto-preview').goto_preview_definition(opts)
-        end
-      end)
-    end, 'Preview definition')
-    map('gP', require('goto-preview').goto_preview_declaration, 'Preview declaration')
-
     map('<leader>la', vim.lsp.buf.code_action, 'Lsp Action')
     map('<leader>rn', vim.lsp.buf.rename, 'Lsp Rename')
 
