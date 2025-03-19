@@ -27,7 +27,6 @@ return {
           },
         },
       },
-      { 'rmagatti/goto-preview', keys = { 'gp', 'gP' }, opts = {} },
     },
     config = function()
       require 'custom.config.lsp'
