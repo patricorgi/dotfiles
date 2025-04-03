@@ -1,6 +1,7 @@
-return {
+return { {
   'saghen/blink.cmp',
-  build = 'cargo build --release',
+  -- build = 'cargo build --release',
+  version = '1.*',
   dependencies = {
     {
       'xzbdmw/colorful-menu.nvim',
@@ -13,4 +14,5 @@ return {
   config = function()
     require 'custom.config.completion'
   end,
+}, { "rafamadriz/friendly-snippets", ft = { 'tex' } },
 }
