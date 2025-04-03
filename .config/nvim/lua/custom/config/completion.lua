@@ -1,13 +1,12 @@
 require('blink.cmp').setup {
-  keymap = {
-    ['<C-u>'] = { 'scroll_documentation_up', 'fallback' },
-    ['<C-d>'] = { 'scroll_documentation_down', 'fallback' },
-  },
   sources = {
-    default = { 'snippets', 'lsp', 'path', 'buffer' },
+    -- default = { 'lsp', 'path', 'snippets', 'buffer' },
     providers = {
       snippets = { score_offset = 1000 },
     },
+  },
+  signature = {
+    window = { border = 'single' },
   },
   cmdline = {
     completion = {
@@ -17,13 +16,9 @@ require('blink.cmp').setup {
     },
   },
   completion = {
-    keyword = {
-      range = 'full',
-    },
     menu = {
       border = 'single',
       draw = {
-        treesitter = { 'lsp' },
         columns = { { 'kind_icon' }, { 'label', gap = 1 } },
         components = {
           label = {
@@ -36,19 +31,15 @@ require('blink.cmp').setup {
           },
         },
       },
-      scrollbar = false,
     },
     documentation = {
-      window = { border = 'single', scrollbar = false },
+      window = { border = 'single' },
       auto_show = true,
       auto_show_delay_ms = 500,
     },
   },
-  signature = {
-    enabled = true,
-    window = { border = 'single' },
-  },
-  appearance = {
-    nerd_font_variant = 'normal',
+  keymap = {
+    ['<C-u>'] = { 'scroll_documentation_up', 'fallback' },
+    ['<C-d>'] = { 'scroll_documentation_down', 'fallback' },
   },
 }
