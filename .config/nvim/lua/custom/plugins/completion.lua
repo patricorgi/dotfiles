@@ -1,6 +1,7 @@
-return {
+return { {
   'saghen/blink.cmp',
-  build = 'cargo build --release',
+  -- build = 'cargo build --release',
+  version = '1.*',
   dependencies = {
     {
       'xzbdmw/colorful-menu.nvim',
