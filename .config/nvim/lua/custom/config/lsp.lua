@@ -98,7 +98,7 @@ for server_name, server_opt in pairs(servers) do
 end
 
 -- folding after capabilities is loaded
-require 'custom.config.folding'
+-- require 'custom.config.folding'
 
 -- Define LSP-related keymaps
 vim.api.nvim_create_autocmd('LspAttach', {
