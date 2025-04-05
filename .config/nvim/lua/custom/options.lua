@@ -84,3 +84,6 @@ vim.opt.scrolloff = 5
 
 -- Big file limit
 vim.g.bigfile_size = 1024 * 1024 * 1.5 -- 1.5 MB
+
+-- folding
+require 'custom.config.folding'
