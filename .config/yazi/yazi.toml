@@ -54,6 +54,7 @@ suppress_preload = false
 
 [plugin]
 prepend_preloaders = [{ name = "~/SSHFS/**", run = "noop" }]
+prepend_previewers = [{ name = "~/SSHFS/**", run = "noop" }]
 previewers = [
   { name = "*/", run = "folder", sync = true },
   # Code
