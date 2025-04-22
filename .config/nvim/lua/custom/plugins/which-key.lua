@@ -12,6 +12,7 @@ return {
         return vim.list_contains({ 'v', '<C-V>', 'V' }, ctx.mode)
       end,
       preset = 'modern',
+      show_help = false,
       icons = {
         colors = true,
         keys = {
