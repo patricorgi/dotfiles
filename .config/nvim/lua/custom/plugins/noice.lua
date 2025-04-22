@@ -1,6 +1,7 @@
 ---@diagnostic disable: missing-fields
 return {
   'folke/noice.nvim',
+  enabled = false,
   keys = { ':', '/', '?' }, -- lazy load cmp on more keys along with insert mode
   config = function()
     require('noice').setup {
