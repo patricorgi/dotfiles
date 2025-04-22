@@ -1,4 +1,3 @@
-vim.loader.enable()
 require 'custom.options'
 require 'custom.keymaps'
 require 'custom.autocmds'
