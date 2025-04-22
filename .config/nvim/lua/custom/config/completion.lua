@@ -1,12 +1,8 @@
 require('blink.cmp').setup {
   sources = {
-    -- default = { 'lsp', 'path', 'snippets', 'buffer' },
     providers = {
       snippets = { score_offset = 1000 },
     },
-  },
-  signature = {
-    window = { border = 'single' },
   },
   cmdline = {
     completion = {
@@ -33,7 +29,6 @@ require('blink.cmp').setup {
       },
     },
     documentation = {
-      window = { border = 'single' },
       auto_show = true,
       auto_show_delay_ms = 500,
     },
