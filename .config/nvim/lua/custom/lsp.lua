@@ -98,19 +98,19 @@ vim.api.nvim_create_autocmd('LspAttach', {
 -- diagnostic UI touches
 local icons = require 'custom.ui.icons'
 vim.diagnostic.config {
-  virtual_lines = { current_line = true },
-  -- virtual_text = {
-  --   spacing = 4,
-  --   prefix = '',
-  -- },
+  -- virtual_lines = { current_line = true },
+  virtual_text = {
+    spacing = 5,
+    prefix = '◍ ',
+  },
   float = { severity_sort = true },
   severity_sort = true,
   signs = {
     text = {
-      [vim.diagnostic.severity.ERROR] = icons.diagnostics.Error,
-      [vim.diagnostic.severity.WARN] = icons.diagnostics.Warn,
-      [vim.diagnostic.severity.INFO] = icons.diagnostics.Info,
-      [vim.diagnostic.severity.HINT] = icons.diagnostics.Hint,
+      [vim.diagnostic.severity.ERROR] = '',
+      [vim.diagnostic.severity.WARN] = '',
+      [vim.diagnostic.severity.INFO] = '',
+      [vim.diagnostic.severity.HINT] = '',
     },
   },
 }
