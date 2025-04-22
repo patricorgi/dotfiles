@@ -22,7 +22,21 @@ vim.api.nvim_create_autocmd('LspAttach', {
       end)
     end, { buffer = event.buf, desc = 'LSP: Goto Definition' })
 
-    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, { buffer = event.buf, desc = 'LSP: Goto Declaration' })
+    vim.keymap.set('n', 'gD', function()
+      local win = vim.api.nvim_get_current_win()
+      local width = vim.api.nvim_win_get_width(win)
+      local height = vim.api.nvim_win_get_height(win)
+
+      -- Mimic tmux formula: 8 * width - 20 * height
+      local value = 8 * width - 20 * height
+      if value < 0 then
+        vim.cmd 'split' -- vertical space is more: horizontal split
+      else
+        vim.cmd 'vsplit' -- horizontal space is more: vertical split
+      end
+
+      vim.lsp.buf.definition()
+    end, { buffer = event.buf, desc = 'LSP: Goto Definition (split)' })
     vim.keymap.set('n', 'gr', function()
       -- require('telescope.builtin').lsp_references()
       require('snacks').picker.lsp_references()
@@ -98,19 +112,19 @@ vim.api.nvim_create_autocmd('LspAttach', {
 -- diagnostic UI touches
 local icons = require 'custom.ui.icons'
 vim.diagnostic.config {
-  virtual_lines = { current_line = true },
-  -- virtual_text = {
-  --   spacing = 4,
-  --   prefix = '',
-  -- },
+  -- virtual_lines = { current_line = true },
+  virtual_text = {
+    spacing = 5,
+    prefix = '◍ ',
+  },
   float = { severity_sort = true },
   severity_sort = true,
   signs = {
     text = {
-      [vim.diagnostic.severity.ERROR] = icons.diagnostics.Error,
-      [vim.diagnostic.severity.WARN] = icons.diagnostics.Warn,
-      [vim.diagnostic.severity.INFO] = icons.diagnostics.Info,
-      [vim.diagnostic.severity.HINT] = icons.diagnostics.Hint,
+      [vim.diagnostic.severity.ERROR] = '',
+      [vim.diagnostic.severity.WARN] = '',
+      [vim.diagnostic.severity.INFO] = '',
+      [vim.diagnostic.severity.HINT] = '',
     },
   },
 }

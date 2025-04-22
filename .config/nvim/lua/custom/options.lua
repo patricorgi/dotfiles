@@ -5,6 +5,7 @@ vim.g.have_nerd_font = true
 vim.g.markdown_folding = 1
 vim.opt.linebreak = true
 vim.g.simple_indicator_on = false
+vim.o.winborder = 'single'
 
 -- [[ Setting options ]]
 -- See `:help vim.opt`
