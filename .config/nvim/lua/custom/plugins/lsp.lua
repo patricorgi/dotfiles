@@ -7,29 +7,20 @@ else
 end
 
 return {
-  {
-    'neovim/nvim-lspconfig',
-    event = { 'BufReadPost', 'BufNewFile' },
-    cmd = { 'LspInfo', 'LspInstall', 'LspUninstall' },
-    dependencies = {
-      {
-        'williamboman/mason.nvim',
-        event = { 'VimEnter' },
-        opts = {
-          pip = {
-            upgrade_pip = false,
-            install_args = pip_args,
-          },
-          ui = {
-            border = 'single',
-            width = 0.7,
-            height = 0.7,
-          },
-        },
+  'williamboman/mason.nvim',
+  event = { 'BufReadPost', 'BufNewFile', 'VimEnter' },
+  config = function()
+    require('mason').setup {
+      pip = {
+        upgrade_pip = false,
+        install_args = pip_args,
       },
-    },
-    config = function()
-      require 'custom.config.lsp'
-    end,
-  },
+      ui = {
+        border = 'single',
+        width = 0.7,
+        height = 0.7,
+      },
+    }
+    require 'custom.config.lsp'
+  end,
 }
