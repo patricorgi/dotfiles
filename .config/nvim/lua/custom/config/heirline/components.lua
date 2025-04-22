@@ -185,7 +185,7 @@ M.LSPActive = {
   provider = function()
     local names = {}
     ---@diagnostic disable-next-line: deprecated
-    for _, server in pairs(vim.lsp.get_active_clients { bufnr = 0 }) do
+    for _, server in pairs(vim.lsp.get_clients { bufnr = 0 }) do
       table.insert(names, server.name)
     end
     return table.concat(names, ',')
@@ -378,8 +378,7 @@ M.FileName = {
     return {
       fg = self.is_active and palette.text or palette.surface2,
       bold = self.is_active or self.is_visible,
-      italic =
-          self.is_active
+      italic = self.is_active,
     }
   end,
 }
@@ -405,8 +404,7 @@ M.FilePath = {
     return {
       fg = self.is_active and palette.text or palette.subtext0,
       bold = self.is_active or self.is_visible,
-      italic =
-          self.is_active
+      italic = self.is_active,
     }
   end,
 }
@@ -417,8 +415,7 @@ M.FilePath = {
 M.FileFlags = {
   {
     condition = function(self)
-      return vim.fn.fnamemodify(self.filename, ':.') ~= '' and
-          vim.api.nvim_get_option_value('modified', { buf = self.bufnr })
+      return vim.fn.fnamemodify(self.filename, ':.') ~= '' and vim.api.nvim_get_option_value('modified', { buf = self.bufnr })
     end,
     provider = ' 􀴥 ',
     hl = function(self)
@@ -427,8 +424,7 @@ M.FileFlags = {
   },
   {
     condition = function(self)
-      return not vim.api.nvim_get_option_value('modifiable', { buf = self.bufnr }) or
-          vim.api.nvim_get_option_value('readonly', { buf = self.bufnr })
+      return not vim.api.nvim_get_option_value('modifiable', { buf = self.bufnr }) or vim.api.nvim_get_option_value('readonly', { buf = self.bufnr })
     end,
     provider = function(self)
       if vim.api.nvim_get_option_value('buftype', { buf = self.bufnr }) == 'terminal' then
@@ -519,8 +515,7 @@ M.SearchOccurrence = {
   hl = { fg = palette.sky },
   provider = function()
     local sinfo = vim.fn.searchcount { maxcount = 0 }
-    local search_stat = sinfo.incomplete > 0 and ' [?/?]' or
-        sinfo.total > 0 and (' [%s/%s]'):format(sinfo.current, sinfo.total) or ''
+    local search_stat = sinfo.incomplete > 0 and ' [?/?]' or sinfo.total > 0 and (' [%s/%s]'):format(sinfo.current, sinfo.total) or ''
     return search_stat
   end,
 }
