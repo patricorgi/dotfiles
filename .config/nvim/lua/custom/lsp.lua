@@ -11,6 +11,7 @@ vim.lsp.enable 'texlab'
 vim.api.nvim_create_autocmd('LspAttach', {
   group = vim.api.nvim_create_augroup('lsp-attach', { clear = true }),
   callback = function(event)
+    -- notification wrapper of original gd
     vim.keymap.set('n', 'gd', function()
       local params = vim.lsp.util.make_position_params(0, 'utf-8')
       vim.lsp.buf_request(0, 'textDocument/definition', params, function(_, result, _, _)
@@ -22,19 +23,24 @@ vim.api.nvim_create_autocmd('LspAttach', {
       end)
     end, { buffer = event.buf, desc = 'LSP: Goto Definition' })
 
-    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, { buffer = event.buf, desc = 'LSP: Goto Declaration' })
-    vim.keymap.set('n', 'gr', function()
-      -- require('telescope.builtin').lsp_references()
-      require('snacks').picker.lsp_references()
-    end, { buffer = event.buf, desc = 'LSP: Goto References' })
+    -- open gd in new split
+    vim.keymap.set('n', 'gD', function()
+      local win = vim.api.nvim_get_current_win()
+      local width = vim.api.nvim_win_get_width(win)
+      local height = vim.api.nvim_win_get_height(win)
 
-    vim.keymap.set('n', '<leader>la', vim.lsp.buf.code_action, { buffer = event.buf, desc = 'Lsp Action' })
-    vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, { buffer = event.buf, desc = 'LSP: Rename' })
+      -- Mimic tmux formula: 8 * width - 20 * height
+      local value = 8 * width - 20 * height
+      if value < 0 then
+        vim.cmd 'split' -- vertical space is more: horizontal split
+      else
+        vim.cmd 'vsplit' -- horizontal space is more: vertical split
+      end
 
-    -- Diagnostics
-    vim.keymap.set('n', '<leader>ld', function()
-      vim.diagnostic.open_float { source = true }
-    end, { buffer = event.buf, desc = 'LSP: Show Diagnostic' })
+      vim.lsp.buf.definition()
+    end, { buffer = event.buf, desc = 'LSP: Goto Definition (split)' })
+
+    -- toggle diagnostics
     vim.keymap.set(
       'n',
       '<leader>td',
@@ -96,21 +102,27 @@ vim.api.nvim_create_autocmd('LspAttach', {
 })
 
 -- diagnostic UI touches
-local icons = require 'custom.ui.icons'
 vim.diagnostic.config {
-  virtual_lines = { current_line = true },
-  -- virtual_text = {
-  --   spacing = 4,
-  --   prefix = '',
-  -- },
+  -- virtual_lines = { current_line = true },
+  virtual_text = {
+    spacing = 5,
+    prefix = '◍ ',
+  },
   float = { severity_sort = true },
   severity_sort = true,
   signs = {
     text = {
-      [vim.diagnostic.severity.ERROR] = icons.diagnostics.Error,
-      [vim.diagnostic.severity.WARN] = icons.diagnostics.Warn,
-      [vim.diagnostic.severity.INFO] = icons.diagnostics.Info,
-      [vim.diagnostic.severity.HINT] = icons.diagnostics.Hint,
+      -- [vim.diagnostic.severity.ERROR] = '',
+      [vim.diagnostic.severity.ERROR] = '',
+      [vim.diagnostic.severity.WARN] = '',
+      [vim.diagnostic.severity.INFO] = '',
+      [vim.diagnostic.severity.HINT] = '',
+    },
+    numhl = {
+      [vim.diagnostic.severity.ERROR] = 'DiagnosticError',
+      [vim.diagnostic.severity.WARN] = 'DiagnosticWarning',
+      [vim.diagnostic.severity.INFO] = 'DiagnosticInfo',
+      [vim.diagnostic.severity.HINT] = 'DiagnosticHint',
     },
   },
 }
