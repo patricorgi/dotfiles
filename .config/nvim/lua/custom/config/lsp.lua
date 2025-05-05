@@ -26,7 +26,7 @@ vim.diagnostic.config {
 }
 
 -- folding after capabilities is loaded
--- require 'custom.config.folding'
+require 'custom.config.folding'
 
 -- Define LSP-related keymaps
 vim.api.nvim_create_autocmd('LspAttach', {
