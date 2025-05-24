@@ -26,7 +26,7 @@ vim.diagnostic.config {
 }
 
 -- folding after capabilities is loaded
-require 'custom.config.folding'
+-- require 'custom.config.folding'
 
 -- Define LSP-related keymaps
 vim.api.nvim_create_autocmd('LspAttach', {
@@ -77,17 +77,12 @@ vim.api.nvim_create_autocmd('LspAttach', {
     )
 
     local client = vim.lsp.get_client_by_id(event.data.client_id)
-    -- FIXME: folding with lsp
-    -- if client and client.supports_method 'textDocument/foldingRange' then
-    --   local win = vim.api.nvim_get_current_win()
-    --   vim.wo[win][0].foldmethod = 'expr'
-    --   vim.wo[win][0].foldexpr = 'v:lua.vim.lsp.foldexpr()'
-    --   vim.notify 'Enable folding with LSP'
-    -- end
-    -- if client and client.supports_method 'textDocument/foldingRange' then
-    --   local win = vim.api.nvim_get_current_win()
-    --   vim.wo[win][0].foldexpr = 'v:lua.vim.lsp.foldexpr()'
-    -- end
+    if client and client.supports_method 'textDocument/foldingRange' then
+      local win = vim.api.nvim_get_current_win()
+      vim.wo[win][0].foldmethod = 'expr'
+      vim.wo[win][0].foldexpr = 'v:lua.vim.lsp.foldexpr()'
+      vim.notify 'Enable folding with LSP'
+    end
 
     -- Inlay hint
     if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
