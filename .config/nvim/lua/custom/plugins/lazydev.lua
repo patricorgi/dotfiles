@@ -1,6 +1,8 @@
 return {
   {
     'folke/lazydev.nvim',
+    enabled = false,
+    dependencies = { 'Bilal2453/luvit-meta', lazy = true },
     ft = 'lua',
     opts = {
       library = {
@@ -8,5 +10,4 @@ return {
       },
     },
   },
-  { 'Bilal2453/luvit-meta', lazy = true },
 }
