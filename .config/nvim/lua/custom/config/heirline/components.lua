@@ -536,4 +536,18 @@ M.SimpleIndicator = {
   provider = '',
 }
 
+M.LspProgress = {
+  provider = function()
+    return require('lsp-progress').progress()
+  end,
+  update = {
+    'User',
+    pattern = 'LspProgressStatusUpdated',
+    callback = vim.schedule_wrap(function()
+      vim.cmd 'redrawstatus'
+    end),
+  },
+  hl = { fg = palette.surface1, bold = false },
+}
+
 return M

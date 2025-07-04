@@ -1,6 +1,12 @@
 return {
   'rebelot/heirline.nvim',
   event = { 'BufReadPre', 'BufNewFile' },
+  dependencies = {
+    'linrongbin16/lsp-progress.nvim',
+    config = function()
+      require 'custom.config.heirline.lspprogress'
+    end,
+  },
   init = function()
     vim.keymap.set('n', '<leader>tt', function()
       vim.o.showtabline = vim.o.showtabline == 0 and 2 or 0
