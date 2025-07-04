@@ -11,7 +11,7 @@ return { -- statusline
   components.Fill,
   components.RightPadding(components.ShowCmd),
   -- components.RightPadding(components.LSPActive),
-  components.RightPadding(components.LspProgress),
+  components.RightPadding(components.LspProgress, 0),
   components.RightPadding(components.Formatters, 0),
   components.RightPadding(components.SimpleIndicator),
   components.RightPadding(components.FileType, 0),
