@@ -23,37 +23,6 @@ vim.api.nvim_create_autocmd('FileType', {
   end,
 })
 
-vim.api.nvim_create_autocmd('FileType', {
-  pattern = 'checkhealth',
-  callback = function()
-    vim.keymap.set('n', 'q', '<CMD>bdelete<CR>', { buffer = true, silent = true })
-  end,
-})
-
-vim.api.nvim_create_autocmd('FileType', {
-  pattern = 'tex',
-  callback = function()
-    vim.keymap.set('n', '<leader>lb', function()
-      Snacks.picker.grep_buffers {
-        finder = 'grep',
-        format = 'file',
-        prompt = ' ',
-        -- search = '^\\s*- \\[ \\]',
-        search = '\\begin{frame}',
-        regex = false,
-        live = false,
-        args = {},
-        on_show = function()
-          vim.cmd.stopinsert()
-        end,
-        buffers = false,
-        supports_live = false,
-        layout = 'left',
-      }
-    end, { desc = 'Search Beamer Frames' })
-  end,
-})
-
 vim.api.nvim_create_autocmd('BufRead', {
   pattern = vim.fn.expand '~' .. '/Library/Mobile Documents/iCloud~md~obsidian/Documents/Obsidian Vault/*.md',
   callback = function()
