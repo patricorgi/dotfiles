@@ -51,14 +51,6 @@ vim.api.nvim_create_autocmd({ 'FileType' }, {
   end,
 })
 
-vim.api.nvim_create_autocmd({ 'FileType' }, {
-  group = augroup 'mdfile',
-  pattern = 'markdown',
-  callback = function()
-    vim.opt.conceallevel = 2
-  end,
-})
-
 vim.api.nvim_create_autocmd('TermOpen', {
   pattern = '*',
   callback = function()
