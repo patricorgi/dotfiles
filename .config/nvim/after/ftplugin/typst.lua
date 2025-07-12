@@ -1,0 +1,1 @@
+vim.lsp.enable 'tinymist'

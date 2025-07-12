@@ -51,13 +51,15 @@ vim.api.nvim_create_autocmd({ 'FileType' }, {
   end,
 })
 
-vim.api.nvim_create_autocmd({ 'FileType' }, {
-  group = augroup 'mdfile',
-  pattern = 'markdown',
-  callback = function()
-    vim.opt.conceallevel = 2
-  end,
-})
+-- vim.api.nvim_create_autocmd({"BufRead", "BufNewFile"}, {
+--   pattern = "*.C",
+--   callback = function()
+--     vim.bo.filetype = "c"   -- treat as C instead of cpp
+--     vim.notify("Disabling diagnostic for .C")
+--     vim.diagnostic.enable(false, {bufnr = 0})
+--   end,
+--   group = vim.api.nvim_create_augroup("UppercaseC", { clear = true }),
+-- })
 
 vim.api.nvim_create_autocmd('TermOpen', {
   pattern = '*',
