@@ -1,11 +1,6 @@
 -- LSP, qi dong!
-vim.lsp.enable 'lua_ls'
-vim.lsp.enable 'clangd'
-vim.lsp.enable 'pylsp'
-vim.lsp.enable 'ruff'
-vim.lsp.enable 'marksman'
-vim.lsp.enable 'tinymist'
-vim.lsp.enable 'texlab'
+-- vim.lsp.enable 'clangd'
+-- Moved all vim.lsp.enable to after/ftplugin
 
 -- Define LSP-related keymaps
 vim.api.nvim_create_autocmd('LspAttach', {
@@ -98,6 +93,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
         end,
       })
     end
+    require('Comment').setup()
   end,
 })
 
