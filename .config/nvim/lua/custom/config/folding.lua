@@ -12,10 +12,20 @@ local function fold_virt_text(result, start_text, lnum)
   local hl
   for i = 1, #start_text do
     local char = start_text:sub(i, i)
-    local captured_highlights = vim.treesitter.get_captures_at_pos(0, lnum, i - 1)
-    local outmost_highlight = captured_highlights[#captured_highlights]
-    if outmost_highlight then
-      local new_hl = '@' .. outmost_highlight.capture
+    local new_hl
+
+    -- if semantic tokens unavailable, use treesitter hl
+    local sem_tokens = vim.lsp.semantic_tokens.get_at_pos(0, lnum, i - 1)
+    if sem_tokens and #sem_tokens > 0 then
+      new_hl = '@' .. sem_tokens[#sem_tokens].type
+    else
+      local captured_highlights = vim.treesitter.get_captures_at_pos(0, lnum, i - 1)
+      if captured_highlights[#captured_highlights] then
+        new_hl = '@' .. captured_highlights[#captured_highlights].capture
+      end
+    end
+
+    if new_hl then
       if new_hl ~= hl then
         -- as soon as new hl appears, push substring with current hl to table
         table.insert(result, { text, hl })
