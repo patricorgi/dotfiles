@@ -1261,7 +1261,7 @@ vt-kam-allowed = false
 # 
 # Changing this value at runtime and reloading the configuration will only
 # affect new windows, tabs, and splits.
-custom-shader = 
+custom-shader = ~/dotfiles/.config/ghostty/shaders/cursor_trailing.glsl
 
 # If `true` (default), the focused terminal surface will run an animation
 # loop when custom shaders are used. This uses slightly more CPU (generally
