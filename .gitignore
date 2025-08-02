@@ -28,3 +28,4 @@ install
 .config/flashspace
 .config/yazi/plugins
 .config/nvim/spell
+scripts/server-icons.txt
