@@ -55,22 +55,36 @@ mount_this() {
 	fi
 }
 
+declare -A icon_map
+# Read the file and fill the associative array
+while read -r key value; do
+	icon_map["$key"]="$value"
+done <~/dotfiles/scripts/server-icons.txt
+
 hostname="$1"
 remotepath="$2"
 if ! focus_kitty_window "$hostname"; then
 	pkill -f "$hostname"
 	mount_this "$hostname" "$remotepath" &
-	# kitty
-	/opt/homebrew/bin/kitty \
-		--title "$hostname" \
-		--single-instance \
-		-d ~ \
-		-- bash -c "kitty +kitten ssh $hostname -t 'bash -i -c tm'; \
-			    osascript -e 'display notification \"Unmounting $mountpoint\" with title \"kitty\"'; \
-			    diskutil unmount force '$mountpoint' || echo 'Failed to unmount.'"
+	# kitty @ launch
+	/opt/homebrew/bin/kitty @ launch \
+		--type=os-window \
+		--title="${hostname}" \
+		--logo "~/dotfiles/assets/${icon_map[$hostname]}" \
+		bash -c "kitty +kitten ssh $hostname -t 'bash -i -c tm'; \
+		    osascript -e 'display notification \"Unmounting $mountpoint\" with title \"kitty\"'; \
+		    diskutil unmount force '$mountpoint' || echo 'Failed to unmount.'"
+# kitty
+# /opt/homebrew/bin/kitty \
+# 	--title "$hostname" \
+# 	--override window_logo_path=/Users/patricorgi/dotfiles/assets/nvidia.png \
+# 	-d ~ \
+# 	-- bash -c "kitty +kitten ssh $hostname -t 'bash -i -c tm'; \
+# 		    osascript -e 'display notification \"Unmounting $mountpoint\" with title \"kitty\"'; \
+# 		    diskutil unmount force '$mountpoint' || echo 'Failed to unmount.'"
 
-	# ghostty
-	# open -na Ghostty --args --gtk-single-instance=true --quit-after-last-window-closed=true --command="bash -i -c \"TERM=xterm-256color /usr/bin/ssh $hostname -t 'bash -i -c tm'\""
+# ghostty
+# open -na Ghostty --args --gtk-single-instance=true --quit-after-last-window-closed=true --command="bash -i -c \"TERM=xterm-256color /usr/bin/ssh $hostname -t 'bash -i -c tm'\""
 fi
 
 # aerospace legacy
