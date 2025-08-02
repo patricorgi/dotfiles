@@ -29,3 +29,4 @@ install
 .config/yazi/plugins
 .config/nvim/spell
 .config/kitty/font.conf
+scripts/server-icons.txt
