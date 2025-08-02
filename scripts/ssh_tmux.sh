@@ -64,6 +64,12 @@ mount_this() {
 	fi
 }
 
+declare -A icon_map
+# Read the file and fill the associative array
+while read -r key value; do
+	icon_map["$key"]="$value"
+done <~/dotfiles/scripts/server-icons.txt
+
 hostname="$1"
 remotepath="$2"
 if ! focus_kitty_window "$hostname"; then
