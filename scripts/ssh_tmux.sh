@@ -64,6 +64,12 @@ mount_this() {
 	fi
 }
 
+declare -A icon_map
+# Read the file and fill the associative array
+while read -r key value; do
+	icon_map["$key"]="$value"
+done <~/dotfiles/scripts/server-icons.txt
+
 hostname="$1"
 remotepath="$2"
 if ! focus_kitty_window "$hostname"; then
@@ -90,8 +96,8 @@ if ! focus_kitty_window "$hostname"; then
 	fi
 # kitty
 
-	# ghostty
-	# open -na Ghostty --args --gtk-single-instance=true --quit-after-last-window-closed=true --command="bash -i -c \"TERM=xterm-256color /usr/bin/ssh $hostname -t 'bash -i -c tm'\""
+# ghostty
+# open -na Ghostty --args --gtk-single-instance=true --quit-after-last-window-closed=true --command="bash -i -c \"TERM=xterm-256color /usr/bin/ssh $hostname -t 'bash -i -c tm'\""
 fi
 
 # aerospace legacy
