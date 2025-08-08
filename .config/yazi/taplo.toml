@@ -1,0 +1,19 @@
+[formatting]
+align_comments = false
+# Align consecutive entries vertically.
+align_entries = true
+# Maximum amount of allowed consecutive blank lines. This does not affect the whitespace at the end of the document, as it is always stripped.
+allowed_blank_lines = 1
+# Collapse arrays that don't exceed the maximum column width and don't contain comments.
+array_auto_collapse = true
+# Expand arrays to multiple lines that exceed the maximum column width.
+array_auto_expand = true
+# Maximum column width in characters, affects array expansion and collapse, this doesn't take whitespace into account.
+# Note that this is not set in stone, and works on a best-effort basis.
+column_width = 170
+# Omit white space padding from single-line arrays
+compact_arrays = true
+# Alphabetically reorder keys that are not separated by empty lines.
+reorder_keys = true
+
+exclude = [ "vendor/**", "build/**", ".direnv/**" ]

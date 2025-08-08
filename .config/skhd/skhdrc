@@ -1,0 +1,113 @@
+# ╭──────────────────────────────────────────────────────────╮
+# │                          SYSTEM                          │
+# ╰──────────────────────────────────────────────────────────╯
+
+ctrl + alt + cmd - y : yabai --restart-service
+ctrl + alt + cmd - s : skhd --restart-service
+ctrl + alt + cmd - t : sketchybar --reload
+ctrl + alt + cmd - r : yabai --restart-service; skhd --restart-service; sketchybar --reload
+
+
+# ╭──────────────────────────────────────────────────────────╮
+# │                         DISPLAY                          │
+# ╰──────────────────────────────────────────────────────────╯
+
+# focus display
+ctrl + alt - tab : yabai -m display --focus recent
+ctrl + cmd - 1 : yabai -m display --focus 1
+ctrl + cmd - 2 : yabai -m display --focus 2
+ctrl + cmd - 3 : yabai -m display --focus 3
+ctrl + cmd - 4 : yabai -m display --focus 4
+ctrl + cmd - 5 : yabai -m display --focus 5
+ctrl + cmd - 6 : yabai -m display --focus 6
+ctrl + cmd - 7 : yabai -m display --focus 7
+ctrl + cmd - 8 : yabai -m display --focus 8
+ctrl + cmd - 9 : yabai -m display --focus 9
+ctrl + cmd - 0 : yabai -m display --focus 10
+
+# ╭──────────────────────────────────────────────────────────╮
+# │                          WINDOW                          │
+# ╰──────────────────────────────────────────────────────────╯
+
+# focus window
+ctrl + cmd - h : yabai -m window --focus west
+ctrl + cmd - j : yabai -m window --focus south
+ctrl + cmd - k : yabai -m window --focus north
+ctrl + cmd - l : yabai -m window --focus east
+
+# move by direction
+ctrl + alt - h : if [ $(yabai -m query --windows --window | jq '."is-floating"') == "true" ]; then yabai -m window --grid 1:2:0:0:1:1; else yabai -m window --swap west; fi
+ctrl + alt - j : if [ $(yabai -m query --windows --window | jq '."is-floating"') == "true" ]; then yabai -m window --grid 2:1:0:1:1:1; else yabai -m window --swap south; fi
+ctrl + alt - k : if [ $(yabai -m query --windows --window | jq '."is-floating"') == "true" ]; then yabai -m window --grid 2:1:0:0:1:1; else yabai -m window --swap north; fi
+ctrl + alt - l : if [ $(yabai -m query --windows --window | jq '."is-floating"') == "true" ]; then yabai -m window --grid 1:2:1:0:1:1; else yabai -m window --swap east; fi
+
+# move to space #
+ctrl + alt - 1 : id=$(yabai -m query --windows --window  | jq '.id'); yabai -m window $id --space 1; # yabai -m window $id --focus 
+ctrl + alt - 2 : id=$(yabai -m query --windows --window  | jq '.id'); yabai -m window $id --space 2; # yabai -m window $id --focus 
+ctrl + alt - 3 : id=$(yabai -m query --windows --window  | jq '.id'); yabai -m window $id --space 3; # yabai -m window $id --focus 
+ctrl + alt - 4 : id=$(yabai -m query --windows --window  | jq '.id'); yabai -m window $id --space 4; # yabai -m window $id --focus 
+ctrl + alt - 5 : id=$(yabai -m query --windows --window  | jq '.id'); yabai -m window $id --space 5; # yabai -m window $id --focus 
+ctrl + alt - 6 : id=$(yabai -m query --windows --window  | jq '.id'); yabai -m window $id --space 6; # yabai -m window $id --focus 
+ctrl + alt - 7 : id=$(yabai -m query --windows --window  | jq '.id'); yabai -m window $id --space 7; # yabai -m window $id --focus 
+ctrl + alt - 8 : id=$(yabai -m query --windows --window  | jq '.id'); yabai -m window $id --space 8; # yabai -m window $id --focus 
+ctrl + alt - 9 : id=$(yabai -m query --windows --window  | jq '.id'); yabai -m window $id --space 9; # yabai -m window $id --focus 
+ctrl + alt - 0 : id=$(yabai -m query --windows --window  | jq '.id'); yabai -m window $id --space 10; # yabai -m window $id --focus 
+
+# move to next display
+alt + cmd - tab : id=$(yabai -m query --windows --window  | jq '.id'); (yabai -m window $id --display next || yabai -m window $id --display prev); yabai -m window $id --focus
+
+# resize
+ctrl + alt - down : yabai -m window --resize bottom:0:100 2> /dev/null || yabai -m window --resize top:0:100 2> /dev/null
+ctrl + alt - left : yabai -m window --resize right:-100:0 2> /dev/null || yabai -m window --resize left:-100:0 2> /dev/null
+ctrl + alt - right : yabai -m window --resize right:100:0 2> /dev/null || yabai -m window --resize left:100:0 2> /dev/null
+ctrl + alt - up : yabai -m window --resize bottom:0:-100 2> /dev/null || yabai -m window --resize top:0:-100 2> /dev/null
+
+# almost maximize
+ctrl + alt - return : yabai -m window --grid 20:20:1:1:18:18
+
+# center
+ctrl + alt - x : width=$(yabai -m query --windows --window | jq '.frame.w');\
+                 height=$(yabai -m query --windows --window | jq '.frame.h');\
+                 display_id=$(yabai -m query --windows --window | jq '.display');\
+                 display_width=$(yabai -m query --displays --display $display_id | jq '.frame.w');\
+                 display_height=$(yabai -m query --displays --display $display_id | jq '.frame.h');\
+                 display_x=$(yabai -m query --displays --display $display_id | jq '.frame.x');\
+                 display_y=$(yabai -m query --displays --display $display_id | jq '.frame.y');\
+                 position_x=$(echo "scale=4;($display_x + $display_width/2 - $width/2)" | bc);\
+                 position_y=$(echo "scale=4;($display_y+$display_height/2 - $height/2)" | bc);\
+                 yabai -m window --move abs:$position_x:$position_y
+
+# maximize
+ctrl + alt - f : if [ $(yabai -m query --windows --window | jq '."is-floating"') == "true" ]; then yabai -m window --grid 1:1:0:0:1:1; else yabai -m window --toggle zoom-fullscreen; fi
+
+# rotate
+ctrl + alt - r : WIN=$(yabai -m query --windows --window first | jq '.id'); while : ; do yabai -m window $WIN --swap next &> /dev/null; if [[ $? -eq 1 ]]; then break; fi done
+
+# balance
+ctrl + alt - e : yabai -m space --balance
+
+# change split
+ctrl + alt - o : yabai -m window --toggle split
+
+# toggle floating
+ctrl + alt - t : yabai -m window --toggle float; sketchybar --trigger update_float; if [ $(yabai -m query --windows --window | jq '."is-floating"') == "true" ]; then width=$(yabai -m query --windows --window | jq '.frame.w'); height=$(yabai -m query --windows --window | jq '.frame.h'); display_id=$(yabai -m query --windows --window | jq '.display'); display_width=$(yabai -m query --displays --display $display_id | jq '.frame.w'); display_height=$(yabai -m query --displays --display $display_id | jq '.frame.h'); display_x=$(yabai -m query --displays --display $display_id | jq '.frame.x'); display_y=$(yabai -m query --displays --display $display_id | jq '.frame.y'); position_x=$(echo "scale=4; ($display_x + $display_width/2 - $width/2)" | bc); position_y=$(echo "scale=4; ($display_y+$display_height/2 - $height/2)" | bc); yabai -m window --move abs:$position_x:$position_y; fi
+
+# make larger
+# https://github.com/koekeishiya/skhd/issues/1#issue-248494406
+ctrl + alt - 0x18 : width=$(yabai -m query --windows --window | jq '.frame.w'); height=$(yabai -m query --windows --window | jq '.frame.h'); new_width=$(echo "scale=4; ($width + 50)" | bc); new_height=$(echo "scale=4; ($height + 50)" | bc); yabai -m window --resize abs:$new_width:$new_height
+ctrl + alt - 0x1B : width=$(yabai -m query --windows --window | jq '.frame.w'); height=$(yabai -m query --windows --window | jq '.frame.h'); new_width=$(echo "scale=4; ($width - 50)" | bc); new_height=$(echo "scale=4; ($height - 50)" | bc); yabai -m window --resize abs:$new_width:$new_height
+
+# ╭──────────────────────────────────────────────────────────╮
+# │                           APPS                           │
+# ╰──────────────────────────────────────────────────────────╯
+
+alt - a : open -a Arc
+alt - b : open -a 哔哩哔哩
+alt - t : open -a kitty; sleep 0.5; open -a kitty
+alt - m : open -a Mattermost
+alt + shift - m : open -a Mail
+ctrl + shift - m : open -a Music
+alt - o : open -a Obsidian
+alt - w : open -a WeChat
+alt - f : open -a Finder
+alt - r : open -a Things3

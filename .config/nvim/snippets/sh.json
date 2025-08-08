@@ -1,0 +1,37 @@
+{
+  "notification": {
+    "prefix": "noti",
+    "body": [
+      "osascript -e 'display notification \"${1:body}\" with title \"${2:title}\"'"
+    ]
+  },
+  "shebang": {
+    "prefix": "shebang",
+    "body": ["#!/bin/bash", "", "${0}"]
+  },
+  "arg1": {
+    "prefix": "arg1",
+    "body": [
+      "if [ ! \\$# -gt 0 ]; then",
+      "\techo \"No argument provided\"",
+      "\texit 1",
+      "fi",
+      "",
+      "${0}"
+    ]
+  },
+  "multiline": {
+    "prefix": "multiline",
+    "body": [
+      "configs=\\$(",
+      "\tcat <<EOF",
+      "${1:line1\nline2}",
+      "EOF",
+      ")",
+      "",
+      "while IFS= read -r line; do",
+      "\techo \"Processing: \\$line\"",
+      "done <<<\"\\$configs\""
+    ]
+  }
+}

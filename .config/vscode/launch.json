@@ -1,0 +1,18 @@
+{
+  "version": "0.2.0",
+  "inputs": [
+    {
+      "id": "lhcbProject",
+      "type": "pickString",
+      "description": "Program to run: ",
+      "default": "Moore",
+      "options": ["Moore", "Alignment"]
+    },
+    {
+      "id": "scriptArgs",
+      "type": "promptString",
+      "description": "Enter arguments to pass to the script",
+      "default": ""
+    }
+  ]
+}

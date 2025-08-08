@@ -1,0 +1,3636 @@
+# Ganga configuration file ($Name: Ganga-8-7-9 $). DO NOT remove this line.
+#comment
+#=======================================================================
+# All  settings are  commented out,  so ganga  will apply  the default
+# values automatically. Wherever possible these default values are indicated. 
+# To see which configuration settings are used, type at ganga prompt:
+#  print config
+#
+# Support of Atlas and LHCb-specific functionality:
+#
+# GANGA_CONFIG_PATH environment variable or --config-path option at the command
+# line is used to enable LHCb or Atlas extensions. 
+# For example:
+#    $ export GANGA_CONFIG_PATH=GangaLHCb/LHCb.ini
+#    $ ganga
+#
+# In LHCb environment you do not need to worry about it because it is done
+# by GangaEnv command automatically.
+#
+
+
+#=======================================================================
+#  Selection of central database for ganga
+[CentralDatabaseConfiguration]
+
+#  the identifier used to tag the docker container
+#containerName = NotImplementedError
+
+#  others have not been implemented yet
+#database = NotImplementedError
+
+#  name of database
+#dbname = NotImplementedError
+
+#  host
+#host = NotImplementedError
+
+#  password
+#password = NotImplementedError
+
+#  port
+#port = NotImplementedError
+
+#  username
+#username = NotImplementedError
+
+
+#=======================================================================
+#  Settings for Condor Batch system
+[Condor]
+
+#  Set maximum bytes to display with peek()
+#MaxBytes = 1000000
+
+#  Query global condor queues, i.e. use '-global' flag
+#query_global_queues = True
+
+
+#=======================================================================
+#  global configuration parameters. this is a catch all section.
+[Configuration]
+
+#  AutoStart the registries, needed to access any jobs in registry therefore
+#  needs to be True for 99.999% of use cases
+#AutoStartReg = True
+
+#  default batch system
+#Batch = LSF
+
+#  Run function call counters on Ganga Objects
+#Count_Calls = False
+
+#  Time in seconds before a ganga session (lock file) is treated as a zombie and
+#  removed
+#DiskIOTimeout = 45
+
+#  runtime warnings issued by the interpreter may be suppresed
+#IgnoreRuntimeWarnings = False
+
+#  the search path for the load() function
+#LOAD_PATH = 
+
+#  Do not require an AFS token when running on an AFS filesystem. Not
+#  recommended!
+#NoAfsToken = False
+
+#  Run cpu profiler on Ganga Objects
+#Profile_CPU = False
+
+#  Run memory profiler on Ganga Objects
+#Profile_Memory = False
+
+#  path to runtime plugin packages where custom handlers may be added. Normally
+#  you should not worry about it. If an element of the path is just a name (like
+#  in the example below) then the plugins will be loaded using current python
+#  path. This means that some packages such as GangaTest may be taken from the
+#  release area.
+#  Examples:
+#    RUNTIME_PATH = GangaDirac
+#    RUNTIME_PATH = /my/SpecialExtensions:GangaTest
+#RUNTIME_PATH = 
+
+#  Flag to print out the relevent subsection of release notes for each
+#  experiment at start up
+#ReleaseNotes = True
+
+#  the search path to scripts directory. When running a script from the system
+#  shell (e.g. ganga script) this path is used to search for script
+#SCRIPTS_PATH = Ganga/scripts
+
+#  The SMTP server for notification emails to be sent, default is localhost
+#SMTPHost = localhost
+
+#  Port for the Ganga server to listen on
+#ServerPort = 434343
+
+#  Timeout in minutes for auto-server shutdown
+#ServerTimeout = 60
+
+#  Full path to user script to call periodically. The script will be executed as
+#  if called within Ganga by 'execfile'.
+#ServerUserScript = 
+
+#  Time in seconds between executions of the user script
+#ServerUserScriptWaitTime = 300
+
+#  block of GPI commands executed at startup
+#StartupGPI = 
+
+#  The type of the interactive shell: IPython (cooler) or Console (limited)
+#TextShell = IPython
+
+#  Directory where udocker will be installed for local jobs if used for
+#  virtualization
+#UDockerlocation = ~
+
+#  Autogenerate workspace dirs for new jobs
+#autoGenerateJobWorkspace = False
+
+#  Ask the user on exit if we should exit, (this is passed along to IPython)
+#confirm_exit = True
+
+#  If set to ask the user is presented with a prompt asking whether Shared
+#  directories not associated with a persisted Ganga object should be deleted
+#  upon Ganga exit. If set to never, shared directories will not be deleted upon
+#  exit, even if they are not associated with a persisted Ganga object. If set
+#  to always (the default), then shared directories will always be deleted if
+#  not associated with a persisted Ganga object.
+#deleteUnusedShareDir = always
+
+#  Ignore disk checking on startup
+#force_start = False
+
+#  Location of local job repositories and workspaces. Default is ~/gangadir but
+#  in somecases (such as LSF CNAF) this needs to be modified to point to the
+#  shared file system directory.
+#gangadir = /afs/cern.ch/user/h/hawu/gangadir
+
+#  Type of locking strategy which can be used. UNIX or FIXED . default = UNIX
+#lockingStrategy = UNIX
+
+#  The default file extension for the named template system. If a package sets
+#  up their own by calling "establishNamedTemplates" from
+#  python/Ganga/GPIDev/Lib/Job/NamedJobTemplate.py in their ini file then they
+#  can override this without needing the config option
+#namedTemplates_ext = tpl
+
+#  Determines if named template system stores templates in pickle file format
+#  (True) or in the Ganga streamed object format (False). By default streamed
+#  object format which is human readable is used. If a package sets up their own
+#  by calling "establishNamedTemplates" from
+#  python/Ganga/GPIDev/Lib/Job/NamedJobTemplate.py in their ini file then they
+#  can override this without needing the config option
+#namedTemplates_pickle = False
+
+#  Type of the repository.
+#  Examples:
+#    LocalXML, Database
+#repositorytype = LocalXML
+
+#  If TRUE (default), calling job.resubmit() will only resubmit FAILED subjobs.
+#  Note that the auto_resubmit mechanism will only ever resubmit FAILED subjobs.
+#resubmitOnlyFailedSubjobs = True
+
+#  Path to the directory to store the file listing the used ganga versions
+#used_versions_path = ~/.cache/Ganga/
+
+#  User name. The same person may have different roles (user names) and still
+#  use the same gangadir. Unless explicitly set this option defaults to the real
+#  user name.
+#user = hawu
+
+#  Type of workspace. Workspace is a place where input and output sandbox of
+#  jobs are stored. Currently the only supported type is LocalFilesystem.
+#workspacetype = LocalFilesystem
+
+
+#=======================================================================
+#  This configures the credentials singleton
+[Credentials]
+
+#  Seconds between checking credential on disk
+#AtomicDelay = 1
+
+#  Seconds between auto-clean of credentials when proxy externally destroyed
+#CleanDelay = 1
+
+
+#=======================================================================
+#  Parameters for DIRAC
+[DIRAC]
+
+#  The file containing the python commands that the local DIRAC server can
+#  execute.The default DiracCommands.py is added automatically
+#DiracCommandFiles = ['/cvmfs/ganga.cern.ch/Ganga/install/8.7.9/lib/python3.11/site-packages/ganga/GangaDirac/Lib/Server/DiracDefinition.py', '/cvmfs/ganga.cern.ch/Ganga/install/8.7.9/lib/python3.11/site-packages/ganga/GangaDirac/Lib/Server/DiracCommands.py']
+
+#  DEPRECATED. Ganga environment file for DIRAC environment(do not change unless
+#  you are sure you know what you are doing).
+#DiracEnvFile = 
+
+#  A JSON file containing the environment for DIRAC. Overrides DiracEnvSource
+#DiracEnvJSON = None
+
+#  File to be sourced to provide the DIRAC environment.E.g.
+#  /cvmfs/ganga.cern.ch/dirac_ui/bashrc
+#DiracEnvSource = None
+
+#  Should the DiracFile object automatically poll the Dirac backend for missing
+#  information on an lfn?
+#DiracFileAutoGet = True
+
+#  Base dir prepended to create LFN name from DiracFile('name'). If this is
+#  unset then it will default to/[userVO]/user/[first letter of user name]/[user
+#  name]
+#DiracLFNBase = 
+
+#  The Maximum allowed number of bulk submitted jobs before Ganga intervenes
+#MaxDiracBulkJobs = 500
+
+#  If subset is above OfflineSplitterFraction*filesPerJob then keep the subset
+#OfflineSplitterFraction = 0.75
+
+#  Number of iterations of selecting random Sites that are performed before the
+#  spliter reduces theOfflineSplitter fraction by raising it by 1 power and
+#  reduces OfflineSplitterMaxCommonSites by 1. Smallernumber makes the splitter
+#  accept many smaller subsets higher means keeping more subsets but takes much
+#  moreCPU to match files accordingly.
+#OfflineSplitterLimit = 50
+
+#  Maximum number of storage sites all LFN should share in the same dataset.
+#  This is reduced to 1 as thesplitter gets more desperate to group the data.
+#OfflineSplitterMaxCommonSites = 2
+
+#  Should the Sites chosen be accessing different Storage Elements.
+#OfflineSplitterUniqueSE = False
+
+#  Determines whether outputdata stored on Dirac is replicated
+#ReplicateOutputData = False
+
+#  Do we require the user to configure a defaultSE in some way?
+#RequireDefaultSE = True
+
+#  Default timeout (seconds) for Dirac commands
+#Timeout = 1000
+
+#  SE/Space-Tokens allowed for replication, writing files etc.
+#allDiracSE = []
+
+#  Donwload output sandboxes by default
+#default_downloadOutputSandbox = True
+
+#  Finalise all the subjobs in one go
+#default_finaliseOnMaster = False
+
+#  Unpack output sandboxes by default
+#default_unpackOutputSandbox = True
+
+#  Automatically download sandbox for failed jobs?
+#failed_sandbox_download = True
+
+#  Mapping of Dirac to Ganga Job statuses used to construct a queue to finalize
+#  a given job, i.e. final statuesin 'statusmapping'
+#finalised_statuses = {'Done': 'completed', 'Failed': 'failed', 'Killed': 'failed', 'Deleted': 'failed', 'Unknown: No status for Job': 'failed'}
+
+#  Whether or not to load the default dirac backend. This allows packagesto load
+#  a modified version if necessary
+#load_default_Dirac_backend = True
+
+#  Set the maximum number of subjobs to be finalised per process. Not too high
+#  to avoid DIRAC timeouts
+#maxSubjobsFinalisationPerProcess = 40
+
+#  Set the maximum number of subjobs to be submitted per process.
+#maxSubjobsPerProcess = 100
+
+#  List of sites to ban when a user job has no input data (this is meant to
+#  reduce the load on these sites)
+#noInputDataBannedSites = []
+
+#  The Maximum allowed number of Jobs to update the status for in parallel
+#numParallelJobs = 1000
+
+#  Configurable which sets the default proxy init command for DIRAC
+#proxyInfoCmd = dirac-proxy-info
+
+#  Configurable which sets the default proxy init command for DIRAC
+#proxyInitCmd = dirac-proxy-init
+
+#  Developer option to serialize Dirac code for profiling/debugging
+#serializeBackend = False
+
+#  when splitting datasets, pre split into chunks of this int
+#splitFilesChunks = 5000
+
+#  Mapping between Dirac Job Major Status and Ganga Job Status
+#statusmapping = {'Checking': 'submitted', 'Completed': 'running', 'Completing': 'running', 'Deleted': 'failed', 'Done': 'completed', 'Failed': 'failed', 'Killed': 'failed', 'Matched': 'submitted', 'Received': 'submitted', 'Running': 'running', 'Staging': 'submitted', 'Stalled': 'running', 'Waiting': 'submitted'}
+
+#  Should we use the Ganga job ID to auto-construct a LFN relative path?
+#useGangaPath = False
+
+#  The name of the VO that the user belongs to
+#userVO = 
+
+
+#=======================================================================
+#  Selection of database for ganga
+[DatabaseConfiguration]
+
+#  Docker Image for the database
+#baseImage = mongo
+
+#  Database Controller [native, docker, udocker, singularity, apptainer]
+#controller = docker
+
+#  host
+#host = localhost
+
+#  password
+#password = default
+
+#  username
+#username = default
+
+
+#=======================================================================
+#  control the printing style of the different registries
+#  ("jobs","box","tasks"...)
+[Display]
+
+#  list of job attributes to be printed in separate columns
+#box_columns = ('id', 'type', 'name', 'application')
+
+#  optional converter functions
+#box_columns_functions = {'application': 'lambda obj: obj.application._name'}
+
+#  apart from columns mentioned here, hide all values which evaluate to logical
+#  false (so 0,"",[],...)
+#box_columns_show_empty = ['id']
+
+#  width of each column
+#box_columns_width = {'id': 5, 'type': 20, 'name': 40, 'application': 15}
+
+#  colour print of the docstrings and examples
+#config_docstring_colour = fg.green
+
+#  colour print of the names of configuration sections and options
+#config_name_colour = fx.bold
+
+#  colour print of the configuration values
+#config_value_colour = fx.bold
+
+#  list of job attributes to be printed in separate columns
+#jobs_columns = ('fqid', 'status', 'name', 'subjobs', 'application', 'backend', 'backend.actualCE', 'comment', 'subjob status')
+
+#  optional converter functions
+#jobs_columns_functions = {'subjobs': 'lambda j: len(j.subjobs)', 'application': 'lambda j: j.application.__class__.__name__', 'backend': 'lambda j:j.backend.__class__.__name__', 'comment': 'lambda j: j.comment', 'subjob status': 'lambda j: j.returnSubjobStatuses()'}
+
+#  apart from columns mentioned here, hide all values which evaluate to logical
+#  false (so 0,"",[],...)
+#jobs_columns_show_empty = ['fqid']
+
+#  width of each column
+# jobs_columns_width = {'fqid': 8, 'status': 10, 'name': 10, 'subjobs': 8, 'application': 15, 'backend': 15, 'backend.actualCE': 45, 'comment': 30, 'subjob status': 15}
+jobs_columns_width = {'fqid': 5, 'status': 10, 'name': 10, 'subjobs': 8, 'backend': 8, 'comment': 7, 'subjob status': 15}
+
+#  colours for jobs status
+#jobs_status_colours = {'new': 'fx.normal', 'submitted': 'fg.orange', 'running': 'fg.green', 'completed': 'fg.blue', 'failed': 'fg.red', 'completed_frozen': 'fg.boldgrey', 'failed_frozen': 'fg.boldgrey'}
+
+#  list of job attributes to be printed in separate columns
+#tasks_columns = ('id', 'Type', 'Name', 'State', 'Comment', 'Jobs', '\x1b[44;97mdone\x1b[0;0m')
+
+#  optional converter functions
+#tasks_columns_functions = {'Name': 'lambda t : t.name', 'Type': 'lambda task : task._name', 'State ': 'lambda task : task.status', 'Comment ': 'lambda task : task.comment', 'Jobs': 'lambda task : task.n_all()', '\x1b[44;97mdone\x1b[0;0m': "lambda task : task.n_status('completed')"}
+
+#  apart from columns listed here, hide all values which evaluate to logical
+#  false (so 0,"",[],...)
+#tasks_columns_show_empty = ['id', 'Jobs', '\x1b[44;97mdone\x1b[0;0m']
+
+#  width of each column
+#tasks_columns_width = {'id': 5, 'Type': 13, 'Name': 22, 'State': 9, 'Comment': 30, 'Jobs': 33, '\x1b[44;97mdone\x1b[0;0m': 5}
+
+#  change this to False if you do not want to see the help screen if you first
+#  type "tasks"
+#tasks_show_help = True
+
+
+#=======================================================================
+#  Settings for the Feedback plugin. Cannot be changed during the interactive
+#  Ganga session.
+[Feedback]
+
+#  The server to connect to
+#uploadServer = http://gangamon.cern.ch/django/errorreports
+
+
+#=======================================================================
+#  Default associations between file types and file-viewing commands. The name
+#  identifies the extension and the value the commands. New extensions can be
+#  added. A single & after the command indicates that the process will be
+#  started in the background. A && after the command indicates that a new
+#  terminal will be opened and the command executed in that terminal.
+[File_Associations]
+
+#  Default command to use if there is no association with the file type
+#fallback_command = less
+
+#  Command for viewing html files.
+#htm = firefox &
+
+#  Command for viewing html files.
+#html = firefox &
+
+#  Command for listing the content of a directory
+#listing_command = ls -ltr
+
+#  Command for opening a new terminal (xterm, gnome-terminal, ...
+#newterm_command = xterm
+
+#  Option to give to a new terminal to tell it to execute a command.
+#newterm_exeopt = -e
+
+#  Command for opening ROOT files.
+#root = root.exe &&
+
+#  Command for opening tar files.
+#tar = file-roller &
+
+#  Command for opening tar files.
+#tgz = file-roller &
+
+
+#=======================================================================
+#  Generic GAUDI based parameters
+[GAUDI]
+
+#  The command used to make a CMT application.
+#make_cmd = make
+
+#  Levels below InstallArea/[<platform>]/python to decend when looking for .py
+#  files to include
+#pyFileCollectionDepth = 2
+
+
+#=======================================================================
+#  Customization of GPI component object assignment for each category there may
+#  be multiple filters registered, the one used being defined in the
+#  configuration file in [GPIComponentFilters] e.g:
+#  {'datasets':{'lhcbdatasets':lhcbFilter, 'testdatasets':testFilter}...}
+[GPIComponentFilters]
+
+
+#datasets = string_dataset_shortcut
+
+
+#files = string_file_shortcut_file
+
+
+#gangafiles = string_datafile_shortcut_lhcb
+
+
+#postprocessor = postprocessor_filter
+
+
+#shareddirs = string_sharedfile_shortcut
+
+
+#=======================================================================
+#  Customization of GPI behaviour. These options may affect the semantics of the
+#  Ganga GPI interface (what may result in a different behaviour of scripts and
+#  commands).
+[GPI_Semantics]
+
+#  Keep on submitting as many subjobs as possible. Option to j.submit(), see Job
+#  class for details
+#job_submit_keep_going = False
+
+#  Do not revert job to new status even if submission failed. Option to
+#  j.submit(), see Job class for details
+#job_submit_keep_on_fail = False
+
+
+#=======================================================================
+#  This controls the OAuth client used for connecting to Google
+[Google]
+
+#  The client ID of the Oauth client that you have created yourself
+#client_id = 
+
+#  The client secret of the Oauth client that you have created yourself
+#client_secret = 
+
+
+#=======================================================================
+#  Gridshell configuration parameters
+[GridShell]
+
+
+#GLITE_ALLOWED_WMS_LIST = []
+
+#  sets the LCG-UI environment setup script for the GLITE middleware
+#GLITE_SETUP = /afs/cern.ch/sw/ganga/install/config/grid_env_auto.sh
+
+#  sets the WMProxy service to be contacted
+#GLITE_WMS_WMPROXY_ENDPOINT = 
+
+#  sets to True will load script-based glite-wms-* commands forcely with current
+#  python, a trick for 32/64 bit compatibility issues.
+#IgnoreGliteScriptHeader = False
+
+#  sets the name of the grid virtual organisation
+#VirtualOrganisation = 
+
+
+#=======================================================================
+#  Grid Simulator configuration parameters
+[GridSimulator]
+
+#  probability that the Grid.cancel() method fails
+#cancel_failure_rate = 0.0
+
+#  python expression which returns the time it takes (in seconds) to complete
+#  the Grid.cancel() command (also for subjob in bulk emulation)
+#cancel_time = random.uniform(1,5)
+
+#  python expression which returns the time it takes (in seconds) to complete
+#  the get_output command (also for subjob in bulk emulation)
+#get_output_time = random.uniform(1,5)
+
+#  probability of the job to enter the Failed state
+#job_failure_rate = 0.0
+
+#  python expression which returns the time when the job enters the Done success
+#  or Failed state
+#job_finish_time = random.uniform(10,20)
+
+#  python expression which returns the time it takes (in seconds) to complete
+#  the resolution of all the id of a subjob (when submitted in bulk) this is the
+#  time the NODE_ID becomes available from the monitoring)
+#job_id_resolved_time = random.uniform(1,2)
+
+#  python expression which returns the time it takes (in seconds) to complete
+#  the status command (also for subjob in bulk emulation)
+#status_time = random.uniform(1,5)
+
+#  probability that the Grid.submit() method fails
+#submit_failure_rate = 0.0
+
+#  python expression which returns the time it takes (in seconds) to complete
+#  the Grid.submit() command (also for subjob in bulk emulation)
+#submit_time = random.uniform(1,10)
+
+
+#=======================================================================
+#  Parameters for LHCb
+[LHCb]
+
+#  set LHCbDirac version
+#LHCbDiracVersion = prod
+
+#  The name of the local site to be used for resolving LFNs into PFNs.
+#LocalSite = 
+
+#  Possible SplitByFiles backend algorithms to use to split jobs into subjobs,
+#  options are: GangaDiracSplitter, OfflineGangaDiracSplitter,
+#  splitInputDataBySize and splitInputData
+#SplitByFilesBackend = OfflineGangaDiracSplitter
+
+#  List of user added LHCb applications split by ':'
+#UserAddedApplications = 
+
+#  The string that is added after the filename in the options to tell Gaudi how
+#  to read the data. This is the default value used if the file name does not
+#  match any of the patterns in datatype_string_patterns.
+#datatype_string_default = TYP='POOL_ROOTTREE' OPT='READ'
+
+#  If a file matches one of these patterns, then the string here overrides the
+#  datatype_string_default value.
+#datatype_string_patterns = {"SVC='LHCb::MDFSelector'": ['*.raw', '*.RAW', '*.mdf', '*.MDF']}
+
+#  The default platform for applications to use
+#defaultPlatform = x86_64-centos7-gcc8-opt
+
+#  Files from these services will go to the output sandbox (unless
+#  overridden by the user in a specific job via the Job.outputfiles field).
+#  Files     from all other known handlers will go to output data (unless
+#  overridden by     the user in a specific job via the Job.outputfiles field).
+#outputsandbox_types = ['CounterSummarySvc', 'NTupleSvc', 'HistogramPersistencySvc', 'MicroDSTStream', 'EvtTupleSvc']
+
+
+#=======================================================================
+#  internal LSF command line interface
+[LSF]
+
+#  Heartbeat frequency config variable
+#heartbeat_frequency = 30
+
+#  Name of environment with ID of the job
+#jobid_name = LSB_BATCH_JID
+
+#  String contains option name for name of job in batch system
+#jobnameopt = J
+
+#  A list containing (1) a regular expression used to substitute illegal
+#  substrings in a job name, and (2) the substring to replace such occurences
+#  with.
+#jobnamesubstitution = []
+
+#  String pattern for replay from the kill command
+#kill_res_pattern = (^Job <\d+> is being terminated)|(Job <\d+>: Job has already finished)|(Job <\d+>: No matching job found)
+
+#  String used to kill job
+#kill_str = bkill %s
+
+#  String contains commands executing before submiting job to queue
+#postexecute = 
+# def filefilter(fn):
+#   # FILTER OUT Batch INTERNAL INPUT/OUTPUT FILES:
+#   # 10 digits . any number of digits . err or out
+#   import re
+#   internals = re.compile(r'\d{10}\.\d+.(out|err)')
+#   return internals.match(fn) or fn == '.Batch.start'
+
+#  String contains commands executing before submiting job to queue
+#preexecute = 
+
+
+#  Name of environment with queue name of the job
+#queue_name = LSB_QUEUE
+
+#  Shared PYTHON
+#shared_python_executable = False
+
+#  String pattern for defining the stderr
+#stderrConfig = -e %s/stderr
+
+#  String pattern for defining the stdout
+#stdoutConfig = -o %s/stdout
+
+#  String pattern for replay from the submit command
+#submit_res_pattern = ^Job <(?P<id>\d*)> is submitted to .*queue <(?P<queue>\S*)>
+
+#  String used to submit job to queue
+#submit_str = cd %s; bsub %s %s %s %s
+
+#  Timeout in seconds after which a job is declared killed if it has not touched
+#  its heartbeat file. Heartbeat is touched every 30s so do not set this below
+#  120 or so.
+#timeout = 600
+
+
+#=======================================================================
+#  parameters of the local backend (jobs in the background on localhost)
+[Local]
+
+#  The location where the workdir will be created. If None it defaults to the
+#  value of $TMPDIR
+#location = None
+
+#  remove automatically the local working directory when the job completed
+#remove_workdir = True
+
+
+#=======================================================================
+#  control the messages printed by Ganga The settings are applied hierarchically
+#  to the loggers. Ganga is the name of the top-level logger which applies by
+#  default to all GangaCore.* packages unless overriden in sub-packages. You may
+#  define new loggers in this section. The log level may be one of: CRITICAL
+#  ERROR WARNING INFO DEBUG
+[Logging]
+
+#  top-level logger
+#Ganga = INFO
+
+#  logger of GangaCore.GPIDev.* packages
+#GangaCore.GPIDev = INFO
+
+#  FIXME
+#GangaCore.Runtime.bootstrap = INFO
+
+#  logger of the Ganga logging package itself (use with care!)
+#GangaCore.Utility.logging = WARNING
+
+
+#GangaLHCb = INFO
+
+#  enable ASCII colour formatting of messages e.g. errors in red
+#_colour = True
+
+#  custom formatting string for Ganga logging  e.g. '%(name)-35s:
+#  %(levelname)-8s %(message)s'
+#_customFormat = 
+
+#  format of logging messages: TERSE,NORMAL,VERBOSE,DEBUG
+#_format = NORMAL
+
+#  if True then the cache used for interactive sessions, False disables caching
+#_interactive_cache = True
+
+#  location of the logfile
+#_logfile = ~/.ganga.log
+
+#  the size of the logfile (in bytes), the rotating log will never exceed this
+#  file size
+#_logfile_size = 100000
+
+
+#=======================================================================
+#  parameters for mergers
+[Mergers]
+
+#  Dictionary of file associations
+#associate = {'log': 'TextMerger', 'root': 'RootMerger', 'text': 'TextMerger', 'txt': 'TextMerger'}
+
+#  location of the merger's outputdir
+#merge_output_dir = /afs/cern.ch/user/h/hawu/gangadir/merge_results
+
+#  Standard (default) merger
+#std_merge = TextMerger
+
+
+#=======================================================================
+#  External monitoring systems are used to follow the submission and execution
+#  of jobs. Each entry in this section defines a monitoring plugin used for a
+#  particular combination of application and backend. Asterisks may be used to
+#  specify any application or any backend. The configuration entry syntax:
+#  ApplicationName/BackendName = dot.path.to.monitoring.plugin.class.  Example:
+#  DummyMS plugin will be used to track executables run on all backends:
+#  Executable/* = GangaCore.Lib.MonitoringServices.DummyMS.DummyMS
+[MonitoringServices]
+
+
+#=======================================================================
+#  configuration section for postprocessing the output
+[Output]
+
+#  List of outputfile types that will be auto removed when job is removed if
+#  AutoRemoveFilesWithJob is True
+#AutoRemoveFileTypes = ['DiracFile']
+
+#  if True, each outputfile of type in list AutoRemoveFileTypes will be removed
+#  when the job is
+#AutoRemoveFilesWithJob = False
+
+#  fileExtensions:list of output files that will be written to DIRAC,
+#  backendPostprocess:defines where postprocessing should be done (WN/client) on
+#  different backends, uploadOptions:config values needed for the actual DIRAC
+#  upload
+#DiracFile = {'fileExtensions': ['*.dst'], 'backendPostprocess': {'Dirac': 'submit', 'LSF': 'WN', 'PBS': 'WN', 'SGE': 'WN', 'Slurm': 'WN', 'Condor': 'WN', 'Local': 'WN', 'Interactive': 'WN'}, 'uploadOptions': {}, 'defaultSite': {'upload': 'CERN-USER', 'download': 'CERN-USER'}}
+
+#  if True, a job will be marked failed if output is asked for but not found.
+#FailJobIfNoOutputMatched = True
+
+#  if True, writing to the job inputsandbox field will be forbidden
+#ForbidLegacyInput = True
+
+#  fileExtensions:list of output files that will be written to GoogleDrive,
+#  backendPostprocess:defines where postprocessing should be done (WN/client) on
+#  different backends, uploadOptions:config values needed for the actual Google
+#  upload
+#GoogleFile = {'fileExtensions': [], 'backendPostprocess': {'Dirac': 'client', 'LSF': 'client', 'PBS': 'client', 'SGE': 'client', 'Slurm': 'client', 'Condor': 'client', 'Local': 'client', 'Interactive': 'client'}, 'uploadOptions': {}}
+
+#  fileExtensions:list of output files that will be written to Local,
+#  backendPostprocess:defines where postprocessing should be done (WN/client) on
+#  different backends, uploadOptions:config values needed for the actual Local
+#  upload
+#LocalFile = {'fileExtensions': ['*.txt'], 'backendPostprocess': {'Local': 'client', 'Interactive': 'client', 'LSF': 'client', 'SGE': 'client', 'Slurm': 'client', 'PBS': 'client', 'Condor': 'client', 'Dirac': 'client'}, 'uploadOptions': {}}
+
+#  fileExtensions:list of output files that will be written to Mass Storage,
+#  backendPostprocess:defines where postprocessing should be done (WN/client) on
+#  different backends, uploadOptions:config values needed for the actual EOS
+#  upload
+#MassStorageFile = {'fileExtensions': [''], 'backendPostprocess': {'LSF': 'WN', 'PBS': 'WN', 'Condor': 'WN', 'SGE': 'WN', 'Slurm': 'WN', 'Local': 'WN', 'Interactive': 'client', 'Dirac': 'client'}, 'uploadOptions': {'mkdir_cmd': '/usr/bin/eos mkdir', 'cp_cmd': '/usr/bin/eos cp', 'ls_cmd': '/usr/bin/eos ls', 'rm_cmd': '/usr/bin/eos rm', 'path': '/eos/lhcb/user/h/hawu/ganga'}, 'defaultProtocol': 'root://eoslhcb.cern.ch'}
+
+#  name of the file that will contain the locations of the uploaded from the WN
+#  files
+#PostProcessLocationsFileName = __postprocesslocations__
+
+#  fileExtensions:list of output files that will be written to Shared Storage,
+#  backendPostprocess:defines where postprocessing should be done (WN/client) on
+#  different backends, uploadOptions:config values needed for the actual
+#  SharedFS upload
+#SharedFile = {'fileExtensions': [''], 'backendPostprocess': {'LSF': 'WN', 'Dirac': 'client', 'PBS': 'WN', 'SGE': 'WN', 'Slurm': 'WN', 'Condor': 'WN', 'Interactive': 'client', 'Local': 'WN'}, 'uploadOptions': {'path': '~', 'cp_cmd': 'cp', 'ls_cmd': 'ls', 'mkdir_cmd': 'mkdir'}, 'defaultProtocol': 'file://'}
+
+
+#=======================================================================
+#  internal PBS command line interface
+[PBS]
+
+#  Heartbeat frequency config variable
+#heartbeat_frequency = 30
+
+#  Name of environment with ID of the job
+#jobid_name = PBS_JOBID
+
+#  String contains option name for name of job in batch system
+#jobnameopt = N
+
+#  A list containing (1) a regular expression used to substitute illegal
+#  substrings in a job name, and (2) the substring to replace such occurences
+#  with.
+#jobnamesubstitution = ['[\\s]', '_']
+
+#  String pattern for replay from the kill command
+#kill_res_pattern = (^$)|(qdel: Unknown Job Id)
+
+#  String used to kill job
+#kill_str = qdel %s
+
+#  String contains commands executing before submiting job to queue
+#postexecute = 
+# env = os.environ
+# jobnumid = env["PBS_JOBID"]
+# os.chdir("/tmp/")
+# os.system("rm -rf /tmp/%s/" %jobnumid)
+
+#  String contains commands executing before submiting job to queue
+#preexecute = 
+# env = os.environ
+# jobnumid = env["PBS_JOBID"]
+# os.system("mkdir /tmp/%s/" %jobnumid)
+# os.chdir("/tmp/%s/" %jobnumid)
+# os.environ["PATH"]+=":."
+
+#  Name of environment with queue name of the job
+#queue_name = PBS_QUEUE
+
+#  Shared PYTHON
+#shared_python_executable = False
+
+#  String pattern for defining the stderr
+#stderrConfig = -e %s/stderr
+
+#  String pattern for defining the stdout
+#stdoutConfig = -o %s/stdout
+
+#  String pattern for replay from the submit command
+#submit_res_pattern = ^(?P<id>\d*)\.pbs\s*
+
+#  String used to submit job to queue
+#submit_str = cd %s; qsub %s %s %s %s
+
+#  Timeout in seconds after which a job is declared killed if it has not touched
+#  its heartbeat file. Heartbeat is touched every 30s so do not set this below
+#  120 or so.
+#timeout = 600
+
+
+#=======================================================================
+#  General control of plugin mechanism. Set the default plugin in a given
+#  category. For example: default_applications = DaVinci default_backends =
+#  Dirac
+[Plugins]
+
+
+#=======================================================================
+#  background job status monitoring and output retrieval
+[PollThread]
+
+#  Poll rate for Condor backend.
+#Condor = 30
+
+#  Poll rate for Dirac backend.
+#Dirac = 50
+
+#  disk space checking callback. This function should return False when no disk
+#  space is available, True otherwise
+#DiskSpaceChecker = 
+
+#  Time before the user gets the warning that a thread has locked up due to
+#  failing to update the heartbeat attribute
+#HeartBeatTimeOut = 9223372036854775807
+
+#  Poll rate for LSF backend.
+#LSF = 20
+
+#  Poll rate for Local backend.
+#Local = 10
+
+#  Maximum fraction of failed jobs before stopping automatic resubmission
+#MaxFracForResubmit = 0.25
+
+#  Maximum number of automatic job resubmits to do before giving
+#MaxNumResubmits = 5
+
+#  Poll rate for PBS backend.
+#PBS = 20
+
+#  Poll rate for Panda backend.
+#Panda = 50
+
+#  Check credentials using the monitoring loop
+#autoCheckCredentials = True
+
+#  Maximum number of failed subjobs before a job is automatically killed by the
+#  monitoring.
+#autoKillThreshold = 20
+
+#  enable monitoring automatically at startup, in script mode monitoring
+#  disabled by default, in interactive mode it is enabled
+#autostart = True
+
+#  enable populating of the monitoring worker threads
+#autostart_monThreads = True
+
+#  internal supervising thread
+#base_poll_rate = 2
+
+#  The frequency in seconds for credentials checker
+#creds_poll_rate = 30
+
+#  Default rate for polling job status in the thread pool. This is the default
+#  value for all backends.
+#default_backend_poll_rate = 30
+
+#  The frequency in seconds for free disk checker
+#diskspace_poll_rate = 30
+
+#  enable multiple threads to be used for running monitoring tasks
+#enable_multiThreadMon = True
+
+#  User will get the FIRST prompt after N seconds, as specified by this
+#  parameter. This parameter also defines the time that Ganga will wait before
+#  shutting down, if there are only non-critical threads alive, in both
+#  interactive and batch mode.
+#forced_shutdown_first_prompt_time = 5
+
+#  If there are remaining background activities at exit such as monitoring,
+#  output download Ganga will attempt to wait for the activities to complete.
+#  You may select if a user is prompted to answer if he wants to force shutdown
+#  ("interactive") or if the system waits on a timeout without questions
+#  ("timeout"). The default is "session_type" which will do interactive shutdown
+#  for CLI and timeout for scripts.
+#forced_shutdown_policy = session_type
+
+#  User will get the prompt every N seconds, as specified by this parameter.
+#forced_shutdown_prompt_time = 10
+
+#  Timeout in seconds for forced Ganga shutdown in batch mode.
+#forced_shutdown_timeout = 60
+
+#  Poll rate for gLite backend.
+#gLite = 30
+
+#  OBSOLETE: this option has no effect anymore
+#max_shutdown_retries = 5
+
+#  Number of Jobs to update the status for in parallel
+#numParallelJobs = 25
+
+#  if 0 then log only once the errors for a given backend and do not repeat them
+#  anymore
+#repeat_messages = False
+
+#  Size of the thread pool. Each threads monitors a specific backaend at a given
+#  time. Minimum value is one, preferably set to the number_of_backends + 1
+#update_thread_pool_size = 5
+
+
+#=======================================================================
+#  Parameters for preparable applications
+[Preparable]
+
+#  Unprepare a prepared application when it is copied
+#unprepare_on_copy = False
+
+
+#=======================================================================
+#  configuration section for the queues
+[Queues]
+
+#  default number of worker threads in the queues system
+#NumWorkerThreads = 5
+
+#  timeout before looping again over queue to give shutdown a chance
+#ShutDownTimeout = 0.1
+
+#  default timeout for queue generated processes
+#Timeout = None
+
+
+#=======================================================================
+#  Options for Root backend
+[ROOT]
+
+#  Architecture of ROOT
+#arch = x86_64-slc6-gcc48-opt
+
+#  Location of ROOT
+#location = /cvmfs/lhcb.cern.ch/lib/lcg/releases/LCG_79/ROOT/6.04.02/x86_64-slc6-gcc48-opt
+
+#  Set to a specific ROOT version. Will override other options.
+#path = 
+
+#  Location of the python used for execution of PyROOT script
+#pythonhome = /cvmfs/lhcb.cern.ch/lib/lcg/releases/LCG_79/Python/2.7.9.p1/x86_64-slc6-gcc48-opt
+
+#  Version number of python used for execution python ROOT script
+#pythonversion = 2.7.9.p1
+
+#  Version of ROOT
+#version = 6.04.02
+
+
+#=======================================================================
+#  This config controls the speed of flushing objects to disk
+[Registry]
+
+#  Time to wait between auto-flusher runs
+#AutoFlusherWaitTime = 30
+
+#  Disable the checking of recent bad jobs in bad state. Mainly used in testing.
+#DisableLoadCheck = True
+
+#  Enable Registry auto-flushing feature
+#EnableAutoFlush = True
+
+
+#=======================================================================
+#  internal SGE command line interface
+[SGE]
+
+#  Heartbeat frequency config variable
+#heartbeat_frequency = 30
+
+#  Name of environment with ID of the job
+#jobid_name = JOB_ID
+
+#  String contains option name for name of job in batch system
+#jobnameopt = N
+
+#  A list containing (1) a regular expression used to substitute illegal
+#  substrings in a job name, and (2) the substring to replace such occurences
+#  with.
+#jobnamesubstitution = ['[\\s:]', '_']
+
+#  String pattern for replay from the kill command
+#kill_res_pattern = (has registered the job +\d+ +for deletion)|(denied: job +"\d+" +does not exist)
+
+#  String used to kill job
+#kill_str = qdel %s
+
+#  String contains commands executing before submiting job to queue
+#postexecute = 
+
+#  String contains commands executing before submiting job to queue
+#preexecute = os.chdir(os.environ["TMPDIR"])
+# os.environ["PATH"]+=":."
+
+#  Name of environment with queue name of the job
+#queue_name = QUEUE
+
+#  Shared PYTHON
+#shared_python_executable = False
+
+#  String pattern for defining the stderr
+#stderrConfig = -e %s/stderr
+
+#  String pattern for defining the stdout
+#stdoutConfig = -o %s/stdout
+
+#  String pattern for replay from the submit command
+#submit_res_pattern = Your job (?P<id>\d+) (.+)
+
+#  String used to submit job to queue
+#submit_str = cd %s; qsub -cwd -S /usr/bin/python -V %s %s %s %s
+
+#  Timeout in seconds after which a job is declared killed if it has not touched
+#  its heartbeat file. Heartbeat is touched every 30s so do not set this below
+#  120 or so.
+#timeout = 600
+
+
+#=======================================================================
+#  configuration parameters for internal Shell utility.
+[Shell]
+
+
+#=======================================================================
+#  internal Slurm command line interface
+[Slurm]
+
+#  Heartbeat frequency config variable
+#heartbeat_frequency = 30
+
+#  Name of environment with ID of the job
+#jobid_name = SLURM_JOB_ID
+
+#  String contains option name for name of job in batch system
+#jobnameopt = J
+
+#  A list containing (1) a regular expression used to substitute illegal
+#  substrings in a job name, and (2) the substring to replace such occurences
+#  with.
+#jobnamesubstitution = []
+
+#  String pattern for replay from the kill command
+#kill_res_pattern = (^$)|(^scancel: error: .+)
+
+#  String used to kill job
+#kill_str = scancel %s
+
+#  String contains the last commands executing right before the job ends
+#postexecute = 
+# env = os.environ
+# jobnumid = env.get("SLURM_JOB_ID") or env.get("SLURM_JOBID") or "pid_"+str(os.getpid())
+# scratchDir = (env.get("MEMFS") or env.get("LOCALFS") or env.get("SCRATCH_LOCAL") or env.get("SCRATCHDIR")
+#               or env.get("SLURM_TMPDIR") or env.get("SCRATCH") or env.get("TMPDIR") or "/tmp")
+# scratchDir = scratchDir+"/workdir"
+# if not jobnumid in scratchDir: scratchDir = scratchDir+"_"+jobnumid
+# os.chdir("/tmp/")
+# os.system("rm -rf "+scratchDir)
+
+#  String contains the first commands executing right after the job starts
+#preexecute = 
+# env = os.environ
+# jobnumid = env.get("SLURM_JOB_ID") or env.get("SLURM_JOBID") or "pid_"+str(os.getpid())
+# scratchDir = (env.get("MEMFS") or env.get("LOCALFS") or env.get("SCRATCH_LOCAL") or env.get("SCRATCHDIR")
+#               or env.get("SLURM_TMPDIR") or env.get("SCRATCH") or env.get("TMPDIR") or "/tmp")
+# scratchDir = scratchDir+"/workdir"
+# if not jobnumid in scratchDir: scratchDir = scratchDir+"_"+jobnumid
+# os.system("mkdir -p "+scratchDir)
+# os.chdir(scratchDir)
+# # env["PATH"]+=":."
+
+#  Name of environment with partition name of the job
+#queue_name = SLURM_JOB_PARTITION
+
+#  Shared PYTHON
+#shared_python_executable = False
+
+#  String pattern for defining the stderr
+#stderrConfig = -e %s/stderr
+
+#  String pattern for defining the stdout
+#stdoutConfig = -o %s/stdout
+
+#  String pattern for replay from the submit command
+#submit_res_pattern = ^Submitted batch job (?P<id>\d+)\s*
+
+#  String used to submit job to partition
+#submit_str = cd %s; sbatch %s %s %s %s
+
+#  Timeout in seconds after which a job is declared killed if it has not touched
+#  its heartbeat file. Heartbeat is touched every 30s so do not set this below
+#  120 or so.
+#timeout = 600
+
+
+#=======================================================================
+#  Tasks configuration options
+[Tasks]
+
+#  Monitor tasks even if the monitoring loop isn't enabled
+#ForceTaskMonitoring = False
+
+#  Frequency of Task Monitoring loop in seconds
+#TaskLoopFrequency = 60.0
+
+#  Should I disable the Task Monitoring loop?
+#disableTaskMon = False
+
+
+#=======================================================================
+#  IPython shell configuration
+[TextShell_IPython]
+
+#  Colour scheme to be used by iPython. Options are LightBG, Linux, Neutral,
+#  NoColor
+#colourscheme = LightBG
+
+
+#=======================================================================
+#  default attribute values for AfsToken objects
+[defaults_AfsToken]
+
+
+#=======================================================================
+#  default attribute values for Alignment objects
+[defaults_Alignment]
+
+#  The gaudirun.py cli args that will be passed at run-time
+#args = ['-T']
+
+#  A python configurable string that will be appended to the end of the options
+#  file. Can be multiline by using a notation like
+#  HistogramPersistencySvc().OutputFile =
+#  "myPlots.root"\nEventSelector().PrintFreq = 100  or by using triple quotes
+#  around a multiline string.
+#extraopts = None
+
+#  The package where your top level requirements file is read from. Can be
+#  written either as a path "Tutorial/Analysis/v6r0" or in a CMT style notation
+#  "Analysis v6r0 Tutorial"
+#masterpackage = None
+
+#  Is this app a 'new Style' CMake app?
+#newStyleApp = False
+
+#  The name of the optionsfile. Import statements in the file will be expanded
+#  at submission time and a full copy made
+#optsfile = []
+
+#  The package the application belongs to (e.g. "Sim", "Phys")
+#package = None
+
+#  The platform the application is configured for (e.g. "slc4_ia32_gcc34")
+#platform = None
+
+#  Extra options to be passed onto the SetupProject command used for configuring
+#  the environment. As an example setting it to '--dev' will give access to the
+#  DEV area. For full documentation of the available options see
+#  https://twiki.cern.ch/twiki/bin/view/LHCb/SetupProject
+#setupProjectOptions = 
+
+#  The user path to be used. After assigning this you can do
+#  j.application.getpack('Phys DaVinci v19r2') to check out into the new
+#  location. This variable is used to identify private user DLLs by parsing the
+#  output of "cmt show projects".
+#user_release_area = None
+
+#  The version of the application (like "v19r2")
+#version = None
+
+
+#=======================================================================
+#  default attribute values for Apptainer objects
+[defaults_Apptainer]
+
+#  The virtualization binary itself. Can be an absolute path if required.
+#binary = apptainer
+
+#  Link to the container image. This can either be a apptainer URL or a
+#  GangaFile object
+#image = 
+
+#  Mounts to attempt from the host system. The key is the directory name on the
+#  host, and the value inside the container. If the directory is not available
+#  on the host, it will just be silently dropped from the list of mount points.
+#mounts = {'/cvmfs': '/cvmfs'}
+
+#  A list of options to pass onto the virtualization command.
+#options = []
+
+#  Deploy token password
+#tokenpassword = 
+
+#  Deploy token username
+#tokenuser = 
+
+
+#=======================================================================
+#  default attribute values for ArgSplitter objects
+[defaults_ArgSplitter]
+
+#  Append the subjob args to the existing application ones rather than replace
+#  them
+#append = False
+
+#  A list of lists of arguments to pass to script
+#args = []
+
+
+#=======================================================================
+#  default attribute values for BKQuery objects
+[defaults_BKQuery]
+
+#  Specify the state of SMOG2
+#SMOG2 = 
+
+#  Check if the data set is archived
+#check_archived = True
+
+
+#credential_requirements = DiracProxy
+
+#  Data quality flag (string or list of strings).
+#dqflag = OK
+
+#  End date string yyyy-mm-dd (only works for type="RunsByDate")
+#endDate = 
+
+#  Return the data set, even if all the LFNs are archived
+#ignore_archived = False
+
+#  Bookkeeping query path (type dependent)
+#path = 
+
+#  Number of times to retry the DIRAC commands
+#retry_limit = 1
+
+#  Selection criteria: Runs, ProcessedRuns, NotProcessed (only works for
+#  type="RunsByDate")
+#selection = 
+
+#  Start date string yyyy-mm-dd (only works for type="RunsByDate")
+#startDate = 
+
+#  Type of query (Path, RunsByDate, Run, Production)
+#type = Path
+
+
+#=======================================================================
+#  default attribute values for BKQueryDict objects
+[defaults_BKQueryDict]
+
+
+#credential_requirements = DiracProxy
+
+#  Dirac BK query dictionary.
+#dict = {'SimulationConditions': 'All', 'DataTakingConditions': 'All', 'ProcessingPass': 'All', 'FileType': 'All', 'EventType': 'All', 'ConfigName': 'All', 'ConfigVersion': 'All', 'ProductionID': 0, 'StartRun': 0, 'EndRun': 0, 'DataQuality': 'All'}
+
+
+#=======================================================================
+#  default attribute values for BKTestQuery objects
+[defaults_BKTestQuery]
+
+#  Specify the state of SMOG2
+#SMOG2 = 
+
+#  Check if the data set is archived
+#check_archived = True
+
+
+#credential_requirements = DiracProxy
+
+#  dataset
+#dataset = None
+
+#  Data quality flag (string or list of strings).
+#dqflag = OK
+
+#  End date string yyyy-mm-dd (only works for type="RunsByDate")
+#endDate = 
+
+#  number of files to release at a time
+#filesToRelease = 3
+
+#  Return the data set, even if all the LFNs are archived
+#ignore_archived = False
+
+#  Bookkeeping query path (type dependent)
+#path = 
+
+#  Number of times to retry the DIRAC commands
+#retry_limit = 1
+
+#  Selection criteria: Runs, ProcessedRuns, NotProcessed (only works for
+#  type="RunsByDate")
+#selection = 
+
+#  Start date string yyyy-mm-dd (only works for type="RunsByDate")
+#startDate = 
+
+#  Type of query (Path, RunsByDate, Run, Production)
+#type = Path
+
+
+#=======================================================================
+#  default attribute values for Bender objects
+[defaults_Bender]
+
+#  The number of events
+#events = -1
+
+#  The package where your top level requirements file is read from. Can be
+#  written either as a path "Tutorial/Analysis/v6r0" or in traditional notation
+#  "Analysis v6r0 Tutorial"
+#masterpackage = None
+
+#  The name of the module to import. A copy will be made at submission time
+#module = File(name='',subdir='.')
+
+#  Is this app a 'new Style' CMake app?
+#newStyleApp = False
+
+#  The package the application belongs to (e.g. "Sim", "Phys")
+#package = None
+
+#  Parameres for module
+#params = {}
+
+#  The platform the application is configured for (e.g. "slc4_ia32_gcc34")
+#platform = None
+
+#  Extra options to be passed onto the SetupProject command used for configuring
+#  the environment. As an example setting it to '--dev' will give access to the
+#  DEV area. For full documentation of the available options see
+#  https://twiki.cern.ch/twiki/bin/view/LHCb/SetupProject
+#setupProjectOptions = 
+
+#  The user path to be used. After assigning this you can do
+#  j.application.getpack('Phys DaVinci v19r2') to check out into the new
+#  location. This variable is used to identify private user DLLs by parsing the
+#  output of "cmt show projects".
+#user_release_area = None
+
+#  The version of the application (like "v19r2")
+#version = None
+
+
+#=======================================================================
+#  default attribute values for BenderModule objects
+[defaults_BenderModule]
+
+#  A path to the project that you're wanting to run.
+#directory = 
+
+#  Number of events to process
+#events = -1
+
+#  Do you want to get the metadata from your jobs
+#getMetadata = True
+
+#  The file with Bender module. It is expected that module contains the methods
+#  ``configure'' & ``run'' with the proper signatures
+#module = None
+
+#  The dictionary of parameters to be forwarded to ``configure'' method of the
+#  supplied Bender module
+#params = {}
+
+#  Platform the application was built for
+#platform = x86_64-centos7-gcc8-opt
+
+
+#=======================================================================
+#  default attribute values for BenderRun objects
+[defaults_BenderRun]
+
+#  The list of command-line arguments for bender script, e.g. ['-w','-p5'], etc.
+#  Following arguments will be appended automatically:  --no-color, --no-castor
+#  and --batch.
+#arguments = []
+
+#  The bender commands to be executed, e.g. [ 'run(10)' , 'print ls()' , 'print
+#  dir()' ]
+#commands = []
+
+#  A path to the project that you're wanting to run.
+#directory = 
+
+#  Do you want to get the metadata from your jobs
+#getMetadata = True
+
+#  The names of the configurtaion scripts (ana ``options'') to be imported via
+#  ``importOptions''. A copy will be made at submission time
+#imports = []
+
+#  Platform the application was built for
+#platform = x86_64-centos7-gcc8-opt
+
+#  The names of the script files to execute. A copy will be made at submission
+#  time. The script are executed within ``bender'' context
+#scripts = None
+
+
+#=======================================================================
+#  default attribute values for BenderScript objects
+[defaults_BenderScript]
+
+#  List of command-line arguments for bender script,         e.g. ['-w','-p5'],
+#  etc.         For python scripts and configuration/Configurable files for
+#  'importOptions'         it is much better to use the separate options
+#  'scripts' and 'imports'         Following arguments will be appended
+#  automatically:  --no-color, --no-castor and --batch
+#arguments = []
+
+#  The commands to be executed,         e.g. [ 'run(10)' , 'print ls()' , 'print
+#  dir()' ]
+#commands = []
+
+#  The names of the files to be used for 'importOptions'.         A copy will be
+#  made at submission time
+#imports = []
+
+#  The package where your top level requirements file is read from.         Can
+#  be written either as a path 'Tutorial/Analysis/v6r0' or in traditional
+#  notation          'Analysis v6r0 Tutorial'
+#masterpackage = None
+
+#  Is this app a 'new Style' CMake app?
+#newStyleApp = False
+
+#  The package the application belongs to (e.g. 'Sim', 'Phys')
+#package = None
+
+#  The platform the application is configured for (e.g. "slc4_ia32_gcc34")
+#platform = None
+
+#  The names of the script files to execute.         A copy will be made at
+#  submission time
+#scripts = []
+
+#  Extra options to be passed onto the SetupProject command         used for
+#  configuring the environment. As an example          setting it to '--dev'
+#  will give access to the DEV area.          For full documentation of the
+#  available options see
+#  https://twiki.cern.ch/twiki/bin/view/LHCb/SetupProject
+#setupProjectOptions = 
+
+#  The user path to be used. After assigning this you can do
+#  j.application.getpack('Phys DaVinci v19r2') to check out into the new
+#  location. This variable is used to identify private user DLLs by parsing the
+#  output of "cmt show projects".
+#user_release_area = None
+
+#  The version of the application (like "v19r2")
+#version = None
+
+
+#=======================================================================
+#  default attribute values for Bookkeeping objects
+[defaults_Bookkeeping]
+
+
+#=======================================================================
+#  default attribute values for Boole objects
+[defaults_Boole]
+
+#  The gaudirun.py cli args that will be passed at run-time
+#args = ['-T']
+
+#  A python configurable string that will be appended to the end of the options
+#  file. Can be multiline by using a notation like
+#  HistogramPersistencySvc().OutputFile =
+#  "myPlots.root"\nEventSelector().PrintFreq = 100  or by using triple quotes
+#  around a multiline string.
+#extraopts = None
+
+#  The package where your top level requirements file is read from. Can be
+#  written either as a path "Tutorial/Analysis/v6r0" or in a CMT style notation
+#  "Analysis v6r0 Tutorial"
+#masterpackage = None
+
+#  Is this app a 'new Style' CMake app?
+#newStyleApp = False
+
+#  The name of the optionsfile. Import statements in the file will be expanded
+#  at submission time and a full copy made
+#optsfile = []
+
+#  The package the application belongs to (e.g. "Sim", "Phys")
+#package = None
+
+#  The platform the application is configured for (e.g. "slc4_ia32_gcc34")
+#platform = None
+
+#  Extra options to be passed onto the SetupProject command used for configuring
+#  the environment. As an example setting it to '--dev' will give access to the
+#  DEV area. For full documentation of the available options see
+#  https://twiki.cern.ch/twiki/bin/view/LHCb/SetupProject
+#setupProjectOptions = 
+
+#  The user path to be used. After assigning this you can do
+#  j.application.getpack('Phys DaVinci v19r2') to check out into the new
+#  location. This variable is used to identify private user DLLs by parsing the
+#  output of "cmt show projects".
+#user_release_area = None
+
+#  The version of the application (like "v19r2")
+#version = None
+
+
+#=======================================================================
+#  default attribute values for Brunel objects
+[defaults_Brunel]
+
+#  The gaudirun.py cli args that will be passed at run-time
+#args = ['-T']
+
+#  A python configurable string that will be appended to the end of the options
+#  file. Can be multiline by using a notation like
+#  HistogramPersistencySvc().OutputFile =
+#  "myPlots.root"\nEventSelector().PrintFreq = 100  or by using triple quotes
+#  around a multiline string.
+#extraopts = None
+
+#  The package where your top level requirements file is read from. Can be
+#  written either as a path "Tutorial/Analysis/v6r0" or in a CMT style notation
+#  "Analysis v6r0 Tutorial"
+#masterpackage = None
+
+#  Is this app a 'new Style' CMake app?
+#newStyleApp = False
+
+#  The name of the optionsfile. Import statements in the file will be expanded
+#  at submission time and a full copy made
+#optsfile = []
+
+#  The package the application belongs to (e.g. "Sim", "Phys")
+#package = None
+
+#  The platform the application is configured for (e.g. "slc4_ia32_gcc34")
+#platform = None
+
+#  Extra options to be passed onto the SetupProject command used for configuring
+#  the environment. As an example setting it to '--dev' will give access to the
+#  DEV area. For full documentation of the available options see
+#  https://twiki.cern.ch/twiki/bin/view/LHCb/SetupProject
+#setupProjectOptions = 
+
+#  The user path to be used. After assigning this you can do
+#  j.application.getpack('Phys DaVinci v19r2') to check out into the new
+#  location. This variable is used to identify private user DLLs by parsing the
+#  output of "cmt show projects".
+#user_release_area = None
+
+#  The version of the application (like "v19r2")
+#version = None
+
+
+#=======================================================================
+#  default attribute values for Condor objects
+[defaults_Condor]
+
+#  Provide an accounting group for this job.
+#accounting_group = 
+
+#  Additional options to set in the CDF file given by a dictionary
+#cdf_options = {}
+
+#  Environment settings for execution host
+#env = {}
+
+#  Flag to pass current envrionment to execution host
+#getenv = False
+
+#  Globus RSL settings (for Condor-G submission)
+#globus_rsl = 
+
+#  Globus scheduler to be used (required for Condor-G submission)
+#globusscheduler = 
+
+#  Ranking scheme to be used when selecting execution host
+#rank = Memory
+
+#  Requirements for selecting execution host
+#requirements = CondorRequirements
+
+#  Flag indicating if Condor nodes have shared filesystem
+#shared_filesystem = True
+
+#  Spool all required input files, job event log,and proxy over the connection
+#  to the condor_schedd.Required for EOS, see:http://batchdocs.web.cern.ch/batch
+#  docs/troubleshooting/eos_submission.html
+#spool = True
+
+#  Options passed to Condor at submission time
+#submit_options = []
+
+#  Type of execution environment to be used by Condor
+#universe = vanilla
+
+
+#=======================================================================
+#  default attribute values for CondorRequirements objects
+[defaults_CondorRequirements]
+
+#  System architecture
+#arch = 
+
+#  Excluded execution hosts, given as a string of space-separated names:
+#  'machine1 machine2 machine3'; or as a list of names: [ 'machine1',
+#  'machine2', 'machine3' ]
+#excluded_machine = 
+
+#  Requested execution hosts, given as a string of space-separated names:
+#  'machine1 machine2 machine3'; or as a list of names: [ 'machine1',
+#  'machine2', 'machine3' ]
+#machine = 
+
+#  Mininum physical memory
+#memory = 0
+
+#  Operating system
+#opsys = 
+
+#  Other requirements, given as a list of strings, for example: [ 'OSTYPE ==
+#  "SLC4"', '(POOL == "GENERAL" || POOL == "GEN_FARM")' ]; the final requirement
+#  is the AND of all elements in the list
+#other = []
+
+#  Minimum virtual memory
+#virtual_memory = 0
+
+
+#=======================================================================
+#  default attribute values for CoreTask objects
+[defaults_CoreTask]
+
+#  Check all Transforms during each monitoring loop cycle
+#check_all_trfs = True
+
+#  comment of the task
+#comment = 
+
+#  Number of Jobs run concurrently
+#float = 0
+
+#  Name of the Task
+#name = NewTask
+
+#  list of transforms
+#transforms = []
+
+
+#=======================================================================
+#  default attribute values for CoreTransform objects
+[defaults_CoreTransform]
+
+#  Break out of the Task Loop after submissions
+#abort_loop_on_submit = True
+
+#  Application of the Transform.
+#application = None
+
+#  Backend of the Transform.
+#backend = None
+
+#  Minutes delay between a required/chained unit completing and starting this
+#  one
+#chain_delay = 0
+
+#  Treat the inputdata as inputfiles, i.e. copy the inputdata to the WN
+#chaindata_as_inputfiles = False
+
+#  The dataset to copy all units output to, e.g. Grid dataset -> Local Dataset
+#copy_output = None
+
+#  A list of fields that should be copied when creating units, e.g. application,
+#  inputfiles. Empty (default) implies all fields are copied unless the
+#  GeenricSplitter is used
+#fields_to_copy = []
+
+#  Number of files per unit if possible. Set to -1 to just create a unit per
+#  input dataset
+#files_per_unit = -1
+
+#  list of file objects that will act as input files for a job
+#inputfiles = []
+
+#  list of File objects shipped to the worker node
+#inputsandbox = []
+
+#  Maximum number of Ganga Threads to use. Note that the number of simultaneous
+#  threads is controlled by the queue system (default is 10)
+#max_active_threads = 10
+
+#  Name of the transform (cosmetic)
+#name = Simple Transform
+
+#  Output dataset template
+#outputdata = None
+
+#  list of OutputFile objects to be copied to all jobs
+#outputfiles = []
+
+#  list of filenames or patterns shipped from the worker node
+#outputsandbox = []
+
+#  list of postprocessors to run after job has finished
+#postprocessors = None
+
+#  Rebroker if too many minor resubs
+#rebroker_on_job_fail = True
+
+#  IDs of transforms that must complete before this unit will start. NOTE
+#  DOESN'T COPY OUTPUT DATA TO INPUT DATA. Use TaskChainInput Dataset for that.
+#required_trfs = []
+
+#  Splitter used on each unit of the Transform.
+#splitter = None
+
+#  Use Ganga Threads for submission
+#submit_with_threads = False
+
+#  The dataset to copy each individual unit output to, e.g. Grid dataset ->
+#  Local Dataset
+#unit_copy_output = None
+
+#  Merger to be copied and run on each unit separately.
+#unit_merger = None
+
+#  Splitter to be used to create the units
+#unit_splitter = None
+
+#  list of units
+#units = []
+
+
+#=======================================================================
+#  default attribute values for CoreUnit objects
+[defaults_CoreUnit]
+
+#  Application of the Transform.
+#application = None
+
+#  The dataset to copy the output of this unit to, e.g. Grid dataset -> Local
+#  Dataset
+#copy_output = None
+
+#  Input dataset
+#inputdata = None
+
+#  list of file objects that will act as input files for a job
+#inputfiles = []
+
+#  list of File objects shipped to the worker node
+#inputsandbox = []
+
+#  Merger to be run after this unit completes.
+#merger = None
+
+#  Name of the unit (cosmetic)
+#name = Simple Unit
+
+#  Output dataset
+#outputdata = None
+
+#  list of OutputFile objects to be copied to all jobs
+#outputfiles = []
+
+#  list of postprocessors to run after job has finished
+#postprocessors = None
+
+#  Splitter used on each unit of the Transform.
+#splitter = None
+
+
+#=======================================================================
+#  default attribute values for CustomChecker objects
+[defaults_CustomChecker]
+
+#  Run on master
+#checkMaster = True
+
+#  Run on subjobs
+#checkSubjobs = True
+
+#  Path to a python module to perform the check.
+#module = None
+
+
+#=======================================================================
+#  default attribute values for CustomMerger objects
+[defaults_CustomMerger]
+
+#  A list of files to merge.
+#files = []
+
+#  Jobs that are in the failed or killed states will be excluded from the merge
+#  when this flag is set to True.
+#ignorefailed = False
+
+#  Path to a python module to perform the merge.
+#module = None
+
+#  The default behaviour for this Merger object. Will overwrite output files.
+#overwrite = False
+
+
+#=======================================================================
+#  default attribute values for DaVinci objects
+[defaults_DaVinci]
+
+#  The gaudirun.py cli args that will be passed at run-time
+#args = ['-T']
+
+#  A python configurable string that will be appended to the end of the options
+#  file. Can be multiline by using a notation like
+#  HistogramPersistencySvc().OutputFile =
+#  "myPlots.root"\nEventSelector().PrintFreq = 100  or by using triple quotes
+#  around a multiline string.
+#extraopts = None
+
+#  The package where your top level requirements file is read from. Can be
+#  written either as a path "Tutorial/Analysis/v6r0" or in a CMT style notation
+#  "Analysis v6r0 Tutorial"
+#masterpackage = None
+
+#  Is this app a 'new Style' CMake app?
+#newStyleApp = False
+
+#  The name of the optionsfile. Import statements in the file will be expanded
+#  at submission time and a full copy made
+#optsfile = []
+
+#  The package the application belongs to (e.g. "Sim", "Phys")
+#package = None
+
+#  The platform the application is configured for (e.g. "slc4_ia32_gcc34")
+#platform = None
+
+#  Extra options to be passed onto the SetupProject command used for configuring
+#  the environment. As an example setting it to '--dev' will give access to the
+#  DEV area. For full documentation of the available options see
+#  https://twiki.cern.ch/twiki/bin/view/LHCb/SetupProject
+#setupProjectOptions = 
+
+#  The user path to be used. After assigning this you can do
+#  j.application.getpack('Phys DaVinci v19r2') to check out into the new
+#  location. This variable is used to identify private user DLLs by parsing the
+#  output of "cmt show projects".
+#user_release_area = None
+
+#  The version of the application (like "v19r2")
+#version = None
+
+
+#=======================================================================
+#  default attribute values for Dirac objects
+[defaults_Dirac]
+
+#  Shall we use the block submission?
+#blockSubmit = True
+
+
+#credential_requirements = <class 'GangaDirac.Lib.Credentials.DiracProxy.DiracProxy'>
+
+#  DIRAC API commands to add the job definition script. Only edit if you
+#  *really* know what you are doing
+#diracOpts = 
+
+#  Do you want to download the output sandbox when the job finalises.
+#downloadSandbox = True
+
+#  Maximum number of processors the job needs
+#maxProcessors = 1
+
+#  Minimum number of processors the job needs
+#minProcessors = 1
+
+#  Settings for DIRAC job (e.g. CPUTime, BannedSites, etc.)
+#settings = {'CPUTime': 1000000}
+
+
+#=======================================================================
+#  default attribute values for DiracFile objects
+[defaults_DiracFile]
+
+#  Should the output file be compressed before sending somewhere
+#compressed = False
+
+
+#credential_requirements = DiracProxy
+
+#  defaultSE where the file is to be accessed fromor uploaded to
+#defaultSE = 
+
+#  return/set GUID to use if not using wildcards in namePattern.
+#guid = 
+
+#  return the logical file name/set the logical file name to use if not using
+#  wildcards in namePattern
+#lfn = 
+
+#  local dir where the file is stored, used from get and put methods
+#localDir = None
+
+#  list of SE locations where the outputfiles are uploaded
+#locations = []
+
+#  pattern of the file name
+#namePattern = 
+
+#  remote directory where the LFN is to be placedthis is the relative path of
+#  the LFN which is put between the user LFN base and the filename.
+#remoteDir = 
+
+#  collected files from the wildcard namePattern
+#subfiles = []
+
+
+#=======================================================================
+#  default attribute values for DiracProxy objects
+[defaults_DiracProxy]
+
+#  File which can be used to access a different DIRAC backend
+#dirac_env = None
+
+#  Should the proxy be generated with the group encoded onto the end of the
+#  proxy filename
+#encodeDefaultProxyFileName = True
+
+#  Group for the proxy
+#group = None
+
+#  Time for which proxy will be valid. Default if None is 24 hours. Must be of
+#  form "HH:MM"
+#validTime = None
+
+
+#=======================================================================
+#  default attribute values for Docker objects
+[defaults_Docker]
+
+#  Link to the container image
+#image = 
+
+#  Mode of container execution
+#mode = P1
+
+#  Mounts to attempt from the host system. The key is the directory name on the
+#  host, and the value inside the container. If the directory is not available
+#  on the host, it will just be silently dropped from the list of mount points.
+#mounts = {'/cvmfs': '/cvmfs'}
+
+#  A list of options to pass onto the virtualization command.
+#options = []
+
+#  Deploy token password
+#tokenpassword = 
+
+#  Deploy token username
+#tokenuser = 
+
+
+#=======================================================================
+#  default attribute values for EmptyDataset objects
+[defaults_EmptyDataset]
+
+
+#=======================================================================
+#  default attribute values for Erasmus objects
+[defaults_Erasmus]
+
+#  The gaudirun.py cli args that will be passed at run-time
+#args = ['-T']
+
+#  A python configurable string that will be appended to the end of the options
+#  file. Can be multiline by using a notation like
+#  HistogramPersistencySvc().OutputFile =
+#  "myPlots.root"\nEventSelector().PrintFreq = 100  or by using triple quotes
+#  around a multiline string.
+#extraopts = None
+
+#  The package where your top level requirements file is read from. Can be
+#  written either as a path "Tutorial/Analysis/v6r0" or in a CMT style notation
+#  "Analysis v6r0 Tutorial"
+#masterpackage = None
+
+#  Is this app a 'new Style' CMake app?
+#newStyleApp = False
+
+#  The name of the optionsfile. Import statements in the file will be expanded
+#  at submission time and a full copy made
+#optsfile = []
+
+#  The package the application belongs to (e.g. "Sim", "Phys")
+#package = None
+
+#  The platform the application is configured for (e.g. "slc4_ia32_gcc34")
+#platform = None
+
+#  Extra options to be passed onto the SetupProject command used for configuring
+#  the environment. As an example setting it to '--dev' will give access to the
+#  DEV area. For full documentation of the available options see
+#  https://twiki.cern.ch/twiki/bin/view/LHCb/SetupProject
+#setupProjectOptions = 
+
+#  The user path to be used. After assigning this you can do
+#  j.application.getpack('Phys DaVinci v19r2') to check out into the new
+#  location. This variable is used to identify private user DLLs by parsing the
+#  output of "cmt show projects".
+#user_release_area = None
+
+#  The version of the application (like "v19r2")
+#version = None
+
+
+#=======================================================================
+#  default attribute values for Executable objects
+[defaults_Executable]
+
+#  List of arguments for the executable. Arguments may be strings, numerics or
+#  File objects.
+#args = ['Hello World']
+
+#  Dictionary of environment variables that will be replaced in the running
+#  environment.
+#env = {}
+
+#  A path (string) or a File object specifying an executable.
+#exe = echo
+
+#  MD5 hash of the string representation of applications preparable attributes
+#hash = None
+
+#  Location of shared resources. Presence of this attribute implies the
+#  application has been prepared.
+#is_prepared = None
+
+#  Platform where the job will be executed, for example
+#  "x86_64-centos7-gcc8-opt"
+#platform = ANY
+
+
+#=======================================================================
+#  default attribute values for File objects
+[defaults_File]
+
+#  path to the file source
+#name = 
+
+#  destination subdirectory (a relative path)
+#subdir = .
+
+
+#=======================================================================
+#  default attribute values for FileChecker objects
+[defaults_FileChecker]
+
+#  Run on master
+#checkMaster = True
+
+#  Run on subjobs
+#checkSubjobs = True
+
+#  Toggle whether job fails if string is found or not found.
+#failIfFound = True
+
+#  File to search in
+#files = []
+
+#  Toggle whether to fail job if a file isn't found.
+#filesMustExist = True
+
+#  String to search for
+#searchStrings = []
+
+
+#=======================================================================
+#  default attribute values for GangaDataset objects
+[defaults_GangaDataset]
+
+#  list of file objects that will be the inputdata for the job
+#files = []
+
+#  Treat the inputdata as inputfiles, i.e. copy the inputdata to the WN
+#treat_as_inputfiles = False
+
+
+#=======================================================================
+#  default attribute values for GangaDatasetSplitter objects
+[defaults_GangaDatasetSplitter]
+
+#  the number of files per subjob
+#files_per_subjob = 5
+
+#  Maximum number of files to use in a masterjob (None or -1 = all files)
+#maxFiles = -1
+
+
+#=======================================================================
+#  default attribute values for GangaList objects
+[defaults_GangaList]
+
+
+#=======================================================================
+#  default attribute values for GaudiExec objects
+[defaults_GaudiExec]
+
+#  Automatically set database tags for MC
+#autoDBtags = False
+
+#  Where is the container to use for the build located
+#containerLocation = /cvmfs/lhcb.cern.ch/containers/os-base/slc6-devel/prod/amd64
+
+#  A path to the project that you're wanting to run.
+#directory = 
+
+#  Extra runtime arguments which are passed to the code running on the WN
+#extraArgs = []
+
+#  An additional string which is to be added to 'options' when submitting the
+#  job
+#extraOpts = 
+
+#  Do you want to get the metadata from your jobs
+#getMetadata = False
+
+#  Location of shared resources. Presence of this attribute implies the
+#  application has been prepared.
+#is_prepared = None
+
+#  Number of cores to be provided via the "-j" option to the "make" commandwhen
+#  building the ganga-input-sandbox
+#nMakeCores = 1
+
+#  List of files which contain the options I want to pass to gaudirun.py
+#options = []
+
+#  Platform the application was built for
+#platform = x86_64-centos7-gcc8-opt
+
+#  A list of arguments to pass to the lb-run script at run time. i.e. --quiet
+#run_args = []
+
+#  Run the commands in apptainer
+#useApptainer = False
+
+#  Should 'options' be run as "python options.py data.py"rather than
+#  "gaudirun.py options.py data.py"
+#useGaudiRun = True
+
+
+#=======================================================================
+#  default attribute values for GaudiExecMerger objects
+[defaults_GaudiExecMerger]
+
+#  Arguments to be passed to hadd.
+#args = None
+
+#  A list of files to merge.
+#files = []
+
+#  Jobs that are in the failed or killed states will be excluded from the merge
+#  when this flag is set to True.
+#ignorefailed = False
+
+#  The default behaviour for this Merger object. Will overwrite output files.
+#overwrite = False
+
+
+#=======================================================================
+#  default attribute values for GaudiInputDataSplitter objects
+[defaults_GaudiInputDataSplitter]
+
+#  Number of files per subjob
+#filesPerJob = 10
+
+#  Maximum number of files to use in a masterjob (None = all files)
+#maxFiles = None
+
+
+#=======================================================================
+#  default attribute values for GaudiPython objects
+[defaults_GaudiPython]
+
+#  List of arguments for the script
+#args = []
+
+#  The package where your top level requirements file is read from. Can be
+#  written either as a path "Tutorial/Analysis/v6r0" or in traditional notation
+#  "Analysis v6r0 Tutorial"
+#masterpackage = None
+
+#  Is this app a 'new Style' CMake app?
+#newStyleApp = False
+
+#  The package the application belongs to (e.g. "Sim", "Phys")
+#package = None
+
+#  The platform the application is configured for (e.g. "slc4_ia32_gcc34")
+#platform = None
+
+#  The name of the Gaudi application (e.g. "DaVinci", "Gauss"...)
+#project = None
+
+#  The name of the script to execute. A copy will be made at submission time
+#script = []
+
+#  Extra options to be passed onto the SetupProject command used for configuring
+#  the environment. As an example setting it to '--dev' will give access to the
+#  DEV area. For full documentation of the available options see
+#  https://twiki.cern.ch/twiki/bin/view/LHCb/SetupProject
+#setupProjectOptions = 
+
+#  The user path to be used. After assigning this you can do
+#  j.application.getpack('Phys DaVinci v19r2') to check out into the new
+#  location. This variable is used to identify private user DLLs by parsing the
+#  output of "cmt show projects".
+#user_release_area = None
+
+#  The version of the application (like "v19r2")
+#version = None
+
+
+#=======================================================================
+#  default attribute values for GaudiXMLSummary objects
+[defaults_GaudiXMLSummary]
+
+
+#env_var = 
+
+
+#file = 
+
+
+#=======================================================================
+#  default attribute values for GaudiXMLSummaryMerger objects
+[defaults_GaudiXMLSummaryMerger]
+
+
+#env_var = 
+
+#  A list of files to merge.
+#files = []
+
+#  Jobs that are in the failed or killed states will be excluded from the merge
+#  when this flag is set to True.
+#ignorefailed = False
+
+#  The default behaviour for this Merger object. Will overwrite output files.
+#overwrite = False
+
+
+#=======================================================================
+#  default attribute values for Gauss objects
+[defaults_Gauss]
+
+#  The gaudirun.py cli args that will be passed at run-time
+#args = ['-T']
+
+#  A python configurable string that will be appended to the end of the options
+#  file. Can be multiline by using a notation like
+#  HistogramPersistencySvc().OutputFile =
+#  "myPlots.root"\nEventSelector().PrintFreq = 100  or by using triple quotes
+#  around a multiline string.
+#extraopts = None
+
+#  The package where your top level requirements file is read from. Can be
+#  written either as a path "Tutorial/Analysis/v6r0" or in a CMT style notation
+#  "Analysis v6r0 Tutorial"
+#masterpackage = None
+
+#  Is this app a 'new Style' CMake app?
+#newStyleApp = False
+
+#  The name of the optionsfile. Import statements in the file will be expanded
+#  at submission time and a full copy made
+#optsfile = []
+
+#  The package the application belongs to (e.g. "Sim", "Phys")
+#package = None
+
+#  The platform the application is configured for (e.g. "slc4_ia32_gcc34")
+#platform = None
+
+#  Extra options to be passed onto the SetupProject command used for configuring
+#  the environment. As an example setting it to '--dev' will give access to the
+#  DEV area. For full documentation of the available options see
+#  https://twiki.cern.ch/twiki/bin/view/LHCb/SetupProject
+#setupProjectOptions = 
+
+#  The user path to be used. After assigning this you can do
+#  j.application.getpack('Phys DaVinci v19r2') to check out into the new
+#  location. This variable is used to identify private user DLLs by parsing the
+#  output of "cmt show projects".
+#user_release_area = None
+
+#  The version of the application (like "v19r2")
+#version = None
+
+
+#=======================================================================
+#  default attribute values for GaussSplitter objects
+[defaults_GaussSplitter]
+
+#  Number of generated events per job
+#eventsPerJob = 5
+
+#  First event number for first subjob
+#firstEventNumber = 0
+
+#  No. of jobs to create
+#numberOfJobs = 2
+
+
+#=======================================================================
+#  default attribute values for GenericSplitter objects
+[defaults_GenericSplitter]
+
+#  The attribute on which the job is splitted
+#attribute = 
+
+#  Dictionary to specify multiple attributes to split over
+#multi_attrs = {}
+
+#  A list of the values corresponding to the attribute of the subjobs
+#values = []
+
+
+#=======================================================================
+#  default attribute values for GoogleFile objects
+[defaults_GoogleFile]
+
+#  wheather the output file should be compressed before sending somewhere
+#compressed = False
+
+#  download URL assigned to the file upon upload to GoogleDrive
+#downloadURL = 
+
+#  reason for the upload failure
+#failureReason = 
+
+#  local dir where the file is stored, used from get and put methods
+#localDir = 
+
+#  pattern of the file name
+#namePattern = 
+
+
+#=======================================================================
+#  default attribute values for ITask objects
+[defaults_ITask]
+
+#  Check all Transforms during each monitoring loop cycle
+#check_all_trfs = True
+
+#  comment of the task
+#comment = 
+
+#  Number of Jobs run concurrently
+#float = 0
+
+#  Name of the Task
+#name = NewTask
+
+#  list of transforms
+#transforms = []
+
+
+#=======================================================================
+#  default attribute values for Interactive objects
+[defaults_Interactive]
+
+
+#=======================================================================
+#  default attribute values for Job objects
+[defaults_Job]
+
+#  specification of the application to be executed
+#application = <GangaCore.Lib.Executable.Executable.Executable object at 0x7f29ac75b7a0>
+
+#  specification of the resources to be used (e.g. batch system)
+#backend = <GangaCore.Lib.Localhost.Localhost.Localhost object at 0x7f29ac76fca0>
+
+#  comment of the job
+#comment = 
+
+#  Automatically resubmit failed subjobs
+#do_auto_resubmit = False
+
+#  JobInfo
+#info = None
+
+#  dataset definition (typically this is specific either to an application, a
+#  site or the virtual organization
+#inputdata = None
+
+#  list of file objects that will act as input files for a job
+#inputfiles = []
+
+#  list of File objects shipped to the worker node
+#inputsandbox = []
+
+#  optional label which may be any combination of ASCII characters
+#name = 
+
+#  dataset definition (typically this is specific either to an application, a
+#  site or the virtual organization
+#outputdata = None
+
+#  list of file objects decorating what have to be done with the output files
+#  after job is completed
+#outputfiles = []
+
+#  list of filenames or patterns shipped from the worker node
+#outputsandbox = []
+
+#  Enable Submission of subjobs in parallel
+#parallel_submit = True
+
+#  list of postprocessors to run after job has finished
+#postprocessors = []
+
+#  optional splitter
+#splitter = None
+
+#  optional virtualization to be used
+#virtualization = None
+
+
+#=======================================================================
+#  default attribute values for JobInfo objects
+[defaults_JobInfo]
+
+#  job monitor instance
+#monitor = None
+
+
+#=======================================================================
+#  default attribute values for JobTemplate objects
+[defaults_JobTemplate]
+
+#  specification of the application to be executed
+#application = <GangaCore.Lib.Executable.Executable.Executable object at 0x7f29ac775db0>
+
+#  specification of the resources to be used (e.g. batch system)
+#backend = <GangaCore.Lib.Localhost.Localhost.Localhost object at 0x7f29ac775d60>
+
+#  comment of the job
+#comment = 
+
+#  Automatically resubmit failed subjobs
+#do_auto_resubmit = False
+
+#  JobInfo
+#info = None
+
+#  dataset definition (typically this is specific either to an application, a
+#  site or the virtual organization
+#inputdata = None
+
+#  list of file objects that will act as input files for a job
+#inputfiles = []
+
+#  list of File objects shipped to the worker node
+#inputsandbox = []
+
+#  optional label which may be any combination of ASCII characters
+#name = 
+
+#  dataset definition (typically this is specific either to an application, a
+#  site or the virtual organization
+#outputdata = None
+
+#  list of file objects decorating what have to be done with the output files
+#  after job is completed
+#outputfiles = []
+
+#  list of filenames or patterns shipped from the worker node
+#outputsandbox = []
+
+#  Enable Submission of subjobs in parallel
+#parallel_submit = True
+
+#  list of postprocessors to run after job has finished
+#postprocessors = []
+
+#  optional splitter
+#splitter = None
+
+#  optional virtualization to be used
+#virtualization = None
+
+
+#=======================================================================
+#  default attribute values for JobTime objects
+[defaults_JobTime]
+
+#  Dictionary containing timestamps for job
+#timestamps = {}
+
+
+#=======================================================================
+#  default attribute values for JobTree objects
+[defaults_JobTree]
+
+
+#name = 
+
+
+#=======================================================================
+#  default attribute values for LHCbCompressedDataset objects
+[defaults_LHCbCompressedDataset]
+
+#  Use contents of file rather than generating catalog.
+#XMLCatalogueSlice = None
+
+
+#credential_requirements = None
+
+#  Depth
+#depth = 0
+
+#  A list of lists of the file suffixes
+#files = []
+
+#  Specify the dataset persistency technology
+#persistency = None
+
+#  Treat the inputdata as inputfiles, i.e. copy the inputdata to the WN
+#treat_as_inputfiles = False
+
+
+#=======================================================================
+#  default attribute values for LHCbCompressedFileSet objects
+[defaults_LHCbCompressedFileSet]
+
+#  The common starting path of the LFN
+#lfn_prefix = None
+
+#  The individual end of each LFN
+#suffixes = []
+
+
+#=======================================================================
+#  default attribute values for LHCbDataset objects
+[defaults_LHCbDataset]
+
+#  Use contents of file rather than generating catalog.
+#XMLCatalogueSlice = None
+
+#  Ancestor depth to be queried from the Bookkeeping
+#depth = 0
+
+#  List of PhysicalFile and DiracFile objects
+#files = []
+
+#  Specify the dataset persistency technology
+#persistency = None
+
+#  Treat the inputdata as inputfiles, i.e. copy the inputdata to the WN
+#treat_as_inputfiles = False
+
+
+#=======================================================================
+#  default attribute values for LHCbFileMerger objects
+[defaults_LHCbFileMerger]
+
+#  A list of files to merge.
+#files = []
+
+#  Jobs that are in the failed or killed states will be excluded from the merge
+#  when this flag is set to True.
+#ignorefailed = False
+
+#  The default behaviour for this Merger object. Will overwrite output files.
+#overwrite = False
+
+#  The version of DaVinci to use when merging. (e.g. v33r0p1)
+#version = 
+
+
+#=======================================================================
+#  default attribute values for LHCbMetaDataChecker objects
+[defaults_LHCbMetaDataChecker]
+
+#  Run on master
+#checkMaster = True
+
+#  Run on subjobs
+#checkSubjobs = True
+
+#  The metadata attribute
+#expression = None
+
+
+#=======================================================================
+#  default attribute values for LHCbTask objects
+[defaults_LHCbTask]
+
+#  Check all Transforms during each monitoring loop cycle
+#check_all_trfs = True
+
+#  comment of the task
+#comment = 
+
+#  Number of Jobs run concurrently
+#float = 0
+
+#  Name of the Task
+#name = NewTask
+
+#  list of transforms
+#transforms = []
+
+
+#=======================================================================
+#  default attribute values for LHCbTransform objects
+[defaults_LHCbTransform]
+
+#  Break out of the Task Loop after submissions
+#abort_loop_on_submit = True
+
+#  Application of the Transform.
+#application = None
+
+#  Backend of the Transform.
+#backend = None
+
+#  Minutes delay between a required/chained unit completing and starting this
+#  one
+#chain_delay = 0
+
+#  The dataset to copy all units output to, e.g. Grid dataset -> Local Dataset
+#copy_output = None
+
+#  Delete the Dirac input files/data after completion of each unit
+#delete_chain_input = False
+
+#  Maximum number of files to assign to each unit from a given input dataset. If
+#  < 1, use all files.
+#files_per_unit = -1
+
+#  list of file objects that will act as input files for a job
+#inputfiles = []
+
+#  list of File objects shipped to the worker node
+#inputsandbox = []
+
+#  Maximum number of Ganga Threads to use. Note that the number of simultaneous
+#  threads is controlled by the queue system (default is 10)
+#max_active_threads = 10
+
+#  No. of units to create for MC generation
+#mc_num_units = 0
+
+#  Name of the transform (cosmetic)
+#name = Simple Transform
+
+#  Output dataset template
+#outputdata = None
+
+#  list of OutputFile objects to be copied to all jobs
+#outputfiles = []
+
+#  list of filenames or patterns shipped from the worker node
+#outputsandbox = []
+
+#  list of postprocessors to run after job has finished
+#postprocessors = None
+
+#  Rebroker if too many minor resubs
+#rebroker_on_job_fail = True
+
+#  IDs of transforms that must complete before this unit will start. NOTE
+#  DOESN'T COPY OUTPUT DATA TO INPUT DATA. Use TaskChainInput Dataset for that.
+#required_trfs = []
+
+#  Splitter to be used for units
+#splitter = None
+
+#  Use Ganga Threads for submission
+#submit_with_threads = False
+
+#  The dataset to copy each individual unit output to, e.g. Grid dataset ->
+#  Local Dataset
+#unit_copy_output = None
+
+#  Merger to be copied and run on each unit separately.
+#unit_merger = None
+
+#  list of units
+#units = []
+
+
+#=======================================================================
+#  default attribute values for LHCbUnit objects
+[defaults_LHCbUnit]
+
+#  Application of the Transform.
+#application = None
+
+#  The dataset to copy the output of this unit to, e.g. Grid dataset -> Local
+#  Dataset
+#copy_output = None
+
+#  Input dataset
+#inputdata = None
+
+#  list of file objects that will act as input files for a job
+#inputfiles = []
+
+#  list of File objects shipped to the worker node
+#inputsandbox = []
+
+#  Merger to be run after this unit completes.
+#merger = None
+
+#  Name of the unit (cosmetic)
+#name = Simple Unit
+
+#  Output dataset
+#outputdata = None
+
+#  list of OutputFile objects to be copied to all jobs
+#outputfiles = []
+
+#  list of postprocessors to run after job has finished
+#postprocessors = None
+
+#  Splitter used on each unit of the Transform.
+#splitter = None
+
+
+#=======================================================================
+#  default attribute values for LSF objects
+[defaults_LSF]
+
+#  extra options for Batch. See help(Batch) for more details
+#extraopts = 
+
+#  queue name as defomed in your local Batch installation
+#queue = 
+
+
+#=======================================================================
+#  default attribute values for Local objects
+[defaults_Local]
+
+#  Run a maximum of this number of subjobs in parallel. If value is negative use
+#  number of available CPUs
+#batchsize = -1
+
+#  should jobs really be submitted in parallel
+#force_parallel = False
+
+#  adjust process priority using nice -n command
+#nice = 0
+
+
+#=======================================================================
+#  default attribute values for LocalFile objects
+[defaults_LocalFile]
+
+#  wheather the output file should be compressed before sending somewhere
+#compressed = False
+
+#  local dir where the file is stored, used from get and put methods
+#localDir = 
+
+#  pattern of the file name
+#namePattern = 
+
+
+#=======================================================================
+#  default attribute values for LogicalFile objects
+[defaults_LogicalFile]
+
+#  wheather the output file should be compressed before sending somewhere
+#compressed = False
+
+#  return the GUID/set the GUID to use if not using wildcards in the
+#  namePattern.
+#guid = 
+
+#  return the logical file name/set the logical file name to use if not using
+#  wildcards in namePattern
+#lfn = 
+
+#  local dir where the file is stored, used from get and put methods
+#localDir = None
+
+#  list of SE locations where the outputfiles are uploaded
+#locations = []
+
+#  the LFN filename a LogicalFile is constructed with
+#name = 
+
+#  pattern of the file name
+#namePattern = 
+
+#  remote directory where the LFN is to be placed in the dirac base directory by
+#  the put method.
+#remoteDir = 
+
+
+#=======================================================================
+#  default attribute values for MassStorageFile objects
+[defaults_MassStorageFile]
+
+#  wheather the output file should be compressed before sending somewhere
+#compressed = False
+
+#  Directory on mass storage where the file is stored
+#inputremotedirectory = None
+
+#  outputdir of the job with which the outputsandbox file object is associated
+#joboutputdir = 
+
+#  local dir where the file is stored, used from get and put methods
+#localDir = 
+
+#  list of locations where the outputfiles are uploaded
+#locations = []
+
+#  pattern of the file name
+#namePattern = 
+
+#  keyword path to where the output should be uploaded, i.e.
+#  /some/path/here/{jid}/{sjid}/{fname},
+#  if this field is not set, the output will go in {jid}/{sjid}/{fname} or in
+#  {jid}/{fname}
+#  depending on whether the job is split or not
+#outputfilenameformat = None
+
+
+#=======================================================================
+#  default attribute values for MetadataDict objects
+[defaults_MetadataDict]
+
+
+#=======================================================================
+#  default attribute values for Moore objects
+[defaults_Moore]
+
+#  The gaudirun.py cli args that will be passed at run-time
+#args = ['-T']
+
+#  A python configurable string that will be appended to the end of the options
+#  file. Can be multiline by using a notation like
+#  HistogramPersistencySvc().OutputFile =
+#  "myPlots.root"\nEventSelector().PrintFreq = 100  or by using triple quotes
+#  around a multiline string.
+#extraopts = None
+
+#  The package where your top level requirements file is read from. Can be
+#  written either as a path "Tutorial/Analysis/v6r0" or in a CMT style notation
+#  "Analysis v6r0 Tutorial"
+#masterpackage = None
+
+#  Is this app a 'new Style' CMake app?
+#newStyleApp = False
+
+#  The name of the optionsfile. Import statements in the file will be expanded
+#  at submission time and a full copy made
+#optsfile = []
+
+#  The package the application belongs to (e.g. "Sim", "Phys")
+#package = None
+
+#  The platform the application is configured for (e.g. "slc4_ia32_gcc34")
+#platform = None
+
+#  Extra options to be passed onto the SetupProject command used for configuring
+#  the environment. As an example setting it to '--dev' will give access to the
+#  DEV area. For full documentation of the available options see
+#  https://twiki.cern.ch/twiki/bin/view/LHCb/SetupProject
+#setupProjectOptions = 
+
+#  The user path to be used. After assigning this you can do
+#  j.application.getpack('Phys DaVinci v19r2') to check out into the new
+#  location. This variable is used to identify private user DLLs by parsing the
+#  output of "cmt show projects".
+#user_release_area = None
+
+#  The version of the application (like "v19r2")
+#version = None
+
+
+#=======================================================================
+#  default attribute values for MooreOnline objects
+[defaults_MooreOnline]
+
+#  The gaudirun.py cli args that will be passed at run-time
+#args = ['-T']
+
+#  A python configurable string that will be appended to the end of the options
+#  file. Can be multiline by using a notation like
+#  HistogramPersistencySvc().OutputFile =
+#  "myPlots.root"\nEventSelector().PrintFreq = 100  or by using triple quotes
+#  around a multiline string.
+#extraopts = None
+
+#  The package where your top level requirements file is read from. Can be
+#  written either as a path "Tutorial/Analysis/v6r0" or in a CMT style notation
+#  "Analysis v6r0 Tutorial"
+#masterpackage = None
+
+#  Is this app a 'new Style' CMake app?
+#newStyleApp = False
+
+#  The name of the optionsfile. Import statements in the file will be expanded
+#  at submission time and a full copy made
+#optsfile = []
+
+#  The package the application belongs to (e.g. "Sim", "Phys")
+#package = None
+
+#  The platform the application is configured for (e.g. "slc4_ia32_gcc34")
+#platform = None
+
+#  Extra options to be passed onto the SetupProject command used for configuring
+#  the environment. As an example setting it to '--dev' will give access to the
+#  DEV area. For full documentation of the available options see
+#  https://twiki.cern.ch/twiki/bin/view/LHCb/SetupProject
+#setupProjectOptions = 
+
+#  The user path to be used. After assigning this you can do
+#  j.application.getpack('Phys DaVinci v19r2') to check out into the new
+#  location. This variable is used to identify private user DLLs by parsing the
+#  output of "cmt show projects".
+#user_release_area = None
+
+#  The version of the application (like "v19r2")
+#version = None
+
+
+#=======================================================================
+#  default attribute values for MultiPostProcessor objects
+[defaults_MultiPostProcessor]
+
+
+#=======================================================================
+#  default attribute values for Noether objects
+[defaults_Noether]
+
+#  The gaudirun.py cli args that will be passed at run-time
+#args = ['-T']
+
+#  A python configurable string that will be appended to the end of the options
+#  file. Can be multiline by using a notation like
+#  HistogramPersistencySvc().OutputFile =
+#  "myPlots.root"\nEventSelector().PrintFreq = 100  or by using triple quotes
+#  around a multiline string.
+#extraopts = None
+
+#  The package where your top level requirements file is read from. Can be
+#  written either as a path "Tutorial/Analysis/v6r0" or in a CMT style notation
+#  "Analysis v6r0 Tutorial"
+#masterpackage = None
+
+#  Is this app a 'new Style' CMake app?
+#newStyleApp = False
+
+#  The name of the optionsfile. Import statements in the file will be expanded
+#  at submission time and a full copy made
+#optsfile = []
+
+#  The package the application belongs to (e.g. "Sim", "Phys")
+#package = None
+
+#  The platform the application is configured for (e.g. "slc4_ia32_gcc34")
+#platform = None
+
+#  Extra options to be passed onto the SetupProject command used for configuring
+#  the environment. As an example setting it to '--dev' will give access to the
+#  DEV area. For full documentation of the available options see
+#  https://twiki.cern.ch/twiki/bin/view/LHCb/SetupProject
+#setupProjectOptions = 
+
+#  The user path to be used. After assigning this you can do
+#  j.application.getpack('Phys DaVinci v19r2') to check out into the new
+#  location. This variable is used to identify private user DLLs by parsing the
+#  output of "cmt show projects".
+#user_release_area = None
+
+#  The version of the application (like "v19r2")
+#version = None
+
+
+#=======================================================================
+#  default attribute values for Notebook objects
+[defaults_Notebook]
+
+#  MD5 hash of the string representation of applications preparable attributes
+#hash = None
+
+#  Location of shared resources. Presence of this attribute implies the
+#  application has been prepared.
+#is_prepared = None
+
+#  The kernel to use for the notebook execution.                 Depending on
+#  configuration, python3, Root and R might be available.
+#kernel = python3
+
+#  Regular expression for the inputfiles to match for executing.
+#regexp = ['.+\\.ipynb$']
+
+#  Timeout in seconds for executing a notebook. If None, the default value will
+#  be taken.
+#timeout = None
+
+#  Version of the notebook. If None, it will be assumed that it is the latest
+#  one.
+#version = None
+
+
+#=======================================================================
+#  default attribute values for Notifier objects
+[defaults_Notifier]
+
+#  Email address
+#address = 
+
+#  Email on subjob completion
+#verbose = False
+
+
+#=======================================================================
+#  default attribute values for OptionsFileSplitter objects
+[defaults_OptionsFileSplitter]
+
+#  List of option-file strings, each list item creates a new subjob
+#optsArray = []
+
+
+#=======================================================================
+#  default attribute values for Ostap objects
+[defaults_Ostap]
+
+#  List of command-line arguments for bender script,         e.g. ['-w','-p5'],
+#  etc.         For python scripts and configuration/Configurable files for
+#  'importOptions'         it is much better to use the separate options
+#  'scripts' and 'imports'         Following arguments will be appended
+#  automatically:  --no-color, --no-castor and --batch
+#arguments = []
+
+#  The commands to be executed,         e.g. [ 'run(10)' , 'print ls()' , 'print
+#  dir()' ]
+#commands = []
+
+#  The package where your top level requirements file is read from.         Can
+#  be written either as a path 'Tutorial/Analysis/v6r0' or in traditional
+#  notation          'Analysis v6r0 Tutorial'
+#masterpackage = None
+
+#  Is this app a 'new Style' CMake app?
+#newStyleApp = False
+
+#  The package the application belongs to (e.g. 'Sim', 'Phys')
+#package = None
+
+#  The platform the application is configured for (e.g. "slc4_ia32_gcc34")
+#platform = None
+
+#  The names of the script files to execute.         A copy will be made at
+#  submission time
+#scripts = []
+
+#  Extra options to be passed onto the SetupProject command         used for
+#  configuring the environment. As an example          setting it to '--dev'
+#  will give access to the DEV area.          For full documentation of the
+#  available options see
+#  https://twiki.cern.ch/twiki/bin/view/LHCb/SetupProject
+#setupProjectOptions = 
+
+#  The user path to be used. After assigning this you can do
+#  j.application.getpack('Phys DaVinci v19r2') to check out into the new
+#  location. This variable is used to identify private user DLLs by parsing the
+#  output of "cmt show projects".
+#user_release_area = None
+
+#  The version of the application (like "v19r2")
+#version = None
+
+
+#=======================================================================
+#  default attribute values for OstapRun objects
+[defaults_OstapRun]
+
+#  The list of command-line arguments for ``ostap'' script, e.g. ['-w','-p5'],
+#  etc. Following arguments are appended automatically:  --no-color and --batch
+#arguments = []
+
+#  The ostap commands to be executed, e.g. [ 'print dir()' ]
+#commands = []
+
+#  A path to the project that you're wanting to run.
+#directory = 
+
+#  Do you want to get the metadata from your jobs
+#getMetadata = True
+
+#  Platform the application was built for
+#platform = x86_64-centos7-gcc8-opt
+
+#  The names of ostap script files to be executed. The files are executed within
+#  ``ostap'' context. A copy will be made at submission time
+#scripts = None
+
+
+#=======================================================================
+#  default attribute values for PBS objects
+[defaults_PBS]
+
+#  extra options for Batch. See help(Batch) for more details
+#extraopts = 
+
+#  queue name as defomed in your local Batch installation
+#queue = 
+
+
+#=======================================================================
+#  default attribute values for Panoptes objects
+[defaults_Panoptes]
+
+#  The gaudirun.py cli args that will be passed at run-time
+#args = ['-T']
+
+#  A python configurable string that will be appended to the end of the options
+#  file. Can be multiline by using a notation like
+#  HistogramPersistencySvc().OutputFile =
+#  "myPlots.root"\nEventSelector().PrintFreq = 100  or by using triple quotes
+#  around a multiline string.
+#extraopts = None
+
+#  The package where your top level requirements file is read from. Can be
+#  written either as a path "Tutorial/Analysis/v6r0" or in a CMT style notation
+#  "Analysis v6r0 Tutorial"
+#masterpackage = None
+
+#  Is this app a 'new Style' CMake app?
+#newStyleApp = False
+
+#  The name of the optionsfile. Import statements in the file will be expanded
+#  at submission time and a full copy made
+#optsfile = []
+
+#  The package the application belongs to (e.g. "Sim", "Phys")
+#package = None
+
+#  The platform the application is configured for (e.g. "slc4_ia32_gcc34")
+#platform = None
+
+#  Extra options to be passed onto the SetupProject command used for configuring
+#  the environment. As an example setting it to '--dev' will give access to the
+#  DEV area. For full documentation of the available options see
+#  https://twiki.cern.ch/twiki/bin/view/LHCb/SetupProject
+#setupProjectOptions = 
+
+#  The user path to be used. After assigning this you can do
+#  j.application.getpack('Phys DaVinci v19r2') to check out into the new
+#  location. This variable is used to identify private user DLLs by parsing the
+#  output of "cmt show projects".
+#user_release_area = None
+
+#  The version of the application (like "v19r2")
+#version = None
+
+
+#=======================================================================
+#  default attribute values for PhysicalFile objects
+[defaults_PhysicalFile]
+
+#  wheather the output file should be compressed before sending somewhere
+#compressed = False
+
+#  local dir where the file is stored, used from get and put methods
+#localDir = 
+
+#  PFN
+#name = 
+
+#  pattern of the file name
+#namePattern = 
+
+
+#=======================================================================
+#  default attribute values for Remote objects
+[defaults_Remote]
+
+#  Overides any environment variables set in the job
+#environment = {}
+
+#  Command line to start ganga on the remote host
+#ganga_cmd = 
+
+#  The directory to use for the remote workspace, repository, etc.
+#ganga_dir = 
+
+#  The remote host and port number ('host:port') to use. Default port is 22.
+#host = 
+
+#  Set to the type of ssh key to use (if required). Possible values are 'RSA'
+#  and 'DSS'.
+#key_type = RSA
+
+#  Sequence of commands to execute before running Ganga on the remote site
+#pre_script = ['']
+
+#  specification of the resources to be used (e.g. batch system)
+#remote_backend = None
+
+#  Set to true to the location of the the ssh key to use for authentication,
+#  e.g. /home/mws/.ssh/id_rsa. Note, you should make sure 'key_type' is also set
+#  correctly.
+#ssh_key = 
+
+#  The username at the remote host
+#username = 
+
+
+#=======================================================================
+#  default attribute values for RootFileChecker objects
+[defaults_RootFileChecker]
+
+#  Run on master
+#checkMaster = True
+
+#  Toggle whether to check the merging proceedure
+#checkMerge = True
+
+#  Run on subjobs
+#checkSubjobs = True
+
+#  File to search in
+#files = []
+
+#  Toggle whether to fail job if a file isn't found.
+#filesMustExist = True
+
+
+#=======================================================================
+#  default attribute values for RootMerger objects
+[defaults_RootMerger]
+
+#  Arguments to be passed to hadd.
+#args = None
+
+#  A list of files to merge.
+#files = []
+
+#  Jobs that are in the failed or killed states will be excluded from the merge
+#  when this flag is set to True.
+#ignorefailed = False
+
+#  The default behaviour for this Merger object. Will overwrite output files.
+#overwrite = False
+
+
+#=======================================================================
+#  default attribute values for SGE objects
+[defaults_SGE]
+
+#  extra options for Batch. See help(Batch) for more details
+#extraopts = 
+
+#  queue name as defomed in your local Batch installation
+#queue = 
+
+
+#=======================================================================
+#  default attribute values for ShareDir objects
+[defaults_ShareDir]
+
+#  A list of files associated with the sharedir
+#associated_files = []
+
+#  path to the file source
+#name = 
+
+#  destination subdirectory (a relative path)
+#subdir = .
+
+
+#=======================================================================
+#  default attribute values for ShareRef objects
+[defaults_ShareRef]
+
+
+#=======================================================================
+#  default attribute values for SharedFile objects
+[defaults_SharedFile]
+
+#  wheather the output file should be compressed before sending somewhere
+#compressed = False
+
+#  Directory on mass storage where the file is stored
+#inputremotedirectory = None
+
+#  outputdir of the job with which the outputsandbox file object is associated
+#joboutputdir = 
+
+#  local dir where the file is stored, used from get and put methods
+#localDir = 
+
+#  list of locations where the outputfiles are uploaded
+#locations = []
+
+#  pattern of the file name
+#namePattern = 
+
+#  keyword path to where the output should be uploaded, i.e.
+#  /some/path/here/{jid}/{sjid}/{fname},
+#  if this field is not set, the output will go in {jid}/{sjid}/{fname} or in
+#  {jid}/{fname}
+#  depending on whether the job is split or not
+#outputfilenameformat = None
+
+
+#=======================================================================
+#  default attribute values for Singularity objects
+[defaults_Singularity]
+
+#  The virtualization binary itself. Can be an absolute path if required.
+#binary = singularity
+
+#  Link to the container image. This can either be a singularity URL or a
+#  GangaFile object
+#image = 
+
+#  Mounts to attempt from the host system. The key is the directory name on the
+#  host, and the value inside the container. If the directory is not available
+#  on the host, it will just be silently dropped from the list of mount points.
+#mounts = {'/cvmfs': '/cvmfs'}
+
+#  A list of options to pass onto the virtualization command.
+#options = []
+
+#  Deploy token password
+#tokenpassword = 
+
+#  Deploy token username
+#tokenuser = 
+
+
+#=======================================================================
+#  default attribute values for Slurm objects
+[defaults_Slurm]
+
+#  extra options for Batch. See help(Batch) for more details
+#extraopts = 
+
+#  queue name as defomed in your local Batch installation
+#queue = 
+
+
+#=======================================================================
+#  default attribute values for SmartMerger objects
+[defaults_SmartMerger]
+
+#  A list of files to merge.
+#files = []
+
+#  Jobs that are in the failed or killed states will be excluded from the merge
+#  when this flag is set to True.
+#ignorefailed = False
+
+#  The default behaviour for this Merger object. Will overwrite output files.
+#overwrite = False
+
+
+#=======================================================================
+#  default attribute values for SplitByFiles objects
+[defaults_SplitByFiles]
+
+#  determines if subjobs are split server side in a "bulk" submission or split
+#  locally and submitted individually
+#bulksubmit = False
+
+
+#credential_requirements = <class 'GangaDirac.Lib.Credentials.DiracProxy.DiracProxy'>
+
+#  Number of files per subjob
+#filesPerJob = 10
+
+#  Skip LFNs if they are not found in the LFC. This option is only used ifjobs
+#  backend is Dirac
+#ignoremissing = False
+
+#  Maximum number of files to use in a masterjob (None = all files)
+#maxFiles = None
+
+
+#=======================================================================
+#  default attribute values for TaskChainInput objects
+[defaults_TaskChainInput]
+
+#  List of Regular expressions of which files to exclude for input
+#exclude_file_mask = []
+
+#  List of Regular expressions of which files to include for input
+#include_file_mask = []
+
+#  Input Transform ID
+#input_trf_id = -1
+
+#  Create a single unit from all inputs in the transform
+#single_unit = False
+
+#  Use the copied output instead of default output (e.g. use local copy instead
+#  of grid copy)
+#use_copy_output = True
+
+
+#=======================================================================
+#  default attribute values for TaskLocalCopy objects
+[defaults_TaskLocalCopy]
+
+#  List of Regular expressions of which files to exclude from copy
+#exclude_file_mask = []
+
+#  List of successfully downloaded files
+#files = []
+
+#  List of Regular expressions of which files to include in copy
+#include_file_mask = []
+
+#  Local location to copy files to
+#local_location = 
+
+
+#=======================================================================
+#  default attribute values for TextMerger objects
+[defaults_TextMerger]
+
+#  Output should be compressed with gzip.
+#compress = False
+
+#  A list of files to merge.
+#files = []
+
+#  Jobs that are in the failed or killed states will be excluded from the merge
+#  when this flag is set to True.
+#ignorefailed = False
+
+#  The default behaviour for this Merger object. Will overwrite output files.
+#overwrite = False
+
+
+#=======================================================================
+#  default attribute values for Urania objects
+[defaults_Urania]
+
+#  The gaudirun.py cli args that will be passed at run-time
+#args = ['-T']
+
+#  A python configurable string that will be appended to the end of the options
+#  file. Can be multiline by using a notation like
+#  HistogramPersistencySvc().OutputFile =
+#  "myPlots.root"\nEventSelector().PrintFreq = 100  or by using triple quotes
+#  around a multiline string.
+#extraopts = None
+
+#  The package where your top level requirements file is read from. Can be
+#  written either as a path "Tutorial/Analysis/v6r0" or in a CMT style notation
+#  "Analysis v6r0 Tutorial"
+#masterpackage = None
+
+#  Is this app a 'new Style' CMake app?
+#newStyleApp = False
+
+#  The name of the optionsfile. Import statements in the file will be expanded
+#  at submission time and a full copy made
+#optsfile = []
+
+#  The package the application belongs to (e.g. "Sim", "Phys")
+#package = None
+
+#  The platform the application is configured for (e.g. "slc4_ia32_gcc34")
+#platform = None
+
+#  Extra options to be passed onto the SetupProject command used for configuring
+#  the environment. As an example setting it to '--dev' will give access to the
+#  DEV area. For full documentation of the available options see
+#  https://twiki.cern.ch/twiki/bin/view/LHCb/SetupProject
+#setupProjectOptions = 
+
+#  The user path to be used. After assigning this you can do
+#  j.application.getpack('Phys DaVinci v19r2') to check out into the new
+#  location. This variable is used to identify private user DLLs by parsing the
+#  output of "cmt show projects".
+#user_release_area = None
+
+#  The version of the application (like "v19r2")
+#version = None
+
+
+#=======================================================================
+#  default attribute values for Vetra objects
+[defaults_Vetra]
+
+#  The gaudirun.py cli args that will be passed at run-time
+#args = ['-T']
+
+#  A python configurable string that will be appended to the end of the options
+#  file. Can be multiline by using a notation like
+#  HistogramPersistencySvc().OutputFile =
+#  "myPlots.root"\nEventSelector().PrintFreq = 100  or by using triple quotes
+#  around a multiline string.
+#extraopts = None
+
+#  The package where your top level requirements file is read from. Can be
+#  written either as a path "Tutorial/Analysis/v6r0" or in a CMT style notation
+#  "Analysis v6r0 Tutorial"
+#masterpackage = None
+
+#  Is this app a 'new Style' CMake app?
+#newStyleApp = False
+
+#  The name of the optionsfile. Import statements in the file will be expanded
+#  at submission time and a full copy made
+#optsfile = []
+
+#  The package the application belongs to (e.g. "Sim", "Phys")
+#package = None
+
+#  The platform the application is configured for (e.g. "slc4_ia32_gcc34")
+#platform = None
+
+#  Extra options to be passed onto the SetupProject command used for configuring
+#  the environment. As an example setting it to '--dev' will give access to the
+#  DEV area. For full documentation of the available options see
+#  https://twiki.cern.ch/twiki/bin/view/LHCb/SetupProject
+#setupProjectOptions = 
+
+#  The user path to be used. After assigning this you can do
+#  j.application.getpack('Phys DaVinci v19r2') to check out into the new
+#  location. This variable is used to identify private user DLLs by parsing the
+#  output of "cmt show projects".
+#user_release_area = None
+
+#  The version of the application (like "v19r2")
+#version = None
+
+
+#=======================================================================
+#  default attribute values for VomsProxy objects
+[defaults_VomsProxy]
+
+#  Group for the proxy - either "group" or "group/subgroup"
+#group = None
+
+#  Identity for the proxy
+#identity = None
+
+#  Role that the proxy must have
+#role = None
+
+#  Virtual Organisation for the proxy. Defaults to LGC/VirtualOrganisation
+#vo = None
+

@@ -1,0 +1,10 @@
+Browser.Name: TRootBrowser
+Browser.ExpandDirectories: no
+X11.UseXft: no
+Cocoa.EnableAntiAliasing: no
+StartupLogo: no
+Canvas.UseGL: no
+Canvas.Smooth: no
+Canvas.TextFont: 42
+Gui.HighResolution: no
+

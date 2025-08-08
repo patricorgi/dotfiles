@@ -1,0 +1,36 @@
+# case insensitive tab completion
+set completion-ignore-case On
+
+# show all available completions
+set show-all-if-ambiguous on
+
+# set menu-complete-display-prefix on
+# TAB:menu-complete
+
+set mark-symlinked-directories on
+
+# vim mode in bash
+# set show-mode-in-prompt on
+# set vi-ins-mode-string ""
+# set vi-cmd-mode-string ""
+
+# Useful key bindings
+Control-l:clear-screen
+
+# Open file with nvim
+# Control-v:"v \C-t"
+
+# Backspacing until slash or whitespace
+Control-g: unix-filename-rubout
+
+# Alt-Left and Alt-Right go backward and forward by word in bash prompt
+"\e[1;3D": backward-word
+"\e[1;3C": forward-word
+# Alt-h and Alt-l go backward and forward by word in bash prompt
+"\eh": backward-word
+"\el": forward-word
+# Alt-j and Alt-k go backward and forward in history
+Control-p:history-search-backward 
+Control-n:history-search-forward
+"\e[A":history-search-backward 
+"\e[B":history-search-forward

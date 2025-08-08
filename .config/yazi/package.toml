@@ -1,0 +1,12 @@
+[[plugin.deps]]
+use = "yazi-rs/plugins:toggle-pane"
+rev = "864a021"
+hash = "f3853bbdd1da2fad09d059ab5464abfd"
+
+[[plugin.deps]]
+use = "sunruisjtu2020/quicklook"
+rev = "7134b57"
+hash = "cad9009e4312e20f072cd7c0d32946ad"
+
+[flavor]
+deps = []
