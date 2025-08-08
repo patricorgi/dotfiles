@@ -1,0 +1,107 @@
+#!/bin/bash
+
+function s() {
+	kitty +kitten ssh "$@" || ssh "$@"
+}
+
+function fssh() {
+	local server="${1:-$(awk '/^Host / {
+    for (i = 2; i <= NF; i++) {
+      if ($i !~ /[*?]/) print $i
+    }
+  }' ~/.ssh/config | sort -u | fzf --prompt="SSH to > ")}"
+	# server=$(awk '/^Host / {
+	#    for (i = 2; i <= NF; i++) {
+	#      if ($i !~ /[*?]/) print $i
+	#    }
+	#  }' ~/.ssh/config | sort -u | fzf --prompt="SSH to > ")
+	#
+	if [[ -n $server ]]; then
+		~/dotfiles/scripts/ssh_tmux.sh "$server" &
+		exit
+	fi
+}
+
+function i() {
+	filename="${1}"
+	if [[ "${filename}" == *.pdf ]]; then
+		convert -trim -density 90 "${filename}" PNG:- | kitty +kitten icat
+	else
+		kitty +kitten icat "${filename}"
+	fi
+}
+
+function lf() {
+	while [ ! -f "$1" ]; do
+		echo "Waiting for $1 to be created..."
+		sleep 1 # or less like 0.2
+	done
+	less +F -R "$1"
+}
+
+function r() {
+	if [ -x "$(command -v root)" ]; then
+		root
+	else
+		if [ -x "$(command -v lb-conda)" ]; then
+			lb-conda default root
+		else
+			if [ -f "/cvmfs/lhcb.cern.ch/lib/LbEnv" ]; then
+				echo source /cvmfs/lhcb.cern.ch/lib/LbEnv
+				_saved_args=("$@")
+				set --
+				source /cvmfs/lhcb.cern.ch/lib/LbEnv
+				set -- "${_saved_args[@]}"
+				echo lb-conda default root
+				lb-conda default root
+			else
+				echo "root command not available"
+				exit 1
+			fi
+		fi
+	fi
+}
+
+function rl() {
+	[ -n "$TMUX" ] && export DISPLAY=$(tmux show-env | sed -n 's/^DISPLAY=//p')
+	if [ -x "$(command -v root)" ]; then
+		root -l --web=off "${1}"
+	else
+		if [ -x "$(command -v lb-conda)" ]; then
+			echo lb-conda default root -l --web=off "${1}"
+			lb-conda default root -l --web=off "${1}"
+		else
+			if [ -f "/cvmfs/lhcb.cern.ch/lib/LbEnv" ]; then
+				echo source /cvmfs/lhcb.cern.ch/lib/LbEnv
+				_saved_args=("$@")
+				set --
+				source /cvmfs/lhcb.cern.ch/lib/LbEnv
+				set -- "${_saved_args[@]}"
+				echo lb-conda default root -l --web=off "${1}"
+				lb-conda default root -l --web=off "${1}"
+			else
+				echo "root command not available"
+				exit 1
+			fi
+		fi
+	fi
+}
+
+function rb() {
+	[ -n "$TMUX" ] && export DISPLAY=$(tmux show-env | sed -n 's/^DISPLAY=//p')
+	rootbrowse "${1}"
+}
+
+function xo() {
+	[ -n "$TMUX" ] && export DISPLAY=$(tmux show-env | sed -n 's/^DISPLAY=//p')
+	xdg-open "${1}" &
+}
+
+function rmnfs() {
+	if [ -z "$1" ]; then
+		echo "Usage: rmnfs <nfs_file>"
+		return 1
+	fi
+	local nfs_file="$1"
+	lsof | awk '/\.'$nfs_file'/ {print $2}' | xargs kill -9
+}
