@@ -1,3 +1,4 @@
+local custom_utils = require 'custom.utils'
 vim.api.nvim_create_autocmd('FileType', {
   pattern = 'OverseerList',
   callback = function()
@@ -28,12 +29,19 @@ vim.api.nvim_create_autocmd('QuitPre', {
 })
 
 vim.keymap.set('n', '<Leader>rr', '<cmd>OverseerRun<cr>', { desc = 'Overseer run templates' })
-vim.keymap.set('n', '<Leader>rt', '<cmd>OverseerToggle<cr>', { desc = 'Overseer toggle task list' })
+vim.keymap.set('n', '<Leader>rt', function ()
+  vim.cmd 'OverseerToggle'
+ custom_utils.func_on_window('dapui_stacks', function ()
+           require 'dapui'.open({ reset = true })
+
+ end) 
+end, { desc = 'Overseer toggle task list' })
 vim.keymap.set('n', '<Leader>ra', '<cmd>OverseerQuickAction<cr>', { desc = 'Overseer quick action list' })
 overseer.setup {
-  dap = false,
+  dap = true,
   strategy = 'terminal',
   templates = {
+    'builtin',
     'shell',
     'make',
     'condor',
