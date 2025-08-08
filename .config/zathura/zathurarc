@@ -1,0 +1,44 @@
+# ╭───────────────────────────────────────────────────────────╮
+# │                        Appearance                         │
+# ╰───────────────────────────────────────────────────────────╯
+
+set window-height 1600
+set window-width 900
+set page-padding 5
+set selection-clipboard clipboard
+
+# Open document in fit-width mode by default
+set adjust-open "best-fit"
+
+# One page per row by default
+set pages-per-row 1
+
+#stop at page boundries
+set scroll-page-aware "true"
+set scroll-full-overlap 0.01
+set scroll-step 50
+
+#zoom settings
+set zoom-min 10
+set guioptions ""
+
+set render-loading "false"
+set scroll-step 50
+
+set font "JetBrainsMonoNL Nerd Font Mono 20"
+include catppuccin-mocha
+
+# ╭───────────────────────────────────────────────────────────╮
+# │                        Keybindings                        │
+# ╰───────────────────────────────────────────────────────────╯
+
+# unmap f
+# map [fullscreen] f toggle_fullscreen
+
+map F toggle_fullscreen
+map u scroll half-up
+map d scroll half-down
+# map D set "first-page-column 1:1"
+map D toggle_page_mode
+map p print
+map P toggle_presentation
