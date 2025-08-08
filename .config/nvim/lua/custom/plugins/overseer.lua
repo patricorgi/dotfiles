@@ -1,5 +1,6 @@
 return {
   'stevearc/overseer.nvim',
+  event = 'VeryLazy',
   cmd = {
     'OverseerQuickAction',
     'OverseerTaskAction',
