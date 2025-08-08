@@ -1,0 +1,138 @@
+#!/usr/bin/env bash
+#
+# ╭──────────────────────────────────────────────────────────╮
+# │                        BOOTSTRAP                         │
+# ╰──────────────────────────────────────────────────────────╯
+
+launchctl unload -F /System/Library/LaunchAgents/com.apple.WindowManager.plist
+
+# Require disable SIP
+# echo "$(whoami) ALL=(root) NOPASSWD: sha256:$(shasum -a 256 $(which yabai) | cut -d " " -f 1) $(which yabai) --load-sa"
+# yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
+
+# ╭──────────────────────────────────────────────────────────╮
+# │                         BORDERS                          │
+# ╰──────────────────────────────────────────────────────────╯
+border_opts=(
+    active_color=0xffcdd6f4
+    inactive_color=0x00494d64
+    hidpi=off
+    width=5
+    blacklist="kitty,Fantastical Helper,Final Cut Pro"
+)
+# borders ${border_opts[@]} &
+
+# ╭──────────────────────────────────────────────────────────╮
+# │                         CONFIGS                          │
+# ╰──────────────────────────────────────────────────────────╯
+yabai -m config \
+    external_bar all:32:0 \
+    menubar_opacity 1.0 \
+    mouse_follows_focus off \
+    focus_follows_mouse off \
+    window_origin_display default \
+    window_placement second_child \
+    window_zoom_persist on \
+    window_shadow on \
+    window_animation_duration 0.0 \
+    window_opacity_duration 0.0 \
+    active_window_opacity 1.0 \
+    normal_window_opacity 0.90 \
+    window_opacity off \
+    insert_feedback_color 0xffd75f5f \
+    split_ratio 0.50 \
+    split_type auto \
+    auto_balance off \
+    top_padding 9 \
+    bottom_padding 9 \
+    left_padding 9 \
+    right_padding 9 \
+    window_gap 9 \
+    layout bsp \
+    mouse_modifier fn \
+    mouse_action1 move \
+    mouse_action2 resize \
+    mouse_drop_action swap
+
+# spaces
+yabai -m space 1 --label terminal
+yabai -m space 2 --label browser
+yabai -m space 3 --label communication
+yabai -m space 4 --label video
+yabai -m space 5 --label nsfw
+
+# pace
+yabai -m rule --add app="^(kitty)$" title!="^(newsboat|yazi)$" space=^1
+
+# space 2
+yabai -m rule --add app="^(Arc)$" title!="Personal" space=^2
+yabai -m rule --add app="^(Safari|Safari浏览器)$" space=^2
+yabai -m rule --add app="^(Obsidian)$" space=^2
+yabai -m rule --add app="哔哩哔哩" space=^2
+yabai -m rule --add app="(Music|音乐)" space=^2
+
+# space 3
+yabai -m rule --add app="^(Mail|邮件|微信|WeChat|Mattermost)$" space=^3
+
+# space 4
+yabai -m rule --add app="^(calibre|YACReader)$" space=^4
+
+# Not to manage these apps
+yabai -m rule --add app="(照片|Photos)" manage=off grid=20:20:1:1:18:18
+yabai -m rule --add app="Downie 4" manage=off grid=20:20:15:1:2:18
+yabai -m rule --add app="Arc" manage=off grid=20:20:0:0:19:19
+yabai -m rule --add app="Obsidian" manage=off grid=20:20:1:1:19:19
+yabai -m rule --add app="^(Microsoft PowerPoint|Keynote.*)$" manage=off grid=20:20:1:1:18:18
+yabai -m rule --add app="^(.*zoom\.us.*)$" title="^(Zoom)$" manage=off
+yabai -m rule --add app="^(预览|Preview)$" manage=off
+yabai -m rule --add app="root\.exe" manage=off
+yabai -m rule --add app="python3" manage=off
+yabai -m rule --add app="(Music|音乐)" manage=off grid=20:20:1:1:16:16
+yabai -m rule --add app="访达" title!="拷贝" manage=off grid=20:20:1:1:18:18
+yabai -m rule --add app="kitty" title="^(demo)$" manage=off
+yabai -m rule --add app="微信" manage=off grid=20:20:0:0:18:18
+yabai -m rule --add app="微信" title="^(视频通话.*)$" manage=off
+yabai -m rule --add app="^(Mail|邮件)$" manage=off grid=20:20:0:2:18:18
+yabai -m rule --add app="^(.*Mattermost.*)$" manage=off grid=20:20:2:0:18:18
+yabai -m rule --add app="^(.*Messenger.*)$" manage=off grid=20:20:2:2:18:18
+yabai -m rule --add app="(QQ)" manage=off grid=20:20:10:10:10:10
+yabai -m rule --add app="(Stickies|便笺)" manage=off
+yabai -m rule --add app="(System Settings|系统设置)" manage=off grid=4:6:2:0:2:3
+yabai -m rule --add app="Alfred Preferences" manage=off grid=20:20:1:1:18:18
+yabai -m rule --add app="CleanMyMac X" manage=off
+yabai -m rule --add app="(数码测色计)" manage=off
+yabai -m rule --add app="(Podcasts|播客)" manage=off
+yabai -m rule --add app="Bartender 4" manage=off
+yabai -m rule --add app="(Calculator|计算器)" manage=off
+yabai -m rule --add app="1Password" manage=off
+yabai -m rule --add app="LaTeXiT" manage=off
+yabai -m rule --add app="(Installer|安装器)" manage=off
+yabai -m rule --add app="Fantastical Helper" manage=off
+yabai -m rule --add app="Karabiner-Elements" manage=off
+yabai -m rule --add app="Font Book" manage=off
+yabai -m rule --add app="(Install Command Line Developer Tools)" manage=off
+yabai -m rule --add app="(Problem Reporter)" manage=off
+yabai -m rule --add app="(Archive Utility|归档实用工具)" manage=off
+yabai -m rule --add app="(System Information|关于本机)" manage=off
+yabai -m rule --add app="(TeXShop)" title="(.*console|TeXShop Preferences)$" manage=off
+yabai -m rule --add app="哔哩哔哩" title!="哔哩哔哩 \(゜-゜\)つロ 干杯~-bilibili" manage=off grid=20:20:1:1:18:18
+yabai -m rule --add app="哔哩哔哩" title="哔哩哔哩 \(゜-゜\)つロ 干杯~-bilibili" manage=off grid=20:20:0:0:18:18
+yabai -m rule --add app="^(Final Cut Pro)$" manage=off
+yabai -m rule --add title="^(Open|打开|Copy)$" manage=off
+yabai -m rule --add app=".*Microsoft.*" title="Open new and recent files" manage=off
+yabai -m rule --add app=".*Microsoft.*" title="^What's New.*" manage=off
+yabai -m rule --add app="^(Input Source Pro|The Unarchiver)$" manage=off
+yabai -m rule --add title="(Color Fill|Stroke Color)" manage=off
+yabai -m rule --add app="AdGuard for Safari" title="AdGuard for Safari - Settings" manage=off
+yabai -m rule --add app="Pixelmator Pro" title="(^$|Untitled)" manage=off
+
+# ╭──────────────────────────────────────────────────────────╮
+# │                          SIGNAL                          │
+# ╰──────────────────────────────────────────────────────────╯
+yabai -m signal --add event=window_destroyed action="yabai -m query --windows --space | jq -r '.[0].id' | xargs -I {} yabai -m window --focus {}"
+# yabai -m signal --add event=window_created action="yabai -m query --window --focus $YABAI_WINDOW_ID"
+yabai -m signal --add event=space_changed action="yabai -m query --windows --space $YABAI_SPACE_INDEX | jq -r '.[0].id' | xargs -I {} yabai -m window --focus {}"
+# yabai -m signal --add event=space_changed action="yabai -m window --focus \$(yabai -m query --windows --space | jq .[0].id)"
+# yabai -m signal --add event=display_changed action="yabai -m window --focus \$(yabai -m query --windows --space | jq .[0].id)"
+
+osascript -e 'display notification "Configuration loaded" with title "Yabai!"'

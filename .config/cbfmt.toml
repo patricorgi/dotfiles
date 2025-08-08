@@ -1,0 +1,3 @@
+[languages]
+cpp = ['clang-format']
+python = ['yapf']

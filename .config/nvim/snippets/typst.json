@@ -1,0 +1,12 @@
+{
+  "corner": {
+    "prefix": "corner",
+    "body": [
+      "#place(",
+      "top + right,",
+      "text(fill: red, weight: \"bold\", size: 24pt)[Previously shown],",
+      ")"
+    ],
+    "description": "Corner label"
+  }
+}

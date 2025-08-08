@@ -1,0 +1,61 @@
+# ╭──────────────────────────────────────────────────────────╮
+# │                         GENERAL                          │
+# ╰──────────────────────────────────────────────────────────╯
+datetime-format     "%m/%d"
+feedlist-format     "%4i %3U %t"
+articlelist-format  "%4i %f %D %?T?|%-17T|  ?%t"
+auto-reload         yes
+show-read-feeds     no
+show-read-articles  no
+
+# podcasts
+prepopulate-query-feeds yes
+
+# browser
+browser "open '%u'"
+
+# pager
+pager internal
+
+# ╭──────────────────────────────────────────────────────────╮
+# │                       KEYBINDINGS                        │
+# ╰──────────────────────────────────────────────────────────╯
+# navigate
+unbind-key R
+unbind-key j
+unbind-key k
+unbind-key J
+unbind-key K
+unbind-key C
+unbind-key ,
+unbind-key v
+
+bind-key SPACE macro-prefix
+bind-key U     toggle-show-read-feeds
+bind-key j     down
+bind-key k     up
+bind-key g     home
+bind-key G     end
+bind-key j     next articlelist
+bind-key k     prev articlelist
+bind-key J     next-feed articlelist
+bind-key K     next-feed articlelist
+bind-key l     open
+bind-key h     quit articlelist
+bind-key h     quit article
+bind-key J     next article
+bind-key K     next article
+bind-key ^R    reload-all
+bind-key m     toggle-article-read
+bind-key a     mark-feed-read
+bind-key o     open-in-browser-and-mark-read
+
+# macros
+macro g set feed-sort-order unreadarticlecount-asc; home
+
+# ╭──────────────────────────────────────────────────────────╮
+# │                          THEMES                          │
+# ╰──────────────────────────────────────────────────────────╯
+include ~/.config/newsboat/dark
+include ~/.config/newsboat/macros
+include ~/.config/newsboat/ignores

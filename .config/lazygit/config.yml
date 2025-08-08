@@ -1,0 +1,47 @@
+gui:
+  theme: # catppuccin palette of course
+    activeBorderColor:
+      - '#f9e2af'
+      - bold
+    inactiveBorderColor:
+      - '#a6adc8'
+    optionsTextColor:
+      - '#89b4fa'
+    selectedLineBgColor:
+      - '#313244'
+    cherryPickedCommitBgColor:
+      - '#45475a'
+    cherryPickedCommitFgColor:
+      - '#89dceb'
+    unstagedChangesColor:
+      - '#f38ba8'
+    defaultFgColor:
+      - '#cdd6f4'
+    searchingActiveBorderColor:
+      - '#f9e2af'
+
+  authorColors:
+    '*': '#b4befe'
+  showBottomLine: false
+  border: rounded
+  nerdFontsVersion: "3"
+  spiner:
+    frames:
+      - ⣾
+      - ⣽
+      - ⣻
+      - ⢿
+      - ⡿
+      - ⣟
+      - ⣯
+      - ⣷
+
+os:
+  editPreset: "nvim-remote"
+promptToReturnFromSubprocess: false
+keybinding:
+  # universal: 
+  #   quit: Q
+  commits:
+    moveDownCommit: <c-x>
+    moveUpCommit: <c-w>
