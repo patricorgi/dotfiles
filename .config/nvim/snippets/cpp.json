@@ -1,0 +1,20 @@
+{
+  "std::cout": {
+    "prefix": "std::cout",
+    "body": ["std::cout << ${0} << '\\n';"]
+  },
+  "#if": {
+    "prefix": "#if",
+    "body": ["#ifdef USE_DD4HEP", "${1}", "#endif"]
+  },
+  "simd": {
+    "prefix": "simd",
+    "body": [
+      "float vals[4];",
+      "_mm_store_ps( vals, ${1} );",
+      "for ( size_t i = 0; i < 4; ++i ) {",
+      "\tstd::cout << vals[i] << std::endl;",
+      "}"
+    ]
+  }
+}
