@@ -1,3 +1,4 @@
+local custom_utils = require 'custom.utils'
 -- UI responsiveness
 local dap, dapui = require 'dap', require 'dapui'
 dap.listeners.before.attach.dapui_config = function()
