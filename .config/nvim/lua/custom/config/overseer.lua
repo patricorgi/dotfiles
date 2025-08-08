@@ -1,3 +1,4 @@
+local custom_utils = require 'custom.utils'
 vim.api.nvim_create_autocmd('FileType', {
   pattern = 'OverseerList',
   callback = function()
@@ -19,7 +20,7 @@ vim.api.nvim_create_autocmd('QuitPre', {
   group = 'PreventQuitWithRunningTasks',
   callback = function()
     local tasks = overseer.list_tasks { status = overseer.STATUS.RUNNING }
-    local num_windows = vim.fn.winnr('$')
+    local num_windows = vim.fn.winnr '$'
     if not vim.tbl_isempty(tasks) and num_windows == 1 then
       print 'Cannot quit while tasks are running!'
       return false -- Cancel the quit command
@@ -28,12 +29,18 @@ vim.api.nvim_create_autocmd('QuitPre', {
 })
 
 vim.keymap.set('n', '<Leader>rr', '<cmd>OverseerRun<cr>', { desc = 'Overseer run templates' })
-vim.keymap.set('n', '<Leader>rt', '<cmd>OverseerToggle<cr>', { desc = 'Overseer toggle task list' })
+vim.keymap.set('n', '<Leader>rt', function()
+  vim.cmd 'OverseerToggle'
+  custom_utils.func_on_window('dapui_stacks', function()
+    require('dapui').open { reset = true }
+  end)
+end, { desc = 'Overseer toggle task list' })
 vim.keymap.set('n', '<Leader>ra', '<cmd>OverseerQuickAction<cr>', { desc = 'Overseer quick action list' })
 overseer.setup {
-  dap = false,
+  dap = true,
   strategy = 'terminal',
   templates = {
+    'builtin',
     'shell',
     'make',
     'condor',
@@ -43,11 +50,13 @@ overseer.setup {
   },
   template_timeout = 5000,
   component_aliases = {
-      default_vscode = {
-        "default",
-        "on_result_diagnostics",
-        "unique"
-      },
+    default_vscode = {
+      'default',
+      'display_duration',
+      'task_list_on_start',
+      'on_result_diagnostics',
+      'unique',
+    },
   },
   task_list = {
     direction = 'right',
@@ -103,7 +112,7 @@ end)
 overseer.add_template_hook({
   module = '^remake Fit$',
 }, function(task_defn, util)
-  util.add_component(task_defn,  'unique' )
+  util.add_component(task_defn, 'unique')
 end)
 
 -- custom tasks
