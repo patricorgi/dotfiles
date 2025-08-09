@@ -3,11 +3,13 @@ require('render-markdown').setup {
   render_modes = { 'n', 'c', 't' },
   anti_conceal = {
     enabled = true,
-    disabled_modes = { 'n' },
+    disabled_modes = { 'n', 'c' },
   },
   file_types = { 'markdown', 'Avante' },
   heading = {
     render_modes = true,
+    border = true,
+    border_virtual = true,
     icons = { ' 󰼏 ', ' 󰎨 ', ' 󰼑 ', ' 󰎲 ', ' 󰼓 ', ' 󰎴 ' },
   },
   bullet = {
@@ -39,13 +41,45 @@ require('render-markdown').setup {
     right_pad = 0,
     custom = {
       question = { raw = '[?]', rendered = ' ', highlight = 'RenderMarkdownError' },
-      ongoing = { raw = '[>]', rendered = ' ', highlight = 'RenderMarkdownSuccess' },
+      ongoing = { raw = '[>]', rendered = ' ', highlight = 'RenderMarkdownInfo' },
       canceled = { raw = '[~]', rendered = '󰗨 ', highlight = 'ObsidianTilde' },
       important = { raw = '[!]', rendered = ' ', highlight = 'RenderMarkdownWarn' },
       favorite = { raw = '[^]', rendered = ' ', highlight = 'RenderMarkdownMath' },
     },
   },
+  pipe_table = {
+    render_modes = true,
+    head = 'RenderMarkdownTableRow',
+    alignment_indicator = '─',
+    border = {
+      '╭',
+      '┬',
+      '╮',
+      '├',
+      '┼',
+      '┤',
+      '╰',
+      '┴',
+      '╯',
+      '│',
+      '─',
+    },
+  },
+  callout = {
+    abstract = { raw = '[!ABSTRACT]', rendered = '󰯂 Abstract', highlight = 'RenderMarkdownInfo', category = 'obsidian' },
+    summary = { raw = '[!SUMMARY]', rendered = '󰯂 Summary', highlight = 'RenderMarkdownInfo', category = 'obsidian' },
+    tldr = { raw = '[!TLDR]', rendered = '󰦩 Tldr', highlight = 'RenderMarkdownInfo', category = 'obsidian' },
+    failure = { raw = '[!FAILURE]', rendered = ' Failure', highlight = 'RenderMarkdownError', category = 'obsidian' },
+    fail = { raw = '[!FAIL]', rendered = ' Fail', highlight = 'RenderMarkdownError', category = 'obsidian' },
+    missing = { raw = '[!MISSING]', rendered = ' Missing', highlight = 'RenderMarkdownError', category = 'obsidian' },
+    danger = { raw = '[!DANGER]', rendered = ' Danger', highlight = 'RenderMarkdownError', category = 'obsidian' },
+    error = { raw = '[!ERROR]', rendered = ' Error', highlight = 'RenderMarkdownError', category = 'obsidian' },
+    bug = { raw = '[!BUG]', rendered = ' Bug', highlight = 'RenderMarkdownError', category = 'obsidian' },
+    quote = { raw = '[!QUOTE]', rendered = ' Quote', highlight = 'RenderMarkdownQuote', category = 'obsidian' },
+    cite = { raw = '[!CITE]', rendered = ' Cite', highlight = 'RenderMarkdownQuote', category = 'obsidian' },
+  },
   quote = {
+    enabled = true,
     repeat_linebreak = true,
   },
   code = {
@@ -62,11 +96,3 @@ require('render-markdown').setup {
     language_name = true,
   },
 }
-
--- local blink = require 'blink.cmp'
--- blink.add_filetype_source('markdown', 'render-markdown')
--- blink.add_provider('render-markdown', {
---   name = 'RenderMarkdown',
---   module = 'render-markdown.integ.blink',
---   fallbacks = { 'lsp' },
--- })
