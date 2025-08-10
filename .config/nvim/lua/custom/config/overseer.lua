@@ -1,44 +1,28 @@
 local custom_utils = require 'custom.utils'
+local overseer = require 'overseer'
+
+-- autocmds
 vim.api.nvim_create_autocmd('FileType', {
   pattern = 'OverseerList',
   callback = function()
     vim.opt_local.winfixbuf = true
   end,
 })
-local workdir = os.getenv 'WORKDIR' or ''
-local overseer = require 'overseer'
-vim.api.nvim_create_user_command('OverseerRestartLast', function()
-  local tasks = overseer.list_tasks { recent_first = true }
-  if vim.tbl_isempty(tasks) then
-    vim.notify('No tasks found', vim.log.levels.WARN)
-  else
-    overseer.run_action(tasks[1], 'restart')
-  end
-end, {})
-vim.api.nvim_create_augroup('PreventQuitWithRunningTasks', { clear = true })
-vim.api.nvim_create_autocmd('QuitPre', {
-  group = 'PreventQuitWithRunningTasks',
-  callback = function()
-    local tasks = overseer.list_tasks { status = overseer.STATUS.RUNNING }
-    local num_windows = vim.fn.winnr '$'
-    if not vim.tbl_isempty(tasks) and num_windows == 1 then
-      print 'Cannot quit while tasks are running!'
-      return false -- Cancel the quit command
-    end
-  end,
-})
 
-vim.keymap.set('n', '<Leader>rr', '<cmd>OverseerRun<cr>', { desc = 'Overseer run templates' })
-vim.keymap.set('n', '<Leader>rt', function()
+-- keymaps
+vim.keymap.set('n', '<Leader>rl', '<cmd>OverseerRun<cr>', { desc = 'Overseer run templates' })
+local toggle_overseer = function()
   vim.cmd 'OverseerToggle'
   custom_utils.func_on_window('dapui_stacks', function()
     require('dapui').open { reset = true }
   end)
-end, { desc = 'Overseer toggle task list' })
+end
+vim.keymap.set('n', '<Leader>ro', toggle_overseer, { desc = 'Overseer toggle task list' })
+vim.keymap.set('n', '<C-\\>', toggle_overseer, { desc = 'Overseer toggle task list' })
 vim.keymap.set('n', '<Leader>ra', '<cmd>OverseerQuickAction<cr>', { desc = 'Overseer quick action list' })
+
+-- overseer.config
 overseer.setup {
-  dap = true,
-  strategy = 'terminal',
   templates = {
     'builtin',
     'shell',
@@ -50,33 +34,28 @@ overseer.setup {
   },
   template_timeout = 5000,
   component_aliases = {
+    default = {
+      { "display_duration", detail_level = 1 },
+      "on_output_summarize",
+      "on_exit_set_status",
+      "on_complete_notify",
+    },
     default_vscode = {
       'default',
       'display_duration',
       'task_list_on_start',
-      'on_result_diagnostics',
+      'on_output_quickfix',
       'unique',
     },
   },
   task_list = {
     direction = 'right',
     bindings = {
-      ['?'] = 'ShowHelp',
-      ['g?'] = 'ShowHelp',
-      ['<CR>'] = 'RunAction',
-      ['e'] = 'Edit',
       ['o'] = false,
-      ['v'] = 'OpenVsplit',
-      ['s'] = 'OpenSplit',
-      ['f'] = 'OpenFloat',
-      ['<C-q>'] = 'OpenQuickFix',
-      ['p'] = 'TogglePreview',
       ['+'] = 'IncreaseDetail',
       ['_'] = 'DecreaseDetail',
       ['='] = 'IncreaseAllDetail',
       ['-'] = 'DecreaseAllDetail',
-      ['['] = 'DecreaseWidth',
-      [']'] = 'IncreaseWidth',
       ['k'] = 'PrevTask',
       ['j'] = 'NextTask',
       ['t'] = '<CMD>OverseerQuickAction open tab<CR>',
@@ -86,7 +65,6 @@ overseer.setup {
       ['<C-j>'] = false,
       ['<C-k>'] = false,
       ['<C-l>'] = false,
-      ['q'] = 'Close',
     },
   },
   task_editor = {
@@ -97,6 +75,7 @@ overseer.setup {
     }
   }
 }
+
 overseer.add_template_hook({
   module = '^make$',
 }, function(task_defn, util)
@@ -114,40 +93,3 @@ overseer.add_template_hook({
 }, function(task_defn, util)
   util.add_component(task_defn, 'unique')
 end)
-
--- custom tasks
-overseer.register_template {
-  name = 'booleUT.qmt',
-  priority = 0,
-  builder = function()
-    return {
-      cmd = 'make',
-      args = {
-        'Boole',
-        '&&',
-        'utils/run-env',
-        'Boole',
-        'gaudirun.py',
-        'Boole/Digi/Boole/tests/qmtest/boole.qms/boole-UT.qmt',
-      },
-      name = 'booleUT.qmt',
-      cwd = vim.fn.getcwd(),
-      components = {
-        'task_list_on_start',
-        'on_complete_notify',
-        'display_duration',
-        'on_exit_set_status',
-      },
-    }
-  end,
-  condition = {
-    callback = function()
-      local cwd = vim.fn.expand '%:p'
-      local result = string.find(cwd, workdir .. '/stack-master/Boole', 1, true)
-      if result then
-        return true
-      end
-      return false
-    end,
-  },
-}
