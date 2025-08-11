@@ -173,8 +173,14 @@ M.Formatters = {
   end,
   update = { 'BufEnter' },
   provider = function(self)
-    local ft_formatters = self.conform.formatters_by_ft[vim.bo.filetype]
-    return ft_formatters and table.concat(self.conform.formatters_by_ft[vim.bo.filetype], ',') or ''
+    local ft_entry = self.conform.formatters_by_ft[vim.bo.filetype]
+    local ft_formatters
+    if type(ft_entry) == "function" then
+      ft_formatters = ft_entry()
+    else
+      ft_formatters = ft_entry
+    end
+    return ft_formatters and table.concat(ft_formatters, ',') or ''
   end,
   hl = { fg = palette.surface1, bold = false },
 }
