@@ -11,7 +11,13 @@ require('conform').setup {
   end,
   formatters_by_ft = {
     lua = { 'stylua' },
-    cpp = { 'clang-format' },
+    cpp = function()
+      if vim.fn.executable("lcg-clang-format-8.0.0")  == 1 then
+        return { 'lcg_clang_format' }
+      else
+        return { 'clang-format' }
+      end
+    end,
     python = { 'yapf', 'isort' },
     sh = { 'shfmt' },
     snakemake = { 'snakefmt' },
@@ -30,6 +36,7 @@ require('conform').setup {
       args = { 'check', '--select', 'I', '--fix', '--stdin-filename', '$FILENAME', '-' },
       stdin = true,
     },
+    lcg_clang_format = { command = 'lcg-clang-format-8.0.0', args = { '$FILENAME' } }
   },
 }
 
