@@ -3,12 +3,7 @@ local log = require 'overseer.log'
 local overseer = require 'overseer'
 local TAG = constants.TAG
 
-local make_targets = [[
-(rule_definition name: (identifier) @name)
-]]
-
----@type overseer.TemplateFileDefinition
-local tmpl = {
+local my_template = {
   name = 'snakemake',
   priority = 60,
   tags = { TAG.BUILD },
@@ -34,7 +29,7 @@ local tmpl = {
   end,
 }
 
-local function ts_parse_make_targets(parser, bufnr, cwd)
+local function treesitter_parse_rules(parser, bufnr, cwd)
   local query_str = [[
 (rule_definition
   name: (identifier) @name)
@@ -53,8 +48,8 @@ local function ts_parse_make_targets(parser, bufnr, cwd)
 
   local ret = {}
   for _, k in ipairs(targets) do
-    local override = { name = string.format('snakemake %s', k) }
-    table.insert(ret, overseer.wrap_template(tmpl, override, { args = { '-p', '-c', '1', '--cores', '2', k }, cwd = cwd, rule = k }))
+    local override = { name = string.format('snakemake %s (auto-generated)', k) }
+    table.insert(ret, overseer.wrap_template(my_template, override, { args = { '-p', '-c', '1', '--cores', '2', k }, cwd = cwd, rule = k }))
   end
   return ret
 end
@@ -77,7 +72,7 @@ local function parse_make_output(cwd, ret, cb)
             if idx then
               local target = line:sub(1, idx - 1)
               local override = { name = string.format('snakemake %s', target) }
-              table.insert(ret, overseer.wrap_template(tmpl, override, { args = { target }, cwd = cwd }))
+              table.insert(ret, overseer.wrap_template(my_template, override, { args = { target }, cwd = cwd }))
             end
           end
         end
@@ -98,34 +93,34 @@ end
 
 ---@param opts overseer.SearchParams
 ---@return nil|string
-local function get_makefile(opts)
+local function exist_makefile(opts)
   return vim.fs.find('Snakefile', { upward = true, type = 'file', path = opts.dir })[1]
 end
 
 ---@type overseer.TemplateFileProvider
 local provider = {
   cache_key = function(opts)
-    return get_makefile(opts)
+    return exist_makefile(opts)
   end,
   condition = {
     callback = function(opts)
       if vim.fn.executable 'snakemake' == 0 then
         return false, 'Command "snakemake" not found'
       end
-      if not get_makefile(opts) then
+      if not exist_makefile(opts) then
         return false, 'No Snakefile found'
       end
       return true
     end,
   },
   generator = function(opts, cb)
-    local makefile = assert(get_makefile(opts))
+    local makefile = assert(exist_makefile(opts))
     local cwd = vim.fs.dirname(makefile)
     local bufnr = vim.fn.bufadd(makefile)
-    local ret = { overseer.wrap_template(tmpl, nil, { cwd = cwd }) }
+    local ret = { overseer.wrap_template(my_template, nil, { cwd = cwd }) }
     local ok, parser = pcall(vim.treesitter.get_parser, bufnr, 'snakemake')
     if ok then
-      vim.list_extend(ret, ts_parse_make_targets(parser, bufnr, cwd))
+      vim.list_extend(ret, treesitter_parse_rules(parser, bufnr, cwd))
       cb(ret)
     else
       parse_make_output(cwd, ret, cb)
