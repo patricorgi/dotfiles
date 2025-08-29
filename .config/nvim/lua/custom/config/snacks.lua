@@ -62,7 +62,7 @@ require('snacks').setup {
   },
   image = {
     enabled = true,
-    doc = { enabled = true, inline = false, float = true, max_width = 40, max_height = 30 },
+    doc = { enabled = true, inline = false, float = true, max_width = 100, max_height = 30 },
     resolve = function(_, src)
       local vault_path = vim.fn.expand '~' .. '/Library/Mobile Documents/iCloud~md~obsidian/Documents/Obsidian Vault'
 
