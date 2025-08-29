@@ -1,8 +1,4 @@
 require('render-markdown').setup {
-  sign = { enabled = false },
-  quote = {
-    repeat_linebreak = true,
-  },
   callout = {
     abstract = { raw = '[!ABSTRACT]', rendered = '󰯂 Abstract', highlight = 'RenderMarkdownInfo', category = 'obsidian' },
     summary = { raw = '[!SUMMARY]', rendered = '󰯂 Summary', highlight = 'RenderMarkdownInfo', category = 'obsidian' },
@@ -10,6 +6,8 @@ require('render-markdown').setup {
     failure = { raw = '[!FAILURE]', rendered = ' Failure', highlight = 'RenderMarkdownError', category = 'obsidian' },
     fail = { raw = '[!FAIL]', rendered = ' Fail', highlight = 'RenderMarkdownError', category = 'obsidian' },
     missing = { raw = '[!MISSING]', rendered = ' Missing', highlight = 'RenderMarkdownError', category = 'obsidian' },
+    attention = { raw = '[!ATTENTION]', rendered = ' Attention', highlight = 'RenderMarkdownWarn', category = 'obsidian' },
+    warning = { raw = '[!WARNING]', rendered = ' Warning', highlight = 'RenderMarkdownWarn', category = 'github' },
     danger = { raw = '[!DANGER]', rendered = ' Danger', highlight = 'RenderMarkdownError', category = 'obsidian' },
     error = { raw = '[!ERROR]', rendered = ' Error', highlight = 'RenderMarkdownError', category = 'obsidian' },
     bug = { raw = '[!BUG]', rendered = ' Bug', highlight = 'RenderMarkdownError', category = 'obsidian' },
@@ -19,26 +17,27 @@ require('render-markdown').setup {
     wip = { raw = '[!WIP]', rendered = '󰦖 WIP', highlight = 'RenderMarkdownHint', category = 'obsidian' },
     done = { raw = '[!DONE]', rendered = ' Done', highlight = 'RenderMarkdownSuccess', category = 'obsidian' },
   },
+  sign = { enabled = false },
   code = {
-    highlight_inline = 'RenderMarkdownCodeInfo',
-    render_modes = true,
-    position = 'right',
+    -- general
     width = 'block',
-    left_margin = 1,
+    min_width = 80,
+    -- borders
+    border = 'thin',
     left_pad = 1,
     right_pad = 1,
-    min_width = 80,
-    border = 'thin',
+    -- language info
+    position = 'right',
     language_icon = true,
     language_name = true,
+    -- avoid making headings ugly
+    highlight_inline = 'RenderMarkdownCodeInfo',
   },
   heading = {
-    render_modes = true,
-    border = true,
-    border_virtual = true,
     icons = { ' 󰼏 ', ' 󰎨 ', ' 󰼑 ', ' 󰎲 ', ' 󰼓 ', ' 󰎴 ' },
+    border = true,
+    render_modes = true, -- keep rendering while inserting
   },
-  bullet = { render_modes = true },
   checkbox = {
     unchecked = {
       icon = '󰄱',
@@ -52,51 +51,39 @@ require('render-markdown').setup {
     },
     custom = {
       question = { raw = '[?]', rendered = '', highlight = 'RenderMarkdownError', scope_highlight = 'RenderMarkdownError' },
-      ongoing = { raw = '[>]', rendered = '', highlight = 'RenderMarkdownInfo', scope_highlight = 'RenderMarkdownInfo' },
-      canceled = { raw = '[~]', rendered = '', highlight = 'RenderMarkdownCodeFallback', scope_highlight = '@text.strike' },
-      important = { raw = '[!]', rendered = '', highlight = 'RenderMarkdownWarn', scope_highlight = 'RenderMarkdownWarn' },
-      favorite = { raw = '[^]', rendered = '󰓏', highlight = 'RenderMarkdownMath', scope_highlight = 'RenderMarkdownMath' },
+      todo = { raw = '[>]', rendered = '󰦖', highlight = 'RenderMarkdownInfo', scope_highlight = 'RenderMarkdownInfo' },
+      canceled = { raw = '[-]', rendered = '', highlight = 'RenderMarkdownCodeFallback', scope_highlight = '@text.strike' },
+      important = { raw = '[!]', rendered = '', highlight = 'RenderMarkdownWarn', scope_highlight = 'RenderMarkdownWarn' },
+      favorite = { raw = '[~]', rendered = '', highlight = 'RenderMarkdownMath', scope_highlight = 'RenderMarkdownMath' },
     },
   },
   pipe_table = {
-    render_modes = true,
-    head = 'RenderMarkdownTableRow',
     alignment_indicator = '─',
-    border = {
-      '╭',
-      '┬',
-      '╮',
-      '├',
-      '┼',
-      '┤',
-      '╰',
-      '┴',
-      '╯',
-      '│',
-      '─',
-    },
+    border = { '╭', '┬', '╮', '├', '┼', '┤', '╰', '┴', '╯', '│', '─' },
   },
   link = {
-    wiki = { icon = '', highlight = 'RenderMarkdownWikiLink' },
-    hyperlink = ' ',
+    wiki = { icon = ' ', highlight = 'RenderMarkdownWikiLink', scope_highlight = 'RenderMarkdownWikiLink' },
     image = ' ',
     custom = {
       github = { pattern = 'github', icon = ' ' },
       gitlab = { pattern = 'gitlab', icon = '󰮠 ' },
+      youtube = { pattern = 'youtube', icon = ' ' },
+      cern = { pattern = 'cern.ch', icon = ' ' },
     },
+    hyperlink = ' ',
   },
   anti_conceal = {
+    disabled_modes = { 'n' },
     ignore = {
-      bullet = true,
-      indent = true,
-      head_background = true,
+      bullet = true, -- render bullet in insert mode
       head_border = true,
-      sign = true,
-      virtual_lines = true,
+      head_background = true,
     },
-    disabled_modes = { 'n', 'x' },
   },
-  win_options = {
-    concealcursor = { rendered = 'nvic' },
+  -- https://github.com/MeanderingProgrammer/render-markdown.nvim/issues/509
+  win_options = { concealcursor = { rendered = 'nvc' } },
+  completions = {
+    blink = { enabled = true },
+    lsp = { enabled = true },
   },
 }
