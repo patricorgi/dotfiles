@@ -6,7 +6,6 @@ return {
       require 'custom.config.render-markdown'
     end,
   },
-  { 'bullets-vim/bullets.vim', ft = { 'markdown' } },
   {
     'AndrewRadev/switch.vim',
     config = function()
@@ -18,6 +17,10 @@ return {
         { 'height', 'width' },
       }
     end,
+  },
+  {
+    'bullets-vim/bullets.vim',
+    ft = { 'markdown' },
   },
   {
     'HakonHarnes/img-clip.nvim',
