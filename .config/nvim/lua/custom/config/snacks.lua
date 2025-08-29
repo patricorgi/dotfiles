@@ -62,28 +62,28 @@ require('snacks').setup {
   },
   image = {
     enabled = true,
-    doc = { enabled = true, inline = false, float = true, max_width = 40, max_height = 30 },
-    resolve = function(_, src)
-      local vault_path = vim.fn.expand '~' .. '/Library/Mobile Documents/iCloud~md~obsidian/Documents/Obsidian Vault'
-
-      -- when the file path is *attachments/*
-      local att_path = src:match '(attachments/.*)'
-      if att_path then
-        return vault_path .. '/' .. att_path
-      end
-
-      -- when the file path is pure basename without any directory component
-      if not src:match '[/\\]' then
-        return vault_path .. '/attachments/' .. src
-      end
-
-      -- when the file path is absolute path
-      if src:match '^/' then
-        return src
-      end
-
-      return src
-    end,
+    doc = { enabled = true, inline = false, float = true, max_width = 80, max_height = 20 },
+    -- resolve = function(_, src)
+    --   local vault_path = vim.fn.expand '~' .. '/Library/Mobile Documents/iCloud~md~obsidian/Documents/Obsidian Vault'
+    --
+    --   -- when the file path is *attachments/*
+    --   local att_path = src:match '(attachments/.*)'
+    --   if att_path then
+    --     return vault_path .. '/' .. att_path
+    --   end
+    --
+    --   -- when the file path is pure basename without any directory component
+    --   if not src:match '[/\\]' then
+    --     return vault_path .. '/attachments/' .. src
+    --   end
+    --
+    --   -- when the file path is absolute path
+    --   if src:match '^/' then
+    --     return src
+    --   end
+    --
+    --   return src
+    -- end,
   },
   indent = {
     enabled = false,
