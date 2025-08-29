@@ -6,7 +6,6 @@ return {
       require 'custom.config.render-markdown'
     end,
   },
-  { 'bullets-vim/bullets.vim', ft = { 'markdown' } },
   {
     'AndrewRadev/switch.vim',
     config = function()
@@ -17,6 +16,10 @@ return {
         { '> [!TODO]', '> [!WIP]', '> [!DONE]', '> [!FAIL]' },
       }
     end,
+  },
+  {
+    'bullets-vim/bullets.vim',
+    ft = { 'markdown' },
   },
   {
     'HakonHarnes/img-clip.nvim',
@@ -50,6 +53,9 @@ return {
           dir_path = './figs',
           extension = 'png',
           process_cmd = 'magick convert - -density 300 png:-',
+          template = [[
+          #align(center)[#image("$FILE_PATH", height: auto)]
+          ]],
         },
       },
     },
