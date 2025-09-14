@@ -1,4 +1,5 @@
 local components = require 'custom.config.heirline.components'
+vim.o.cmdheight = 0
 
 return { -- statusline
   components.RightPadding(components.Mode, 1),
