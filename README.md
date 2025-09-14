@@ -4,7 +4,7 @@ Personal dotfiles repository
 
 - Work great with bash (sorry...zsh users)
 - Work great with macOS, EL9, CentOS
-- Require nvim version > 0.11
+- Require nvim version >= 0.12
 - Require [nerd font](https://www.nerdfonts.com/):
   - Recommend font: JetBrainsMono Nerd Font Mono + Symbols Nerd Font
 - Recommend terminal emulator: kitty
