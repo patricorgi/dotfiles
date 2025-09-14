@@ -1,7 +1,21 @@
-require 'custom.options'
--- require 'custom.ui.tabline'
-require 'custom.keymaps'
-require 'custom.autocmds'
-require 'custom.filetypes'
-require 'custom.lsp'
-require 'custom.lazy'
+require("config.options")
+require("config.keymaps")
+require("config.autocmds")
+require("config.lsp")
+
+require("plugins.catppuccin")
+require("plugins.mini")
+require("plugins.oil")
+require("plugins.comfylnum")
+require("plugins.heirline")
+require("plugins.completion")
+require("plugins.debugging")
+require("plugins.treesitter")
+require("plugins.meow")
+require("plugins.snacks")
+require("plugins.vim-tmux-navigator")
+require("plugins.switch")
+require("plugins.markdown")
+require("plugins.latex")
+require("plugins.img-clip")
+require("plugins.todo-comments")

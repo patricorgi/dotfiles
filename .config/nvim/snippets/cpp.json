@@ -1,7 +1,7 @@
 {
   "std::cout": {
     "prefix": "std::cout",
-    "body": ["std::cout << ${1} << '\\n';"]
+    "body": ["std::cout << ${0} << '\\n';"]
   },
   "#if": {
     "prefix": "#if",
