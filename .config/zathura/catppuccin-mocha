@@ -1,37 +1,37 @@
-set default-fg                "#CDD6F4"
-set default-bg 			          "#1E1E2E"
+set default-fg                rgba(205,214,244,1)
+set default-bg                rgba(30,30,46,1)
 
-set completion-bg		          "#313244"
-set completion-fg		          "#CDD6F4"
-set completion-highlight-bg	  "#575268"
-set completion-highlight-fg	  "#CDD6F4"
-set completion-group-bg		    "#313244"
-set completion-group-fg		    "#89B4FA"
+set completion-bg             rgba(49,50,68,1)
+set completion-fg             rgba(205,214,244,1)
+set completion-highlight-bg   rgba(203,166,247,1)
+set completion-highlight-fg   rgba(30,30,46,1)
+set completion-group-bg       rgba(24,24,37,1)
+set completion-group-fg       rgba(205,214,244,1)
 
-set statusbar-fg		          "#CDD6F4"
-set statusbar-bg		          "#313244"
+set statusbar-fg              rgba(205,214,244,1)
+set statusbar-bg              rgba(17,17,27,1)
+set inputbar-fg               rgba(205,214,244,1)
+set inputbar-bg               rgba(30,30,46,1)
 
-set notification-bg		        "#313244"
-set notification-fg		        "#CDD6F4"
-set notification-error-bg	    "#313244"
-set notification-error-fg	    "#F38BA8"
-set notification-warning-bg	  "#313244"
-set notification-warning-fg	  "#FAE3B0"
+set notification-bg           rgba(30,30,46,1)
+set notification-fg           rgba(205,214,244,1)
+set notification-error-bg     rgba(30,30,46,1)
+set notification-error-fg     rgba(243,139,168,1)
+set notification-warning-bg   rgba(30,30,46,1)
+set notification-warning-fg   rgba(249,226,175,1)
 
-set inputbar-fg			          "#CDD6F4"
-set inputbar-bg 		          "#313244"
+set recolor                   "false"
+set recolor-lightcolor        rgba(30,30,46,1)
+set recolor-darkcolor         rgba(205,214,244,1)
 
-set recolor-lightcolor		    "#1E1E2E"
-set recolor-darkcolor		      "#CDD6F4"
+set index-fg                  rgba(205,214,244,1)
+set index-bg                  rgba(30,30,46,1)
+set index-active-fg           rgba(205,214,244,1)
+set index-active-bg           rgba(49,50,68,1)
 
-set index-fg			            "#CDD6F4"
-set index-bg			            "#1E1E2E"
-set index-active-fg		        "#CDD6F4"
-set index-active-bg		        "#313244"
+set render-loading-bg         rgba(30,30,46,1)
+set render-loading-fg         rgba(205,214,244,1)
 
-set render-loading-bg		      "#1E1E2E"
-set render-loading-fg		      "#CDD6F4"
-
-set highlight-color		        "#575268"
-set highlight-fg              "#F5C2E7"
-set highlight-active-color	  "#F5C2E7"
+set highlight-color           rgba(147,153,178,0.3)
+set highlight-fg              rgba(205,214,244,1)
+set highlight-active-color    rgba(203,166,247,0.3)
