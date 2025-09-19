@@ -16,4 +16,12 @@ if mount | grep -q "on $localPath"; then
 	umount "$localPath"
 fi
 
-/usr/local/bin/sshfs -o defer_permissions,noappledouble,nolocalcaches,no_readahead,ServerAliveInterval=5,ServerAliveCountMax=2,volname=$baseName $remotePath $localPath
+while true; do
+    /usr/local/bin/sshfs -o defer_permissions,noappledouble,nolocalcaches,no_readahead,ServerAliveInterval=5,ServerAliveCountMax=2,volname=$baseName $remotePath $localPath
+	status=$?
+	if [ $status -eq 0 ]; then
+        break
+    fi
+	echo "Connection failed. Reconnecting..."
+	sleep 2
+done
