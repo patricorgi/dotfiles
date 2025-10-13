@@ -8,7 +8,7 @@ vim.api.nvim_create_autocmd({ "BufReadPre", "BufNewFile" }, {
 	callback = function()
 		require("lsp-progress").setup()
 		require("heirline").setup({
-			statusline = require("custom.config.heirline.statusline"),
+			statusline = require("config.heirline.statusline"),
 		})
 	end,
 })
