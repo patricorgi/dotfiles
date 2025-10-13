@@ -1,7 +1,7 @@
 local palette = require('catppuccin.palettes').get_palette 'mocha'
 local utils = require 'heirline.utils'
 local conditions = require 'heirline.conditions'
-local icons = require 'custom.ui.icons'
+local icons = require 'config.icons'
 local colors = {
     diag_warn = utils.get_highlight('DiagnosticWarn').fg,
     diag_error = utils.get_highlight('DiagnosticError').fg,

@@ -221,7 +221,7 @@ if ok then
 	noice.setup()
 end
 
-local custom_utils = require 'custom.utils'
+local custom_utils = require 'config.utils'
 -- UI responsiveness
 local dap, dapui = require 'dap', require 'dapui'
 dap.listeners.before.attach.dapui_config = function()

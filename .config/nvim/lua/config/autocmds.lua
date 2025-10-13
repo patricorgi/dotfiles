@@ -1,6 +1,6 @@
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
-local custom_utils = require("custom.utils")
+local custom_utils = require("config.utils")
 
 local function augroup(name)
     return vim.api.nvim_create_augroup('lazyvim_' .. name, { clear = true })
