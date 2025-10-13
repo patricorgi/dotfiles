@@ -1,4 +1,4 @@
-local components = require 'custom.config.heirline.components'
+local components = require 'config.heirline.components'
 vim.o.cmdheight = 0
 
 return { -- statusline
