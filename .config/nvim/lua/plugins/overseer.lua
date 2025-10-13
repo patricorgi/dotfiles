@@ -3,7 +3,7 @@ vim.pack.add({
 })
 
 
-local custom_utils = require 'custom.utils'
+local custom_utils = require 'config.utils'
 local overseer = require 'overseer'
 
 -- overseer.config
