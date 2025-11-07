@@ -35,6 +35,7 @@ vim.api.nvim_create_autocmd("FileType", {
                     dir_path = "./figs",
                     extension = "png",
                     process_cmd = "magick convert - -density 300 png:-",
+                    formats = { "jpeg", "jpg", "png", "pdf", "svg" }, ---@type table
                     template = [[
           #align(center)[#image("$FILE_PATH", height: 80%)]
           ]],

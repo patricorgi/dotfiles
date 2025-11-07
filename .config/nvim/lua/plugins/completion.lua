@@ -93,7 +93,7 @@ vim.api.nvim_create_autocmd({ "InsertEnter", "CmdlineEnter" }, {
                 -- Setup completion by filetype
                 per_filetype = {
                     text = { "dictionary" },
-                    markdown = { "thesaurus" },
+                    markdown = { "lsp", "thesaurus" },
                     typst = { "lsp", "snippets", "dictionary" },
                     tex = { "dictionary", "thesaurus" },
                 },
