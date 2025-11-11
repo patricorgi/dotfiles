@@ -453,7 +453,7 @@ M.FileFlags = {
             end
             return result
         end,
-        provider = ' 􀴥 ',
+        provider = ' [+]',
         hl = function(self)
             return { fg = self.icon_color, bold = self.is_active }
         end,
@@ -485,10 +485,10 @@ M.Overseer = {
     end,
     static = {
         symbols = {
-            ['CANCELED'] = ' 􀕧 ',
-            ['FAILURE'] = ' 􀁐 ',
-            ['SUCCESS'] = ' 􀁢 ',
-            ['RUNNING'] = ' 􁾤 ',
+            ['CANCELED'] = ' 󰩹 ',
+            ['FAILURE'] = '  ',
+            ['SUCCESS'] = '  ',
+            ['RUNNING'] = '  ',
         },
     },
     M.RightPadding(OverseerTasksForStatus 'CANCELED'),
