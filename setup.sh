@@ -27,13 +27,15 @@ fi
 
 # installations of all the tools I need
 [ -x "$(command -v cargo)" ] || curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+mkdir -p $HOME/.local/bin
+export PATH=${HOME}/.cargo/bin:${HOME}/.local/bin:${PATH}
 [ -x "$(command -v starship)" ] || curl -sS https://starship.rs/install.sh | sh -s -- --bin-dir $INSTALLDIR
 [ -x "$(command -v rg)" ] || cargo install ripgrep
 [ -x "$(command -v zoxide)" ] || cargo install zoxide
 [ -x "$(command -v eza)" ] || cargo install eza
 [ -x "$(command -v fd)" ] || cargo install fd-find
 [ -x "$(command -v dust)" ] || cargo install du-dust
-[ -x "$(command -v yazi)" ] || cargo install --locked yazi-fm yazi-cli
+[ -x "$(command -v yazi)" ] || cargo install --force yazi-build
 if [ ! -x "$(command -v lazygit)" ]; then
 	curl -Lo lazygit.tar.gz https://github.com/jesseduffield/lazygit/releases/download/v0.45.2/lazygit_0.45.2_$(uname -s)_$(uname -m).tar.gz
 	mkdir lazygit
