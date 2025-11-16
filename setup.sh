@@ -27,6 +27,7 @@ fi
 
 # installations of all the tools I need
 [ -x "$(command -v cargo)" ] || curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+export PATH=${HOME}/.cargo/bin:${HOME}/.local/bin:${PATH}
 [ -x "$(command -v starship)" ] || curl -sS https://starship.rs/install.sh | sh -s -- --bin-dir $INSTALLDIR
 [ -x "$(command -v rg)" ] || cargo install ripgrep
 [ -x "$(command -v zoxide)" ] || cargo install zoxide
