@@ -5,6 +5,7 @@ require("config.lsp")
 
 require("plugins.catppuccin")
 require("plugins.vim-sleuth")
+require("plugins.auto-session")
 require("plugins.mini")
 require("plugins.oil")
 require("plugins.comfylnum")
