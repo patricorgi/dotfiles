@@ -6,10 +6,10 @@ export EDITOR="nvim"
 export VISUAL=$EDITOR
 export GIT_EDITOR=$EDITOR
 export X509_USER_PROXY=$HOME/.grid.proxy
-export HISTSIZE=10000
-export HISTFILESIZE=10000
-shopt -s histappend
-PROMPT_COMMAND="history -a; history -n; $PROMPT_COMMAND"
+# export HISTSIZE=10000
+# export HISTFILESIZE=10000
+# shopt -s histappend
+# PROMPT_COMMAND="history -a; history -n; $PROMPT_COMMAND"
 
 [ -x "$(command -v ganga)" ] && export X509_USER_PROXY=$HOME/.grid.proxy
 [ -f "$HOME/local.sh" ] && source "$HOME/local.sh"
