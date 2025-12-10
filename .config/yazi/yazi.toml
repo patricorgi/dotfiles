@@ -48,11 +48,12 @@ reveal = [
 rootbrowse = [{ run = 'rootbrowse "$1"', orphan = true, for = "unix" }]
 root = [{ run = '~/dotfiles/scripts/run_root_macro.sh "$1"', for = "unix", desc = "root -l" }]
 sioyek = [{ run = 'sioyek "$1"', orphan = true, for = "unix" }]
+zathura = [{ run = 'zathura "$1"', orphan = true, for = "unix" }]
 
 [open]
 prepend_rules = [
   { mime = "application/pdf", use = [
-    "sioyek",
+    "zathura",
     "reveal",
   ] },
   { name = "*.root", use = [
