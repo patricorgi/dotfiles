@@ -36,6 +36,7 @@ open = [
   { run = 'start "" "%1"', orphan = true, desc = "Open", for = "windows" },
 ]
 play = [
+  { run = 'open "$@"', orphan = true, for = "unix" },
   { run = 'mpv --vo=libmpv --geometry=50% --no-border --focus-on=open --mute=yes "$@"', orphan = true, for = "unix" },
   { run = 'mpv "%1"', orphan = true, for = "windows" },
   { run = '''mediainfo "$1"; echo "Press enter to exit"; read''', block = true, desc = "Show media info", for = "unix" },
@@ -49,6 +50,7 @@ rootbrowse = [{ run = 'rootbrowse "$1"', orphan = true, for = "unix" }]
 root = [{ run = '~/dotfiles/scripts/run_root_macro.sh "$1"', for = "unix", desc = "root -l" }]
 sioyek = [{ run = 'sioyek "$1"', orphan = true, for = "unix" }]
 zathura = [{ run = 'zathura "$1"', orphan = true, for = "unix" }]
+yac = [{ name = "YAC", run = 'open -a "YACReader" "$1"', orphan = true, for = "macos"}]
 
 [open]
 prepend_rules = [
@@ -58,6 +60,9 @@ prepend_rules = [
   ] },
   { name = "*.root", use = [
     "rootbrowse",
+  ] },
+  { mime = "application/zip", use = [
+    "yac",
   ] },
   { name = "*.C", use = [
     "root",
