@@ -1,5 +1,6 @@
 vim.pack.add({
     { src = "https://github.com/nvim-treesitter/nvim-treesitter" },
+    { src = "https://github.com/nvim-treesitter/nvim-treesitter-context" },
 })
 
 vim.api.nvim_create_autocmd('BufReadPre', {
@@ -28,5 +29,19 @@ vim.api.nvim_create_autocmd('BufReadPre', {
             end,
             indent = { enable = true, disable = { 'ruby' } },
         }
+        require("treesitter-context").setup({
+            separator = nil,
+            max_lines = 5,
+            multiwindow = true,
+            min_window_height = 15,
+            multiline_threshold = 2,
+        })
+        vim.api.nvim_set_hl(0, "TreesitterContext", { link = "CursorLine" }) -- remove existing link
+        vim.api.nvim_set_hl(0, "TreesitterContextBottom", {
+            underline = true,
+            sp = "#b4befe",
+        })
+        vim.keymap.set("n", "<leader>tc", "<cmd>TSContext toggle<cr>")
+        -- vim.api.nvim_set_hl(0, "TreesitterContextBottom", { link = "CursorLine" }) -- remove existing link
     end,
 })
