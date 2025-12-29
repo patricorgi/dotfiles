@@ -32,5 +32,6 @@ Control-g: unix-filename-rubout
 # Alt-j and Alt-k go backward and forward in history
 Control-p:history-search-backward 
 Control-n:history-search-forward
+"\ei": backward-delete-char
 "\e[A":history-search-backward 
 "\e[B":history-search-forward
