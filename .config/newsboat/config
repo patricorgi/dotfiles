@@ -7,6 +7,7 @@ articlelist-format  "%4i %f %D %?T?|%-17T|  ?%t"
 auto-reload         yes
 show-read-feeds     no
 show-read-articles  no
+cleanup-on-quit     no
 
 # podcasts
 prepopulate-query-feeds yes
@@ -52,10 +53,20 @@ bind-key o     open-in-browser-and-mark-read
 
 # macros
 macro g set feed-sort-order unreadarticlecount-asc; home
+macro i set html-renderer "/bin/cat"; \
+        set pager "~/.config/newsboat/scripts/displayUnsplash.py"; \
+        open; \
+        set pager internal; \
+        next
 
 # ╭──────────────────────────────────────────────────────────╮
 # │                          THEMES                          │
 # ╰──────────────────────────────────────────────────────────╯
 include ~/.config/newsboat/dark
-include ~/.config/newsboat/macros
-include ~/.config/newsboat/ignores
+
+# ignores
+ignore-article "https://www.macstories.net/feed/" "title =~ \"Sponsor\""
+ignore-article "regex:https?://.*syracuse.*" "title !~ \"child\""
+
+
+
