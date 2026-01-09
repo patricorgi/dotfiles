@@ -2,7 +2,7 @@ local components = require 'config.heirline.components'
 vim.o.cmdheight = 0
 
 return { -- statusline
-  components.RightPadding(components.Mode, 1),
+  components.RightPadding(components.ModeSimple, 0),
   components.RightPadding(components.FileNameBlock, 1),
   components.RightPadding(components.Git, 1),
   components.RightPadding(components.Diagnostics, 1),
