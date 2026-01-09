@@ -3,9 +3,6 @@ if vim.b.did_my_ftplugin then
 end
 vim.b.did_my_ftplugin = true
 
-vim.lsp.enable("tinymist")
-vim.lsp.enable("typstyle")
-
 if vim.fn.executable("typstyle") == 1 then
 	vim.keymap.set("n", "<leader>lf", function()
 		local pos = vim.api.nvim_win_get_cursor(0)
