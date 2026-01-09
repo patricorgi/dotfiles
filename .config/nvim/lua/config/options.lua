@@ -17,7 +17,7 @@ vim.opt.termguicolors = true
 -- Make line numbers default
 vim.opt.relativenumber = true
 vim.opt.number = true
-vim.opt.signcolumn = 'yes'
+vim.opt.signcolumn = 'no'
 vim.opt.numberwidth = 4
 
 -- enable soft line wrap
@@ -49,9 +49,6 @@ vim.opt.undofile = true
 -- Case-insensitive searching UNLESS \C or one or more capital letters in the search term
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
-
--- Keep signcolumn on by default
-vim.opt.signcolumn = 'auto'
 
 -- Decrease update time
 vim.opt.updatetime = 250
