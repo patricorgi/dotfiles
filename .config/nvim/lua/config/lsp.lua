@@ -4,7 +4,18 @@ vim.pack.add({
 })
 
 require("mason").setup()
+vim.lsp.enable("marksman")
 vim.lsp.enable("clangd")
+vim.lsp.enable 'lua_ls'
+vim.lsp.enable 'stylua'
+vim.lsp.enable 'pylsp'
+vim.lsp.enable 'texlab'
+vim.lsp.enable 'ruff'
+vim.lsp.enable 'yapf'
+vim.lsp.enable("tinymist")
+vim.lsp.enable("typstyle")
+vim.lsp.enable("bashls")
+
 vim.api.nvim_create_autocmd("LspAttach", {
     group = vim.api.nvim_create_augroup("SetupLSP", {}),
     callback = function(event)
