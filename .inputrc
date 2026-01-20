@@ -27,8 +27,8 @@ Control-g: unix-filename-rubout
 "\e[1;3D": backward-word
 "\e[1;3C": forward-word
 # Alt-h and Alt-l go backward and forward by word in bash prompt
-"\eh": backward-word
-"\el": forward-word
+# "\eh": backward-word
+# "\el": forward-word
 # Alt-j and Alt-k go backward and forward in history
 Control-p:history-search-backward 
 Control-n:history-search-forward
