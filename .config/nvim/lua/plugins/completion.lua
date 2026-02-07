@@ -12,12 +12,12 @@ vim.api.nvim_create_autocmd({ "InsertEnter", "CmdlineEnter" }, {
                 documentation = {
                     auto_show = true,
                     window = {
-                        border = "single",
+                        border = "none",
                         scrollbar = false,
                     },
                 },
                 menu = {
-                    border = "single",
+                    border = "none",
                     auto_show = true,
                     auto_show_delay_ms = 0,
                     scrollbar = false,

@@ -40,11 +40,11 @@ require("catppuccin").setup({
 				FloatBorder = { bg = mocha.base },
 				FloatTitle = { bg = mocha.base },
 				RenderMarkdownCode = { bg = mocha.crust },
-				Pmenu = { bg = mocha.base },
+				Pmenu = { bg = mocha.surface0 },
+                Comment = { bg = nil },
+                statusline = { bg = nil }
 			}
 		end,
 	},
 })
 vim.cmd("colorscheme catppuccin")
-vim.cmd.hi("statusline guibg=NONE")
-vim.cmd.hi("Comment gui=none")
