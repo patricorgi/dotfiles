@@ -65,6 +65,7 @@ M.RightPadding = function(child, num_space)
 	end
 	return result
 end
+
 M.ModeSimple = {
 	init = function(self)
 		self.mode = vim.fn.mode(1)
@@ -88,7 +89,7 @@ M.ModeSimple = {
 			t = palette.blue,
 		},
 	},
-	provider = function(self)
+	provider = function()
 		return "▌"
 	end,
 	hl = function(self)
@@ -248,7 +249,13 @@ M.FileType = {
 	provider = function()
 		return vim.bo.filetype
 	end,
-	hl = { fg = utils.get_highlight("Type").fg, bold = true },
+	hl = function()
+		if conditions.lsp_attached() then
+			return { fg = utils.get_highlight("Type").fg, bold = true }
+		else
+			return { fg = dim_color }
+		end
+	end,
 }
 
 M.CodeiumStatus = {
@@ -618,42 +625,10 @@ M.SimpleIndicator = {
 	provider = "",
 }
 
-M.LspProgress = {
-	provider = function()
-		return require("lsp-progress").progress({
-			format = function(messages)
-				local active_clients = vim.lsp.get_clients()
-				local client_count = #active_clients
-
-				if #messages > 0 then
-					return table.concat(messages, " ")
-				end
-
-				if client_count <= 0 then
-					return client_count
-				else
-					local name_set = {}
-					local client_names = {}
-
-					for _, client in ipairs(active_clients) do
-						if client and client.name ~= "" and not name_set[client.name] then
-							name_set[client.name] = true
-							table.insert(client_names, "[" .. client.name .. "]")
-						end
-					end
-
-					return table.concat(client_names, " ")
-				end
-			end,
-		})
-	end,
-	update = {
-		"User",
-		pattern = "LspProgressStatusUpdated",
-		callback = vim.schedule_wrap(function()
-			vim.cmd("redrawstatus")
-		end),
-	},
+M.LSPActive = {
+	condition = conditions.lsp_attached,
+	update = { "LspAttach", "LspDetach" },
+	provider = " ",
 	hl = { fg = dim_color, bold = false },
 }
 
