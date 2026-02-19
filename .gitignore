@@ -30,3 +30,5 @@ install
 .config/nvim/spell
 .config/kitty/font.conf
 scripts/server-icons.txt
+AGENTS.md
+.config/opencode/package-lock.json

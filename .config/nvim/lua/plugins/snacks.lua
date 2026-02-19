@@ -4,6 +4,7 @@ vim.pack.add({
 -- Picker
 require("snacks").setup({
 	notifier = {},
+	input = {},
 	picker = {
 		matcher = { frecency = true, cwd_bonus = true, history_bonus = true },
 		formatters = { icon_width = 3 },
