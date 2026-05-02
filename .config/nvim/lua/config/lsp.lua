@@ -1,40 +1,115 @@
-vim.pack.add({
-	{ src = "https://github.com/mason-org/mason.nvim" },
-	{ src = "https://github.com/neovim/nvim-lspconfig" },
+local lsp_group = vim.api.nvim_create_augroup("SetupLSP", {})
+local lspconfig_loaded = false
+local mason_loaded = false
+local mason_commands = {
+	{ name = "Mason", nargs = 0 },
+	{ name = "MasonInstall", nargs = "+" },
+	{ name = "MasonUninstall", nargs = "+" },
+	{ name = "MasonUninstallAll", nargs = 0 },
+	{ name = "MasonUpdate", nargs = 0 },
+	{ name = "MasonLog", nargs = 0 },
+}
+local lsp_servers = {
+	"clangd",
+	"lua_ls",
+	"stylua",
+	"pylsp",
+	"texlab",
+	"ruff",
+	"yapf",
+	"tinymist",
+	"typstyle",
+	"bashls",
+}
+
+local function ensure_mason_path()
+	local mason_root = vim.fs.joinpath(vim.fn.stdpath("data"), "mason")
+	local mason_bin = vim.fs.joinpath(mason_root, "bin")
+	local path_sep = vim.fn.has("win32") == 1 and ";" or ":"
+
+	vim.env.MASON = mason_root
+	if vim.env.PATH and not vim.startswith(vim.env.PATH, mason_bin .. path_sep) and vim.env.PATH ~= mason_bin then
+		vim.env.PATH = mason_bin .. path_sep .. vim.env.PATH
+	end
+end
+
+local function delete_mason_wrappers()
+	for _, command in ipairs(mason_commands) do
+		pcall(vim.api.nvim_del_user_command, command.name)
+	end
+end
+
+local function load_mason()
+	if mason_loaded then
+		return require("mason.api.command")
+	end
+
+	require("plugins.snacks").load()
+	delete_mason_wrappers()
+	vim.pack.add({
+		{ src = "https://github.com/mason-org/mason.nvim" },
+	})
+	ensure_mason_path()
+	require("mason").setup()
+	mason_loaded = true
+	return require("mason.api.command")
+end
+
+local function load_lspconfig()
+	if lspconfig_loaded then
+		return
+	end
+
+	lspconfig_loaded = true
+	vim.pack.add({
+		{ src = "https://github.com/neovim/nvim-lspconfig" },
+	})
+	ensure_mason_path()
+
+	for _, server in ipairs(lsp_servers) do
+		vim.lsp.enable(server)
+	end
+end
+
+for _, command in ipairs(mason_commands) do
+	vim.api.nvim_create_user_command(command.name, function(opts)
+		load_mason()
+		vim.cmd({ cmd = command.name, args = opts.fargs, bang = opts.bang })
+	end, {
+		desc = "Lazy-load mason.nvim",
+		nargs = command.nargs,
+	})
+end
+
+ensure_mason_path()
+vim.diagnostic.config({
+	virtual_text = true,
+	virtual_lines = false,
+	float = { source = true },
 })
 
-require("mason").setup()
-vim.lsp.enable("marksman")
-vim.lsp.enable("clangd")
-vim.lsp.enable("lua_ls")
-vim.lsp.enable("stylua")
-vim.lsp.enable("pylsp")
-vim.lsp.enable("texlab")
-vim.lsp.enable("ruff")
-vim.lsp.enable("yapf")
-vim.lsp.enable("tinymist")
-vim.lsp.enable("typstyle")
-vim.lsp.enable("bashls")
+vim.api.nvim_create_autocmd({ "BufReadPre", "BufNewFile" }, {
+	group = lsp_group,
+	once = true,
+	callback = load_lspconfig,
+})
 
 vim.api.nvim_create_autocmd("LspAttach", {
-	group = vim.api.nvim_create_augroup("SetupLSP", {}),
+	group = lsp_group,
 	callback = function(event)
 		local client = assert(vim.lsp.get_client_by_id(event.data.client_id))
 
-		-- [inlay hint]
 		if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
 			vim.keymap.set("n", "<leader>th", function()
 				vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = event.buf }))
 			end, { buffer = event.buf, desc = "LSP: Toggle Inlay Hints" })
 		end
 
-		-- [folding]
 		if client and client:supports_method("textDocument/foldingRange") then
 			local win = vim.api.nvim_get_current_win()
 			vim.wo[win][0].foldexpr = "v:lua.vim.lsp.foldexpr()"
 		end
 
-		-- [keymaps]
 		vim.keymap.set("n", "<leader>lf", vim.lsp.buf.format)
 		vim.keymap.set("n", "gd", function()
 			local params = vim.lsp.util.make_position_params(0, "utf-8")
@@ -42,7 +117,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 				if not result or vim.tbl_isempty(result) then
 					vim.notify("No definition found", vim.log.levels.INFO)
 				else
-					require("snacks").picker.lsp_definitions()
+					require("plugins.snacks").load().picker.lsp_definitions()
 				end
 			end)
 		end, { buffer = event.buf, desc = "LSP: Goto Definition" })
@@ -51,12 +126,11 @@ vim.api.nvim_create_autocmd("LspAttach", {
 			local width = vim.api.nvim_win_get_width(win)
 			local height = vim.api.nvim_win_get_height(win)
 
-			-- Mimic tmux formula: 8 * width - 20 * height
 			local value = 8 * width - 20 * height
 			if value < 0 then
-				vim.cmd("split") -- vertical space is more: horizontal split
+				vim.cmd("split")
 			else
-				vim.cmd("vsplit") -- horizontal space is more: vertical split
+				vim.cmd("vsplit")
 			end
 
 			vim.lsp.buf.definition()
@@ -95,7 +169,9 @@ vim.api.nvim_create_autocmd("LspAttach", {
 				end
 			end
 		end
+
 		vim.keymap.set("n", "[f", jump_to_current_function_start, { desc = "Jump to start of current function" })
+
 		local function jump_to_current_function_end()
 			local params = { textDocument = vim.lsp.util.make_text_document_params() }
 			local responses = vim.lsp.buf_request_sync(0, "textDocument/documentSymbol", params, 1000)
@@ -124,14 +200,12 @@ vim.api.nvim_create_autocmd("LspAttach", {
 			for _, resp in pairs(responses) do
 				local sym = find_symbol(resp.result or {})
 				if sym and sym.range then
-					-- jump to end of the symbol
 					vim.api.nvim_win_set_cursor(0, { sym.range["end"].line + 1, 0 })
 					return
 				end
 			end
 		end
 
-		-- Highlight words under cursor
 		if
 			client
 			and client:supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight)
@@ -155,17 +229,10 @@ vim.api.nvim_create_autocmd("LspAttach", {
 				callback = function(event2)
 					vim.lsp.buf.clear_references()
 					vim.api.nvim_clear_autocmds({ group = "kickstart-lsp-highlight", buffer = event2.buf })
-					-- vim.cmd 'setl foldexpr <'
 				end,
 			})
 		end
+
 		vim.keymap.set("n", "]f", jump_to_current_function_end, { desc = "Jump to end of current function" })
-		vim.diagnostic.config({
-			virtual_text = true,
-			virtual_lines = false,
-			float = { source = true },
-		})
 	end,
 })
-
--- vim.cmd([[set completeopt+=menuone,noselect,popup]])

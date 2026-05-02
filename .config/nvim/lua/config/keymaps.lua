@@ -145,7 +145,7 @@ vim.keymap.set("n", "<leader>Cp", function()
 		{
 			name = "Dim: Toggle",
 			action = function()
-				local snacks_dim = require("snacks").dim
+				local snacks_dim = require("plugins.snacks").load().dim
 				if snacks_dim.enabled then
 					snacks_dim.disable()
 				else
@@ -182,7 +182,7 @@ vim.keymap.set("n", "<leader>Cp", function()
 		table.insert(items, item)
 	end
 
-	Snacks.picker({
+	require("plugins.snacks").load().picker({
 		title = "Command Palette",
 		layout = {
 			preset = "default",

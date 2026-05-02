@@ -1,12 +1,11 @@
-vim.pack.add({
-    { src = "https://github.com/nvim-treesitter/nvim-treesitter" },
-    { src = "https://github.com/nvim-treesitter/nvim-treesitter-context" },
-})
-
-vim.api.nvim_create_autocmd('BufReadPre', {
+vim.api.nvim_create_autocmd({ 'BufReadPre', 'BufNewFile' }, {
     group = vim.api.nvim_create_augroup("SetupTreesitter", { clear = true }),
     once = true,
     callback = function()
+        vim.pack.add({
+            { src = "https://github.com/nvim-treesitter/nvim-treesitter" },
+            { src = "https://github.com/nvim-treesitter/nvim-treesitter-context" },
+        })
         ---@diagnostic disable-next-line: missing-fields
         require('nvim-treesitter.configs').setup {
             ensure_installed = {

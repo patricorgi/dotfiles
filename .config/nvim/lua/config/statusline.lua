@@ -4,10 +4,8 @@ local icons = require("config.icons")
 local api = vim.api
 local b = vim.b
 local bo = vim.bo
-local diagnostic = vim.diagnostic
 local fn = vim.fn
 local fs = vim.fs
-local lsp = vim.lsp
 
 local M = {}
 
@@ -264,6 +262,12 @@ local function update_diagnostics_segment(bufnr)
 		return
 	end
 
+	if not package.loaded["vim.diagnostic"] then
+		get_buffer_state(bufnr).diagnostics = ""
+		return
+	end
+
+	local diagnostic = require("vim.diagnostic")
 	local counts = diagnostic.count(bufnr)
 	local errors = counts[diagnostic.severity.ERROR] or 0
 	local warnings = counts[diagnostic.severity.WARN] or 0
@@ -393,7 +397,10 @@ local function update_filetype_segment(bufnr)
 		return
 	end
 
-	local group = next(lsp.get_clients({ bufnr = bufnr })) and "Type" or "StatuslineDim"
+	local group = "StatuslineDim"
+	if package.loaded["vim.lsp"] and next(require("vim.lsp").get_clients({ bufnr = bufnr })) then
+		group = "Type"
+	end
 	buf_state.filetype = with_hl(group, statusline_escape(filetype)) .. " "
 end
 

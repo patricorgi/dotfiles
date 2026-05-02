@@ -14,6 +14,14 @@ vim.g.vimtex_quickfix_ignore_filters = {
 	"LaTeX Font Warning:",
 	'Package option "final" no longer has any effect with minted v3+',
 }
-vim.pack.add({
-	{ src = "https://github.com/lervag/vimtex" },
+
+vim.api.nvim_create_autocmd({ "BufReadPre", "BufNewFile" }, {
+	group = vim.api.nvim_create_augroup("SetupVimtex", { clear = true }),
+	pattern = { "*.tex", "*.cls", "*.tikz", "*.ltx" },
+	once = true,
+	callback = function()
+		vim.pack.add({
+			{ src = "https://github.com/lervag/vimtex" },
+		})
+	end,
 })

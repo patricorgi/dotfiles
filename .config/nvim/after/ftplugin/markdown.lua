@@ -157,8 +157,20 @@ local function setup_render_markdown()
 		lsp = { enabled = true },
 	},
 })
+end
 
-vim.lsp.enable 'marksman'
+if not vim.g.render_markdown_setup_done then
+	vim.g.render_markdown_setup_done = true
+	vim.schedule(setup_render_markdown)
+end
+
+if not vim.g.marksman_lsp_enabled then
+	vim.g.marksman_lsp_enabled = true
+	vim.schedule(function()
+		vim.lsp.enable('marksman')
+	end)
+end
+
 vim.o.wrap = false
 vim.opt.conceallevel = 2
 vim.keymap.set('n', 'gx', function()
@@ -207,17 +219,30 @@ end
 local function fold_virt_text(result, start_text, lnum)
   -- extmarks highlight
   local ns_id = vim.api.nvim_get_namespaces()['render-markdown.nvim']
-  local extmarks = vim.api.nvim_buf_get_extmarks(0, ns_id, { lnum, 0 }, { lnum, 0 }, { details = true })
-  local details = extmarks[#extmarks][4] or {}
   local ext_hl_str
-  if details then
-    ext_hl_str = details.hl_group
+  if ns_id then
+    local extmarks = vim.api.nvim_buf_get_extmarks(0, ns_id, { lnum, 0 }, { lnum, 0 }, { details = true })
+    local extmark = extmarks[#extmarks]
+    local details = extmark and extmark[4] or nil
+    if details then
+      ext_hl_str = details.hl_group
+    end
   end
 
   -- ts highlight
   local captured_highlights = vim.treesitter.get_captures_at_pos(0, lnum, 0)
+  if #captured_highlights == 0 then
+    table.insert(result, { pad_to_eol(start_text), ext_hl_str or 'Normal' })
+    return
+  end
+
   local ts_hl_str = '@' .. captured_highlights[#captured_highlights].capture .. '.markdown'
-  ts_hl_str = vim.api.nvim_get_hl(0, { name = ts_hl_str, link = true }).link
+  ts_hl_str = vim.api.nvim_get_hl(0, { name = ts_hl_str, link = true }).link or ts_hl_str
+
+  if not ext_hl_str then
+    table.insert(result, { pad_to_eol(start_text), ts_hl_str })
+    return
+  end
 
   -- merge highlight
   local ext_hl = vim.api.nvim_get_hl(0, { name = ext_hl_str })
