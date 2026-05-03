@@ -79,11 +79,17 @@ suppress_preload = false
 
 [plugin]
 prepend_preloaders = [
-  { name = "/Users/patricorgi/SSHFS/**", run = "noop" },
+  { url = "/Users/patricorgi/SSHFS/**/*.pdf", run = "pdf" },
+  { url = "/Users/patricorgi/SSHFS/**/*.PDF", run = "pdf" },
+  { url = "/Users/patricorgi/SSHFS/**", run = "noop" },
   { name = "/Volumes/**", run = "noop" },
+  { url = "/Volumes/**", run = "noop" },
   { mime = 'application/pdf', run = "noop" },
 ]
-prepend_previewers = [{ name = "/Users/patricorgi/SSHFS/**", run = "noop" }]
+# prepend_previewers = [
+#   { name = "/Users/patricorgi/SSHFS/**", run = "noop" },
+#   { url = "/Users/patricorgi/SSHFS/**", run = "noop" },
+# ]
 previewers = [
   { name = "*/", run = "folder", sync = true },
   # Code

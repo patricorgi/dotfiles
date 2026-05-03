@@ -1,3 +1,19 @@
+require("sshfs"):setup({
+	custom_hosts_file = os.getenv("HOME") .. "/.config/yazi/sshfs.list",
+	mount_dir = os.getenv("HOME") .. "/SSHFS",
+	sshfs_options = {
+		"ConnectTimeout=5",
+		"compression=no",
+		"ServerAliveInterval=15",
+		"ServerAliveCountMax=3",
+		"cache=yes",
+		"cache_timeout=5",
+		"entry_timeout=5",
+		"attr_timeout=5",
+		"negative_timeout=1",
+	},
+})
+
 function Linemode:size_and_mtime()
 	local year = os.date("%Y")
 	local time = (self._file.cha.mtime or 0) // 1

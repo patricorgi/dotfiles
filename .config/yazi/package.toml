@@ -8,5 +8,10 @@ use = "sunruisjtu2020/quicklook"
 rev = "7134b57"
 hash = "cad9009e4312e20f072cd7c0d32946ad"
 
+[[plugin.deps]]
+use = "uhs-robert/sshfs"
+rev = "7ba17a8"
+hash = "f6927372436c780965035310821a40d9"
+
 [flavor]
 deps = []
