@@ -124,3 +124,46 @@ head -n -5 |
 sed "1{/^$/d};2{/^$/d}"
 '
 }
+
+function yazi() {
+	local cwd_file=""
+	local cleanup_cwd_file=0
+	local args=("$@")
+	local i
+
+	for ((i = 0; i < ${#args[@]}; i++)); do
+		case "${args[i]}" in
+			--cwd-file=*)
+				cwd_file="${args[i]#--cwd-file=}"
+				break
+				;;
+			--cwd-file)
+				if ((i + 1 < ${#args[@]})); then
+					cwd_file="${args[i + 1]}"
+				fi
+				break
+				;;
+		esac
+	done
+
+	if [ -z "$cwd_file" ]; then
+		cwd_file=$(mktemp "${TMPDIR:-/tmp}/yazi-cwd.XXXXXX") || return 1
+		cleanup_cwd_file=1
+		args=(--cwd-file "$cwd_file" "${args[@]}")
+	fi
+
+	command yazi "${args[@]}"
+	local status=$?
+
+	if [ -x "$(command -v zoxide)" ] && [ -r "$cwd_file" ]; then
+		local cwd
+		cwd=$(<"$cwd_file")
+		[ -n "$cwd" ] && zoxide add "$cwd"
+	fi
+
+	if [ "$cleanup_cwd_file" -eq 1 ]; then
+		rm -f "$cwd_file"
+	fi
+
+	return "$status"
+}

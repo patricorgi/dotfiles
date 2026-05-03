@@ -13,6 +13,7 @@ require("sshfs"):setup({
 		"negative_timeout=1",
 	},
 })
+require("zoxide-track"):setup()
 
 function Linemode:size_and_mtime()
 	local year = os.date("%Y")
