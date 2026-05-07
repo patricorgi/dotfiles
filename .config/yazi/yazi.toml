@@ -47,7 +47,8 @@ reveal = [
   { run = '''exiftool "$1"; echo "Press enter to exit"; read''', block = true, desc = "Show EXIF", for = "unix" },
 ]
 rootbrowse = [{ run = 'rootbrowse "$1"', orphan = true, for = "unix" }]
-root = [{ run = '~/dotfiles/scripts/run_root_macro.sh "$1"', for = "unix", desc = "root -l" }]
+rbtuple = [{ run = '''bash -lc 'source "$HOME/dotfiles/bash/functions"; rbtuple "$@"' rbtuple "$@"''', desc = "rbtuple", orphan = true, for = "unix" }]
+root = [{ run = '~/dotfiles/scripts/run_root_macro.sh "$1"', orphan = true, for = "unix", desc = "ROOT GUI" }]
 sioyek = [{ run = 'sioyek "$1"', orphan = true, for = "unix" }]
 zathura = [{ run = 'zathura "$1"', orphan = true, for = "unix" }]
 yac = [{ name = "YAC", run = 'open -a "YACReader" "$1"', orphan = true, for = "macos"}]
@@ -59,7 +60,7 @@ prepend_rules = [
     "reveal",
   ] },
   { name = "*.root", use = [
-    "rootbrowse",
+    "rbtuple",
   ] },
   { mime = "application/zip", use = [
     "yac",

@@ -93,6 +93,101 @@ function rb() {
 	rootbrowse "${1}"
 }
 
+function rbtuple() {
+	if [ -z "$1" ]; then
+		echo "Usage: rbtuple <file.root>"
+		return 1
+	fi
+
+	if [ ! -f "$1" ]; then
+		echo "File not found: $1"
+		return 1
+	fi
+
+	if [ "$(uname)" = "Darwin" ] && [ -x "$(command -v osascript)" ]; then
+		osascript \
+			-e 'on run argv' \
+			-e 'display notification ("Opening " & (item 1 of argv)) with title "rbtuple"' \
+			-e 'end run' \
+			"$(basename "$1")" >/dev/null 2>&1 &
+	fi
+
+	local root_bin
+	root_bin=$(dirname "$(command -v root)") || return 1
+	local python_bin="$root_bin/python3"
+	if [ ! -x "$python_bin" ]; then
+		python_bin=$(command -v python3) || return 1
+	fi
+
+	"$python_bin" - "$1" <<'PY'
+import ctypes
+import os
+import sys
+from time import monotonic, sleep
+
+import ROOT
+
+
+objc = ctypes.CDLL("/usr/lib/libobjc.A.dylib")
+ctypes.CDLL("/System/Library/Frameworks/AppKit.framework/AppKit")
+objc.objc_getClass.restype = ctypes.c_void_p
+objc.objc_getClass.argtypes = [ctypes.c_char_p]
+objc.sel_registerName.restype = ctypes.c_void_p
+objc.sel_registerName.argtypes = [ctypes.c_char_p]
+
+
+def objc_msg(receiver, selector, restype=ctypes.c_void_p, *args):
+    send = objc.objc_msgSend
+    send.restype = restype
+    send.argtypes = [ctypes.c_void_p, ctypes.c_void_p] + [type(arg) for arg in args]
+    return send(receiver, objc.sel_registerName(selector.encode()), *args)
+
+
+def visible_cocoa_window_count():
+    app_class = objc.objc_getClass(b"NSApplication")
+    app = objc_msg(app_class, "sharedApplication")
+    windows = objc_msg(app, "windows")
+    count = objc_msg(windows, "count", ctypes.c_ulong)
+    visible = 0
+
+    for index in range(count):
+        window = objc_msg(windows, "objectAtIndex:", ctypes.c_void_p, ctypes.c_ulong(index))
+        if objc_msg(window, "isVisible", ctypes.c_bool):
+            visible += 1
+
+    return visible
+
+root_file_path = os.path.abspath(sys.argv[1])
+root_file = ROOT.TFile.Open(root_file_path)
+if not root_file or root_file.IsZombie():
+    print(f"Could not open ROOT file: {root_file_path}", file=sys.stderr)
+    sys.exit(1)
+
+ROOT.gROOT.SetWebDisplay("off")
+ROOT.gEnv.SetValue("Browser.Name", "TRootBrowser")
+
+browser_name = f"rbtuple_{os.getpid()}"
+browser = ROOT.TBrowser(browser_name, root_file, os.path.basename(root_file_path))
+window_was_visible = False
+startup_deadline = monotonic() + 30
+
+try:
+    while True:
+        if ROOT.gROOT.IsInterrupted() or ROOT.gSystem.ProcessEvents():
+            break
+
+        visible_windows = visible_cocoa_window_count()
+        if visible_windows > 0:
+            window_was_visible = True
+        elif window_was_visible or monotonic() > startup_deadline:
+            break
+
+        sleep(0.05)
+finally:
+    root_file.Close()
+PY
+}
+
 function xo() {
 	[ -n "$TMUX" ] && export DISPLAY=$(tmux show-env | sed -n 's/^DISPLAY=//p')
 	xdg-open "${1}" &
