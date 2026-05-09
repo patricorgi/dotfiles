@@ -40,6 +40,87 @@ function lf() {
 	less +F -R "$1"
 }
 
+function starship_username() {
+	local action="${1:-toggle}"
+	local base_config="${_STARSHIP_USERNAME_ORIGINAL_CONFIG:-${STARSHIP_CONFIG:-${XDG_CONFIG_HOME:-$HOME/.config}/starship.toml}}"
+	local toggle_config="${XDG_CACHE_HOME:-$HOME/.cache}/starship/no-username.toml"
+
+	case "$action" in
+		hide)
+			if [ ! -f "$base_config" ]; then
+				echo "Starship config not found: $base_config"
+				return 1
+			fi
+
+			mkdir -p "$(dirname "$toggle_config")" || return 1
+			cp "$base_config" "$toggle_config" || return 1
+
+			perl -0pi -e '
+sub set_key {
+	my ($body, $key, $value) = @_;
+	if ($body =~ /^\Q$key\E\s*=.*$/m) {
+		$body =~ s/^\Q$key\E\s*=.*$/$key = $value/m;
+	} else {
+		$body .= "$key = $value\n";
+	}
+	return $body;
+}
+
+sub set_section_keys {
+	my ($text, $section, $pairs) = @_;
+	if ($text =~ /(\[\Q$section\E\]\n)(.*?)(?=\n\[[^\n]+\]|\z)/s) {
+		my ($header, $body) = ($1, $2);
+		for my $pair (@$pairs) {
+			$body = set_key($body, $pair->[0], $pair->[1]);
+		}
+		$text =~ s/(\[\Q$section\E\]\n)(.*?)(?=\n\[[^\n]+\]|\z)/$header$body/s;
+	} else {
+		$text .= "\n[$section]\n";
+		for my $pair (@$pairs) {
+			$text .= "$pair->[0] = $pair->[1]\n";
+		}
+	}
+	return $text;
+}
+
+$_ = set_section_keys($_, "username", [["disabled", "true"]]);
+$_ = set_section_keys($_, "hostname", [["ssh_only", "false"], ["format", q("[󰢹 remote]($style) in ")]]);
+' "$toggle_config" || return 1
+
+			export _STARSHIP_USERNAME_ORIGINAL_CONFIG="$base_config"
+			export STARSHIP_CONFIG="$toggle_config"
+			echo "Starship username hidden; hostname set to remote"
+			;;
+		show)
+			if [ -n "$_STARSHIP_USERNAME_ORIGINAL_CONFIG" ]; then
+				export STARSHIP_CONFIG="$_STARSHIP_USERNAME_ORIGINAL_CONFIG"
+			else
+				unset STARSHIP_CONFIG
+			fi
+			unset _STARSHIP_USERNAME_ORIGINAL_CONFIG
+			echo "Starship username shown"
+			;;
+		status)
+			if [ "$STARSHIP_CONFIG" = "$toggle_config" ]; then
+				echo "Starship username hidden; hostname set to remote"
+			else
+				echo "Starship username shown"
+			fi
+			;;
+		toggle)
+			if [ "$STARSHIP_CONFIG" = "$toggle_config" ]; then
+				starship_username show
+			else
+				starship_username hide
+			fi
+			;;
+		*)
+			echo "Usage: starship_username [toggle|hide|show|status]"
+			return 1
+			;;
+	esac
+}
+
 function r() {
 	if [ -x "$(command -v root)" ]; then
 		root
