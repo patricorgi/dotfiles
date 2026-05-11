@@ -1,6 +1,6 @@
 # A TOML linter such as https://taplo.tamasfe.dev/ can use this schema to validate your config.
 # If you encounter any issues, please make an issue at https://github.com/yazi-rs/schemas.
-"$schema" = "https://yazi-rs.github.io/schemas/yazi.json"
+# schema = "https://yazi-rs.github.io/schemas/yazi.json"
 
 [mgr]
 linemode = "size_and_mtime"
@@ -50,22 +50,24 @@ rootbrowse = [{ run = 'rootbrowse "$1"', orphan = true, for = "unix" }]
 rbtuple = [{ run = '''bash -lc 'source "$HOME/dotfiles/bash/functions"; rbtuple "$@"' rbtuple "$@"''', desc = "rbtuple", orphan = true, for = "unix" }]
 root = [{ run = '~/dotfiles/scripts/run_root_macro.sh "$1"', orphan = true, for = "unix", desc = "ROOT GUI" }]
 sioyek = [{ run = 'sioyek "$1"', orphan = true, for = "unix" }]
+skim = [{ run = 'open -a "Skim" "$1"', orphan = true, for = "macos" }]
 zathura = [{ run = 'zathura "$1"', orphan = true, for = "unix" }]
 yac = [{ name = "YAC", run = 'open -a "YACReader" "$1"', orphan = true, for = "macos"}]
 
 [open]
 prepend_rules = [
   { mime = "application/pdf", use = [
+    "skim",
     "zathura",
     "reveal",
   ] },
-  { name = "*.root", use = [
+  { url = "*.root", use = [
     "rbtuple",
   ] },
   { mime = "application/zip", use = [
     "yac",
   ] },
-  { name = "*.C", use = [
+  { url = "*.C", use = [
     "root",
   ] },
 ]
@@ -83,7 +85,6 @@ prepend_preloaders = [
   { url = "/Users/patricorgi/SSHFS/**/*.pdf", run = "pdf" },
   { url = "/Users/patricorgi/SSHFS/**/*.PDF", run = "pdf" },
   { url = "/Users/patricorgi/SSHFS/**", run = "noop" },
-  { name = "/Volumes/**", run = "noop" },
   { url = "/Volumes/**", run = "noop" },
   { mime = 'application/pdf', run = "noop" },
 ]
@@ -92,7 +93,7 @@ prepend_preloaders = [
 #   { url = "/Users/patricorgi/SSHFS/**", run = "noop" },
 # ]
 previewers = [
-  { name = "*/", run = "folder", sync = true },
+  { url = "*/", run = "folder", sync = true },
   # Code
   { mime = "text/*", run = "code" },
   { mime = "*/xml", run = "code" },
@@ -134,16 +135,6 @@ rename_offset = [0, 1, 50, 3]
 rename_origin = "hovered"
 rename_title = "Rename:"
 
-# trash
-trash_offset = [0, 2, 50, 3]
-trash_origin = "top-center"
-trash_title = "Move {n} selected file{s} to trash? (y/N)"
-
-# delete
-delete_offset = [0, 2, 50, 3]
-delete_origin = "top-center"
-delete_title = "Delete {n} selected file{s} permanently? (y/N)"
-
 # filter
 filter_offset = [0, 2, 50, 3]
 filter_origin = "top-center"
@@ -164,20 +155,24 @@ shell_offset = [0, 2, 50, 3]
 shell_origin = "top-center"
 shell_title = ["Shell:", "Shell (block):"]
 
-# overwrite
+[confirm]
+trash_offset = [0, 2, 50, 3]
+trash_origin = "top-center"
+trash_title = "Move {n} selected file{s} to trash? (y/N)"
+
+delete_offset = [0, 2, 50, 3]
+delete_origin = "top-center"
+delete_title = "Delete {n} selected file{s} permanently? (y/N)"
+
 overwrite_offset = [0, 2, 50, 3]
 overwrite_origin = "top-center"
 overwrite_title = "Overwrite an existing file? (y/N)"
 
-# quit
 quit_offset = [0, 2, 50, 3]
 quit_origin = "top-center"
 quit_title = "{n} task{s} running, sure to quit? (y/N)"
 
-[select]
+[pick]
 open_offset = [0, 1, 50, 7]
 open_origin = "hovered"
 open_title = "Open with:"
-
-[log]
-enabled = false

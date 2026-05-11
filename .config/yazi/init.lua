@@ -1,4 +1,13 @@
-require("sshfs"):setup({
+local function setup_plugin(name, opts)
+	local ok, plugin = pcall(require, name)
+	if ok then
+		pcall(function()
+			plugin:setup(opts)
+		end)
+	end
+end
+
+setup_plugin("sshfs", {
 	custom_hosts_file = os.getenv("HOME") .. "/.config/yazi/sshfs.list",
 	mount_dir = os.getenv("HOME") .. "/SSHFS",
 	sshfs_options = {
@@ -13,7 +22,7 @@ require("sshfs"):setup({
 		"negative_timeout=1",
 	},
 })
-require("zoxide-track"):setup()
+setup_plugin("zoxide-track")
 
 function Linemode:size_and_mtime()
 	local year = os.date("%Y")

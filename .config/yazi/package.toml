@@ -13,5 +13,10 @@ use = "uhs-robert/sshfs"
 rev = "7ba17a8"
 hash = "f6927372436c780965035310821a40d9"
 
+[[plugin.deps]]
+use = "yazi-rs/plugins:mount"
+rev = "=f9b3f88"
+hash = "c0b6cd7dc830b96e77e5c8a71eec7926"
+
 [flavor]
 deps = []
