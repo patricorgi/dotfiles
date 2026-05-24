@@ -6,28 +6,8 @@ vim.api.nvim_create_autocmd({ 'BufReadPre', 'BufNewFile' }, {
             { src = "https://github.com/nvim-treesitter/nvim-treesitter" },
             { src = "https://github.com/nvim-treesitter/nvim-treesitter-context" },
         })
-        ---@diagnostic disable-next-line: missing-fields
-        require('nvim-treesitter.configs').setup {
-            ensure_installed = {
-                'diff',
-                'snakemake',
-            },
-            ignore_install = {
-                'latex',
-                'yaml',
-                'xml',
-            },
-            auto_install = true,
-            highlight = {
-                enable = true,
-                disable = { 'latex' },
-                additional_vim_regex_highlighting = { 'ruby' },
-            },
-            disable = function(lang, bufnr)
-                return lang == 'yaml' and vim.api.nvim_buf_line_count(bufnr) > 5000
-            end,
-            indent = { enable = true, disable = { 'ruby' } },
-        }
+        require('nvim-treesitter').setup({})
+        require('nvim-treesitter').install { 'diff', 'snakemake' }
         require("treesitter-context").setup({
             enable = false,
             separator = nil,
