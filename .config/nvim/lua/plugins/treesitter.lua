@@ -6,8 +6,9 @@ vim.api.nvim_create_autocmd({ 'BufReadPre', 'BufNewFile' }, {
             { src = "https://github.com/nvim-treesitter/nvim-treesitter" },
             { src = "https://github.com/nvim-treesitter/nvim-treesitter-context" },
         })
-        require('nvim-treesitter').setup({})
-        require('nvim-treesitter').install { 'diff', 'snakemake' }
+        require('nvim-treesitter.configs').setup({
+            ensure_installed = { 'diff', 'snakemake' },
+        })
         require("treesitter-context").setup({
             enable = false,
             separator = nil,
