@@ -12,13 +12,10 @@ local mason_commands = {
 local lsp_servers = {
 	"clangd",
 	"lua_ls",
-	"stylua",
 	"pylsp",
 	"texlab",
 	"ruff",
-	"yapf",
 	"tinymist",
-	"typstyle",
 	"bashls",
 }
 
@@ -66,6 +63,17 @@ local function load_lspconfig()
 	})
 	ensure_mason_path()
 
+	local cargo_bin = vim.fs.joinpath(vim.env.HOME, ".cargo", "bin")
+	local cargo_texlab = vim.fs.joinpath(cargo_bin, "texlab")
+	if vim.fn.executable(cargo_texlab) == 1 then
+		vim.lsp.config("texlab", {
+			cmd = { cargo_texlab },
+			cmd_env = {
+				PATH = cargo_bin .. ":" .. vim.env.PATH,
+			},
+		})
+	end
+
 	for _, server in ipairs(lsp_servers) do
 		vim.lsp.enable(server)
 	end
@@ -110,7 +118,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
 			vim.wo[win][0].foldexpr = "v:lua.vim.lsp.foldexpr()"
 		end
 
-		vim.keymap.set("n", "<leader>lf", vim.lsp.buf.format)
 		vim.keymap.set("n", "gd", function()
 			local params = vim.lsp.util.make_position_params(0, "utf-8")
 			vim.lsp.buf_request(0, "textDocument/definition", params, function(_, result, _, _)

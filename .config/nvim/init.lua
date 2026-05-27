@@ -1,3 +1,5 @@
+vim.o.exrc = true
+
 if vim.loader then
 	vim.loader.enable()
 end
@@ -16,6 +18,7 @@ require("plugins.oil")
 require("plugins.comfylnum")
 require("plugins.heirline")
 require("plugins.completion")
+require("plugins.conform")
 require("plugins.debugging")
 require("plugins.treesitter")
 require("plugins.snacks")

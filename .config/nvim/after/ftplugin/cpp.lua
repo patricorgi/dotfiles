@@ -66,9 +66,16 @@ end
 ---@class ClangdInitializeResult: lsp.InitializeResult
 ---@field offsetEncoding? string
 
+local clangd_config = vim.lsp.config.clangd or {}
+local clangd_cmd = clangd_config.cmd
+
+if not clangd_cmd or (#clangd_cmd == 1 and clangd_cmd[1] == 'clangd') then
+    clangd_cmd = { 'clangd', '-j', '1', '--background-index=false' }
+end
+
 ---@type vim.lsp.Config
 vim.lsp.config('clangd', {
-    cmd = { 'clangd', '-j', '1', '--background-index=false' },
+    cmd = clangd_cmd,
     filetypes = { 'c', 'cpp', 'objc', 'objcpp', 'cuda' },
     root_markers = {
         '.clangd',
@@ -103,9 +110,3 @@ vim.lsp.config('clangd', {
         end, { desc = 'Show symbol info' })
     end,
 })
-
-if vim.fn.executable("lcg-clang-format-8.0.0")  == 1 then
-    vim.keymap.set('n', '<leader>lf', '<cmd>!lcg-clang-format-8.0.0 %<cr>' )
-else
-    vim.keymap.set("v", "<leader>lf", ":%!clang-format<CR>")
-end

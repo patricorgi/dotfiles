@@ -25,3 +25,12 @@ vim.api.nvim_create_autocmd({ "BufReadPre", "BufNewFile" }, {
 		})
 	end,
 })
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "tex", "latex" },
+  callback = function()
+    vim.opt_local.textwidth = 80
+    vim.opt_local.formatoptions:remove("a") -- no auto-reflow
+    vim.opt_local.formatoptions:append("t") -- wrap text while typing
+  end,
+})
