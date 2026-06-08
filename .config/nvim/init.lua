@@ -8,6 +8,7 @@ require("config.options")
 require("config.keymaps")
 require("config.autocmds")
 require("config.lsp")
+require("config.treesitter_compat").setup()
 
 require("plugins.catppuccin")
 require("plugins.vpack")
