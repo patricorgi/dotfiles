@@ -5,6 +5,20 @@ function s() {
 	kitty +kitten ssh "$@" || ssh "$@"
 }
 
+function ops() {
+	local port="${OPENCODE_PORT:-4096}"
+	opencode serve --hostname 127.0.0.1 --port "${port}" "$@"
+}
+
+function op() {
+	local port="${OPENCODE_PORT:-4096}"
+	local dir="${PWD:-$(pwd -P)}"
+	if [[ -d "/proc/${BASHPID}/cwd" ]]; then
+		dir="/proc/${BASHPID}/cwd"
+	fi
+	opencode attach "http://127.0.0.1:${port}" --dir "${dir}" "$@"
+}
+
 function fssh() {
 	local server="${1:-$(awk '/^Host / {
     for (i = 2; i <= NF; i++) {
