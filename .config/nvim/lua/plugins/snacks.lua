@@ -93,6 +93,35 @@ local function with_snacks(callback)
 	end
 end
 
+local function markdown_lsp_symbol_format(item, picker)
+	local format = require("snacks.picker.format")
+	local ret = {}
+	if item.tree and not picker.opts.workspace then
+		vim.list_extend(ret, format.tree(item, picker))
+	end
+
+	local kind = item.lsp_kind or item.kind or "Unknown"
+	local known_kind = picker.opts.icons.kinds[kind] ~= nil
+	local icon = known_kind and picker.opts.icons.kinds[kind] or picker.opts.icons.kinds.Unknown
+	local kind_hl = "SnacksPickerIcon" .. (known_kind and kind or "Unknown")
+
+	if kind == "String" and item.buf and vim.bo[item.buf].filetype == "markdown" and item.pos then
+		local line = vim.api.nvim_buf_get_lines(item.buf, item.pos[1] - 1, item.pos[1], false)[1] or ""
+		local hashes = line:match("^%s*(#+)%s")
+		local heading_icons = vim.b[item.buf].render_markdown_heading_icons
+		if hashes and heading_icons then
+			icon = heading_icons[math.min(#hashes, #heading_icons)] or icon
+		end
+	end
+
+	ret[#ret + 1] = { icon, kind_hl }
+	ret[#ret + 1] = { " " }
+	local name = vim.trim(item.name:gsub("\r?\n", " "))
+	name = name == "" and item.detail or name
+	Snacks.picker.highlight.format(item, name, ret)
+	return ret
+end
+
 map("<leader>ff", with_snacks(function(snacks)
 	snacks.picker.smart()
 end), "Smart find file")
@@ -154,6 +183,7 @@ map("<leader>fs", with_snacks(function(snacks)
 		snacks.picker.lsp_symbols({
 			layout = "dropdown",
 			tree = true,
+			format = vim.bo[bufnr].filetype == "markdown" and markdown_lsp_symbol_format or "lsp_symbol",
 		})
 	else
 		snacks.picker.treesitter()
