@@ -477,6 +477,260 @@ watch-safe() {
   env -u LD_LIBRARY_PATH watch "$@"
 }
 
+function migrad_progress() {
+	if [[ $# -ne 1 ]]; then
+		echo "Usage: migrad_progress <job.out>" >&2
+		return 2
+	fi
+
+	local job_out="$1"
+	if [[ ! -r "$job_out" ]]; then
+		echo "job.out is not readable: $job_out" >&2
+		return 1
+	fi
+
+	local state_file
+	state_file=$(mktemp "${TMPDIR:-/tmp}/migrad-progress.XXXXXX") || return 1
+	local awk_program='BEGIN {
+  while ((getline entry < state) > 0) {
+    if (entry == "# initialized") {
+      initialized = 1
+    } else {
+      split(entry, fields, "\t")
+      observed[fields[1]] = fields[2]
+    }
+  }
+  close(state)
+}
+
+/^PLOT[[:space:]]+(jpsi|psi2s)[[:space:]]+[0-9]+\/[0-9]+:/ {
+  channel = $2
+  split($3, progress, "/")
+  sub(/:$/, "", progress[2])
+  plot_seen[channel] = 1
+  plot_total[channel] = progress[2]
+  plot_current[channel] = progress[1]
+  plot_name[channel] = $4
+  next
+}
+/^PLOT[[:space:]]+(jpsi|psi2s)[[:space:]]+[0-9]+\/[0-9]+[[:space:]]+complete:/ {
+  channel = $2
+  split($3, progress, "/")
+  plot_seen[channel] = 1
+  plot_total[channel] = progress[2]
+  plot_completed[channel] = progress[1]
+  if (progress[1] == progress[2]) plot_finished[channel] = 1
+  next
+}
+/FCN=.*FROM MIGRAD/ {
+  record += 1
+  key[record] = FNR
+  fcn[record] = $1
+  sub(/^FCN=/, "", fcn[record])
+  status[record] = $4
+  sub(/^STATUS=/, "", status[record])
+  calls[record] = $5
+  total[record] = $7
+  if (!(key[record] in observed)) observed[key[record]] = initialized ? now : 0
+  current = record
+  next
+}
+/^[[:space:]]*EDM=/ {
+  if (current == 0) next
+  edm[current] = $1
+  sub(/^EDM=/, "", edm[current])
+  if (edm[current] == "") edm[current] = $2
+  complete[current] = 1
+}
+END {
+  printf "%-10s %-10s %8s %8s  %-19s %8s  %s\n", "FCN", "STATUS", "CALLS", "TOTAL", "TIMESTAMP", "ELAPSED", "EDM (goal: < 1.00e-03)"
+  previous = 0
+  for (row = 1; row <= record; row += 1) {
+    if (!complete[row]) continue
+    timestamp = observed[key[row]]
+    display_time = timestamp ? strftime("%Y-%m-%d %H:%M:%S", timestamp) : "pre-existing"
+    elapsed = (timestamp && previous) ? (timestamp - previous) "s" : "--"
+    printf "%-10s %-10s %8s %8s  %-19s %8s  %s\n", fcn[row], status[row], calls[row], total[row], display_time, elapsed, edm[row]
+    if (timestamp) previous = timestamp
+  }
+  print "# initialized" > state
+  for (entry in observed) print entry "\t" observed[entry] > state
+  close(state)
+
+  print "\nPLOTTING"
+  printf "%-8s %-12s %10s %8s  %s\n", "CHANNEL", "STATUS", "PROGRESS", "PERCENT", "CURRENT"
+  split("jpsi psi2s", channels, " ")
+  for (channel_index = 1; channel_index <= 2; channel_index += 1) {
+    channel = channels[channel_index]
+    if (!plot_seen[channel]) {
+      printf "%-8s %-12s %10s %8s  %s\n", channel, "not started", "--", "--", "--"
+    } else {
+      completed = plot_completed[channel] + 0
+      total_plots = plot_total[channel] + 0
+      plot_status = plot_finished[channel] ? "complete" : "running"
+      progress_text = completed "/" total_plots
+      percent = total_plots ? sprintf("%.1f%%", 100 * completed / total_plots) : "--"
+      current = plot_finished[channel] ? "--" : plot_name[channel]
+      printf "%-8s %-12s %10s %8s  %s\n", channel, plot_status, progress_text, percent, current
+    }
+  }
+}'
+	local quoted_awk_program=${awk_program//\'/\'\\\'\'}
+	local quoted_job_out=${job_out//\'/\'\\\'\'}
+	local quoted_state_file=${state_file//\'/\'\\\'\'}
+
+	(
+		trap 'rm -f -- "$state_file"' EXIT
+		watch-safe -n 10 -- "now=\$(date +%s); awk -v state='${quoted_state_file}' -v now=\"\$now\" '${quoted_awk_program}' '${quoted_job_out}'"
+	)
+}
+
+function _migrad_progress_all_render() {
+	local job_out job_log condor_id condor_status leaf fit_source campaign component mass jp stage_total metadata progress
+	local fit_stage jpsi_plots psi2s_plots
+	local -A seen
+
+	printf "%-10s %-10s %-10s %-4s %-22s %-20s %-20s %-12s %s\n" \
+		"CAMPAIGN" "COMPONENT" "MASS (MeV)" "JP" "FIT STAGE" "J/PSI PLOTS" "PSI2S PLOTS" "CONDOR ID" "CONDOR STATUS"
+	for job_out in "$@"; do
+		[[ -n "${seen["$job_out"]}" ]] && continue
+		seen["$job_out"]=1
+		if [[ ! -r "$job_out" ]]; then
+			printf "%-10s %-10s %-10s %-4s %-22s %-20s %-20s %-12s %s\n" "--" "--" "--" "--" "unreadable" "--" "--" "--" "--"
+			continue
+		fi
+
+		leaf=$(dirname "$job_out")
+		job_log="$leaf/job.log"
+		condor_id=$(awk '/^000 \([0-9]+\.[0-9]+\.[0-9]+\)/ { id = $2 } END { gsub(/[()]/, "", id); split(id, fields, "."); if (fields[1] != "") { if ((fields[2] + 0) == 0) print fields[1]; else print fields[1] "." (fields[2] + 0) } }' "$job_log" 2>/dev/null)
+		[[ -n "$condor_id" ]] || condor_id="--"
+		condor_status=$(awk '
+/^000 \(/ { status = "IDLE" }
+/^001 \(/ { status = "RUNNING" }
+/^004 \(/ { status = "IDLE" }
+/^005 \(/ { status = "DONE" }
+/^009 \(/ { status = "DONE" }
+/^010 \(/ { status = "SUSPENDED" }
+/^011 \(/ { status = "RUNNING" }
+/^012 \(/ { status = "HELD" }
+/^013 \(/ { status = "IDLE" }
+END { if (status) print status; else print "UNKNOWN" }
+' "$job_log" 2>/dev/null)
+		metadata=$(awk -v leaf="$leaf" '
+BEGIN {
+  directory = leaf
+  while (directory != "/") {
+    n = split(directory, parts, "/")
+    if (parts[n] ~ /^v[0-9]/) { campaign = parts[n]; break }
+    sub(/\/[^/]+$/, "", directory)
+  }
+  model = leaf "/model_components.txt"
+  while ((getline < model) < 0 && leaf != "/") {
+    sub(/\/[^/]+$/, "", leaf); model = leaf "/model_components.txt"
+  }
+  close(model)
+  if (leaf == "/") { print campaign "\t--\t--\t--"; exit }
+  parent = leaf; sub(/\/[^/]+$/, "", parent)
+  parent_model = parent "/model_components.txt"
+  while ((getline < parent_model) < 0 && parent != "/") {
+    sub(/\/[^/]+$/, "", parent); parent_model = parent "/model_components.txt"
+  }
+  if (parent != "/") {
+    while ((getline line < parent_model) > 0) {
+      if (line ~ /^[[:space:]]*#/ || line ~ /^[[:space:]]*$/) continue
+      split(line, f, /[[:space:]]+/); start = f[1] == "" ? 2 : 1
+      inherited[f[start] SUBSEP f[start + 1] SUBSEP f[start + 3] SUBSEP f[start + 4]] = 1
+    }
+  }
+  close(parent_model)
+  while ((getline line < model) > 0) {
+    if (line ~ /^[[:space:]]*#/ || line ~ /^[[:space:]]*$/) continue
+    split(line, f, /[[:space:]]+/); start = f[1] == "" ? 2 : 1
+    key = f[start] SUBSEP f[start + 1] SUBSEP f[start + 3] SUBSEP f[start + 4]
+    if ((f[start + 1] == "Z" || f[start + 1] == "ZK") && !(key in inherited)) {
+      component = f[start + 1] f[start]
+      mass = sprintf("%.0f", f[start + 4] * 1000)
+      jp = f[start + 6] f[start + 7]
+    }
+  }
+  close(model)
+  print campaign "\t" (component ? component : "baseline") "\t" (mass ? mass : "--") "\t" (jp ? jp : "--")
+}' )
+		IFS=$'\t' read -r campaign component mass jp <<< "$metadata"
+
+		fit_source="$leaf"
+		while [[ "$fit_source" != "/" && ! -r "$fit_source/Fit/MasterSwitches.h" ]]; do
+			fit_source=$(dirname "$fit_source")
+		done
+		stage_total="?"
+		if [[ "$leaf" == *3stg* ]]; then
+			stage_total=3
+		elif [[ -r "$fit_source/Fit/MasterSwitches.h" ]] && awk '/^[[:space:]]*#define[[:space:]]+STAGEFIT([[:space:]]|$)/ { found = 1 } END { exit !found }' "$fit_source/Fit/MasterSwitches.h"; then
+			stage_total=2
+		elif [[ -r "$fit_source/Fit/MasterSwitches.h" ]]; then
+			stage_total=1
+		fi
+
+		progress=$(awk -v expected="$stage_total" '
+/^\[FIT_STATUS\] MINIMIZE begin stage=[0-9]+/ {
+  match($0, /stage=[0-9]+/); stage = substr($0, RSTART + 6, RLENGTH - 6) + 0
+  if (stage > begun) begun = stage; next
+}
+/^\[FIT_STATUS\] MINIMIZE complete stage=[0-9]+/ {
+  match($0, /stage=[0-9]+/); stage = substr($0, RSTART + 6, RLENGTH - 6) + 0
+  if (stage > completed) completed = stage; next
+}
+/^FCN after stage [0-9]+:/ {
+  match($0, /stage [0-9]+/); stage = substr($0, RSTART + 6, RLENGTH - 6) + 0
+  if (stage > begun) begun = stage
+  if (stage > completed) completed = stage
+  next
+}
+/^PLOT[[:space:]]+(jpsi|psi2s)[[:space:]]+[0-9]+\/[0-9]+:/ {
+  channel = $2; split($3, count, "/"); sub(/:$/, "", count[2])
+  if (count[1] == 1) complete[channel] = 0
+  seen[channel] = 1; total[channel] = count[2]; next
+}
+/^PLOT[[:space:]]+(jpsi|psi2s)[[:space:]]+[0-9]+\/[0-9]+[[:space:]]+complete:/ {
+  channel = $2; split($3, count, "/")
+  seen[channel] = 1; complete[channel] = count[1]; total[channel] = count[2]
+}
+END {
+  if (expected == "?" && begun > 0) expected = begun
+  if (completed >= expected && expected != "?") fit = "complete (" completed "/" expected ")"
+  else if (begun > completed) fit = "stage " begun "/" expected " running"
+  else if (completed > 0) fit = "stage " completed "/" expected " complete"
+  else fit = "initializing (0/" expected ")"
+  for (i = 1; i <= 2; ++i) {
+    channel = i == 1 ? "jpsi" : "psi2s"
+    if (!seen[channel]) plot[channel] = "not started"
+    else plot[channel] = complete[channel] "/" total[channel] " (" sprintf("%.1f%%", 100 * complete[channel] / total[channel]) ")"
+  }
+  print fit "\t" plot["jpsi"] "\t" plot["psi2s"]
+}' "$job_out")
+		IFS=$'\t' read -r fit_stage jpsi_plots psi2s_plots <<< "$progress"
+		printf "%-10s %-10s %-10s %-4s %-22s %-20s %-20s %-12s %s\n" "$campaign" "$component" "$mass" "$jp" "$fit_stage" "$jpsi_plots" "$psi2s_plots" "$condor_id" "$condor_status"
+	done
+}
+
+function migrad_progress_all() {
+	local alternate_screen=0 table
+	if [[ $# -eq 0 ]]; then
+		echo "Usage: migrad_progress_all <job.out> [job.out ...]" >&2
+		return 2
+	fi
+	if [[ -t 1 ]] && tput smcup; then
+		alternate_screen=1
+	fi
+	trap '[[ $alternate_screen -eq 1 ]] && tput rmcup; trap - INT TERM; return 130' INT TERM
+	while :; do
+		table=$(_migrad_progress_all_render "$@")
+		printf '\033[H\033[J'
+		printf "MIGRAD PROGRESS  %s  (refresh: 10s; Ctrl-C to stop)\n\n%s\n" "$(date '+%Y-%m-%d %H:%M:%S')" "$table"
+		sleep 10
+	done
+}
+
 function ctop() {
     watch-safe -n 1 -c '
 condor_q -nobatch |
