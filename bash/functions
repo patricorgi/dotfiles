@@ -2,6 +2,9 @@
 
 function s() {
 	reset
+	if [[ -x "$HOME/.ssh/sshfs_on_login.py" ]]; then
+		"$HOME/.ssh/sshfs_on_login.py" "$@" </dev/null >/dev/null 2>&1 &
+	fi
 	kitty +kitten ssh "$@" || ssh "$@"
 }
 
