@@ -62,6 +62,8 @@ fi
 if [ -x "$HOME/.fzf/bin/fzf" ]; then
 	[[ ":$PATH:" != *":$HOME/.fzf/bin:"* ]] && export PATH="$PATH:$HOME/.fzf/bin"
 	_source_cached_hook fzf "$HOME/.fzf/bin/fzf" --bash
+
+	source "$HOME/dotfiles/bash/fzf_helpers"
 fi
 export RIPGREP_CONFIG_PATH=$XDG_CONFIG_HOME/ripgreprc
 export FZF_DEFAULT_COMMAND="rg --files"
@@ -77,3 +79,33 @@ bind "$(bind -s | command grep '^"\\ec"' | sed 's/ec/ed/')"
 # [ -d "$HOME/.config/nvm" ] && export NVM_DIR="$HOME/.config/nvm"
 # [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 # [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+
+# Load Flyline after prompt and fzf hooks; macOS system Bash cannot load it.
+if (( BASH_VERSINFO[0] >= 5 )) && [[ ${TERM:-dumb} != dumb ]] &&
+	[[ -r /opt/homebrew/opt/flyline/lib/bash/flyline ]] &&
+	{ [[ $(type -t flyline) == builtin ]] || enable -f /opt/homebrew/opt/flyline/lib/bash/flyline flyline; }; then
+	flyline mouse --mode disabled
+	flyline history --backend bash
+
+	# Keep familiar history navigation and editing keys from .inputrc.
+	# Kitty reports Ctrl+M separately from Enter with extended key codes.
+	flyline key remap Ctrl+m Enter
+	flyline key remap Ctrl+p Up
+	flyline key remap Ctrl+n Down
+	flyline key bind Alt+i always=deleteLeft
+	flyline key bind Ctrl+g always=deleteLeftOneWordPart
+
+	if declare -F __fzf_history__ >/dev/null; then
+		flyline key bind Ctrl+r 'always=runBashCommand(__fzf_history__)'
+	fi
+	if declare -F fzf-file-widget >/dev/null; then
+		flyline key bind Ctrl+t 'always=runBashCommand(fzf-file-widget)'
+	fi
+	if declare -F __fzf_cd__ >/dev/null; then
+		_flyline_fzf_cd() {
+			local cmd
+			cmd=$(__fzf_cd__) && READLINE_LINE="$cmd" READLINE_POINT=${#cmd}
+		}
+		flyline key bind Alt+d 'always=runBashCommand(_flyline_fzf_cd)+submitOrNewline'
+	fi
+fi
