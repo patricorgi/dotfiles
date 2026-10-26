@@ -1,3 +1,9 @@
+local enabled = false
+
+if not enabled then
+    return
+end
+
 vim.pack.add({
     { src = "https://github.com/rmagatti/auto-session" }
 })

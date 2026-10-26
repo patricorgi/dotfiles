@@ -5,8 +5,11 @@ vim.pack.add({
 require("catppuccin").setup({
 	transparent_background = true,
 	term_colors = true,
+	default_integrations = false,
 	integrations = {
 		aerial = true,
+		dap = true,
+		dap_ui = true,
 		diffview = true,
 		mini = {
 			enabled = true,
@@ -24,7 +27,9 @@ require("catppuccin").setup({
 		flash = true,
 		blink_cmp = true,
 		mason = true,
+		render_markdown = true,
 		snacks = true,
+		treesitter_context = true,
 	},
 	highlight_overrides = {
 		mocha = function(mocha)

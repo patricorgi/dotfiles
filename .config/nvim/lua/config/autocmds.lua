@@ -111,6 +111,44 @@ vim.api.nvim_create_autocmd('FileType', {
 })
 
 vim.api.nvim_create_user_command("FCN", function()
-  vim.cmd("silent! vimgrep /FCN=/gj %")
+  local bufnr = vim.api.nvim_get_current_buf()
+  local lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
+  local items = {}
+
+  for index, line in ipairs(lines) do
+    if line:match("FCN=.*FROM MIGRAD") then
+      local fcn = line:match("FCN=([^%s]+)") or "unknown"
+      local status = line:match("STATUS=([^%s]+)") or "unknown"
+      local calls = line:match("%s(%d+)%s+CALLS") or "unknown"
+      local total = line:match("%s(%d+)%s+TOTAL") or "unknown"
+      local edm = "unknown"
+
+      for next_index = index + 1, #lines do
+        local next_line = lines[next_index]
+        if next_line:match("FCN=.*FROM MIGRAD") then
+          break
+        end
+
+        edm = next_line:match("EDM=%s*([^%s]+)") or edm
+        if edm ~= "unknown" then
+          break
+        end
+      end
+
+      table.insert(items, {
+        bufnr = bufnr,
+        lnum = index,
+        col = 1,
+        text = string.format("FCN=%s  STATUS=%s  CALLS=%s  TOTAL=%s  EDM=%s", fcn, status, calls, total, edm),
+      })
+    end
+  end
+
+  if #items == 0 then
+    vim.notify("No MIGRAD FCN entries in the current buffer", vim.log.levels.WARN)
+    return
+  end
+
+  vim.fn.setqflist({}, "r", { title = "MIGRAD progress", items = items })
   vim.cmd("copen")
-end, { desc = "Search for FCN= in current buffer" })
+end, { desc = "List current-buffer MIGRAD progress in quickfix" })

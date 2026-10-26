@@ -371,11 +371,8 @@ local function update_formatters_segment(bufnr)
 		return
 	end
 
-	if not state.conform then
-		local ok, conform = pcall(require, "conform")
-		if ok then
-			state.conform = conform
-		end
+	if not state.conform and package.loaded.conform then
+		state.conform = require("conform")
 	end
 
 	local buf_state = get_buffer_state(bufnr)

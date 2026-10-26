@@ -15,8 +15,14 @@ vim.g.vimtex_quickfix_ignore_filters = {
 	'Package option "final" no longer has any effect with minted v3+',
 }
 
-vim.pack.add({
-	{ src = "https://github.com/lervag/vimtex" },
+vim.api.nvim_create_autocmd({ "BufReadPre", "BufNewFile" }, {
+	once = true,
+	pattern = { "*.tex", "*.ltx", "*.cls", "*.sty", "*.tikz" },
+	callback = function()
+		vim.pack.add({
+			{ src = "https://github.com/lervag/vimtex" },
+		}, { load = true })
+	end,
 })
 
 local function vimtex_toc_picker()
