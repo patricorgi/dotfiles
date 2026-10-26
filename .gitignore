@@ -39,3 +39,6 @@ AGENTS.md
 .config/homebrew
 .config/opencode
 archive
+.config/StardewValley
+.config/sshfs-on-login.json
+.config/yazi/yazi.toml.backup-*
