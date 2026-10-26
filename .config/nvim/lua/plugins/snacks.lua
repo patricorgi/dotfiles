@@ -62,7 +62,7 @@ local function setup()
 		},
 		image = {
 			enabled = true,
-			doc = { enabled = true, inline = false, float = true, max_width = 50, max_height = 50 },
+			doc = { enabled = false, inline = false, float = false, max_width = 50, max_height = 50 },
 		},
 		indent = {
 			enabled = false,
@@ -74,6 +74,7 @@ local function setup()
 			snacks_image = {
 				border = "rounded",
 				backdrop = false,
+				bo = { filetype = "snacks_image" },
 			},
 		},
 	})
@@ -285,8 +286,14 @@ map("<leader>gb", with_snacks(function(snacks)
 end), "Git blame line")
 
 map("<leader>K", with_snacks(function(snacks)
+	for _, win in ipairs(vim.api.nvim_list_wins()) do
+		if vim.bo[vim.api.nvim_win_get_buf(win)].filetype == "snacks_image" then
+			snacks.image.doc.hover_close()
+			return
+		end
+	end
 	snacks.image.hover()
-end), "Display image in hover")
+end), "Toggle image preview")
 
 local function get_tabs()
 	local tabs = {}
