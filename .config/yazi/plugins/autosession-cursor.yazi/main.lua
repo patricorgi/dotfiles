@@ -1,5 +1,12 @@
 local function is_ignored(cwd)
-	return fs.cha(Url(cwd):join(".yaziignore")) ~= nil
+	local dir = Url(cwd)
+	while dir do
+		if fs.cha(dir:join(".yaziignore")) ~= nil then
+			return true
+		end
+		dir = dir.parent
+	end
+	return false
 end
 
 local get_current_session = ya.sync(function()

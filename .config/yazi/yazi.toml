@@ -71,6 +71,7 @@ prepend_rules = [
   ] },
   { mime = "application/pdf", use = [
     "x11_pdf",
+    "open",
     "skim",
     "zathura",
     "reveal",
