@@ -6,24 +6,15 @@ function s() {
 }
 
 function _opencode_auth() {
-	local password_file="${OPENCODE_SERVER_ENV_FILE:-${HOME}/.config/opencode/server.env}"
-	local name
-	local value
+	local opencode_bin="${OPENCODE_BIN:-${HOME}/.opencode/bin/opencode}"
+	local password
 
-	if [[ ! -r "${password_file}" ]]; then
-		echo "OpenCode password file is not readable: ${password_file}" >&2
+	if ! password=$("${opencode_bin}" service get password 2>/dev/null) || [[ -z "${password}" ]]; then
+		echo "Could not read the OpenCode service password from its configuration." >&2
 		return 1
 	fi
 
-	while IFS='=' read -r name value; do
-		if [[ "${name}" == "OPENCODE_SERVER_PASSWORD" && -n "${value}" ]]; then
-			export OPENCODE_SERVER_PASSWORD="${value}"
-			return 0
-		fi
-	done < "${password_file}"
-
-	echo "OPENCODE_SERVER_PASSWORD is missing from ${password_file}" >&2
-	return 1
+	OPENCODE_SERVER_PASSWORD="${password}"
 }
 
 function _opencode_curl() {
@@ -33,44 +24,79 @@ function _opencode_curl() {
 		env -u LD_LIBRARY_PATH curl --config - "$@"
 }
 
+function _opencode_check_cpu_quota() {
+	local unit="opencode-shared-4096-cpuquota.service"
+	local quota
+
+	if ! quota=$(systemctl --user show "${unit}" --property=CPUQuotaPerSecUSec --value); then
+		echo "Could not read the CPU quota for ${unit}." >&2
+		return 1
+	fi
+
+	if [[ "${quota}" != "2s" ]]; then
+		echo "Refusing to start/restart ${unit}: CPU quota is ${quota:-unset}, expected 200% (2s)." >&2
+		return 1
+	fi
+}
+
+function opstatus() {
+	systemctl --user show opencode-shared-4096-cpuquota.service \
+		--property=ActiveState --property=SubState --property=MainPID --property=CPUQuotaPerSecUSec
+}
+
+function opstart() {
+	local unit="opencode-shared-4096-cpuquota.service"
+	_opencode_check_cpu_quota || return 1
+	systemctl --user start "${unit}"
+}
+
+function opstop() {
+	systemctl --user stop opencode-shared-4096-cpuquota.service
+}
+
 function ops() {
-	_opencode_auth || return 1
-	local port="${OPENCODE_PORT:-4096}"
-	opencode serve --hostname 127.0.0.1 --port "${port}" "$@"
+	if [[ "$#" -gt 0 ]]; then
+		echo "ops manages the shared OpenCode server; it does not accept serve options." >&2
+		return 2
+	fi
+	opstart
 }
 
 function opactive() {
 	_opencode_auth || return 1
 	local port="${OPENCODE_PORT:-4096}"
-	local dir="${PWD:-$(pwd -P)}"
-	local status
+	local dir
+	local active
 	local sessions
 
-	if [[ -d "/proc/${BASHPID}/cwd" ]]; then
-		dir="/proc/${BASHPID}/cwd"
-	fi
+	dir=$(pwd -P) || return 1
 
-	if ! status=$(_opencode_curl --fail --silent --show-error --get --data-urlencode "directory=${dir}" "http://127.0.0.1:${port}/session/status"); then
-		echo "OpenCode server status could not be queried." >&2
+	if ! active=$(_opencode_curl --fail --silent --show-error "http://127.0.0.1:${port}/api/session/active"); then
+		echo "OpenCode active sessions could not be queried." >&2
 		return 1
 	fi
 
-	if ! sessions=$(_opencode_curl --fail --silent --show-error --get --data-urlencode "directory=${dir}" --data-urlencode "limit=1000" "http://127.0.0.1:${port}/session"); then
+	if ! sessions=$(_opencode_curl --fail --silent --show-error --get --data-urlencode "directory=${dir}" --data-urlencode "limit=1000" "http://127.0.0.1:${port}/api/session"); then
 		echo "OpenCode sessions could not be queried." >&2
 		return 1
 	fi
 
-	printf '%s\0%s' "$status" "$sessions" | perl -MJSON::PP -e '
-		my ($status, $sessions) = split /\0/, do { local $/; <STDIN> }, 2;
-		$status = decode_json($status);
+	printf '%s\0%s' "$active" "$sessions" | perl -MJSON::PP -e '
+		my ($active, $sessions) = split /\0/, do { local $/; <STDIN> }, 2;
+		$active = decode_json($active);
 		$sessions = decode_json($sessions);
+		$active = $active->{data} if ref($active) eq "HASH" && ref($active->{data}) eq "HASH";
+		$sessions = $sessions->{data} if ref($sessions) eq "HASH";
+		die "Unexpected OpenCode API response\n" unless ref($active) eq "HASH" && ref($sessions) eq "ARRAY";
 		my %sessions = map { $_->{id} => $_ } @$sessions;
-		my @active = grep { ($status->{$_}{type} // "idle") ne "idle" } keys %$status;
+		my @active = grep { exists $sessions{$_} } keys %$active;
 		exit 0 unless @active;
 		print "STATE\tDIRECTORY\tSESSION\tTITLE\n";
 		for my $id (sort @active) {
 			my $session = $sessions{$id} // {};
-			printf "%s\t%s\t%s\t%s\n", $status->{$id}{type}, $session->{directory} // "<unknown>", $id, $session->{title} // "";
+			my $location = $session->{location};
+			my $directory = ref($location) eq "HASH" ? ($location->{directory} // "<unknown>") : ($session->{directory} // "<unknown>");
+			printf "%s\t%s\t%s\t%s\n", "active", $directory, $id, $session->{title} // "";
 		}
 	' || return 1
 }
@@ -78,25 +104,31 @@ function opactive() {
 function oprestart() {
 	_opencode_auth || return 1
 	local port="${OPENCODE_PORT:-4096}"
-	local dir="${PWD:-$(pwd -P)}"
-	local status
+	local active
+	local active_count
 
-	if [[ -d "/proc/${BASHPID}/cwd" ]]; then
-		dir="/proc/${BASHPID}/cwd"
-	fi
-
-	if ! status=$(_opencode_curl --fail --silent --show-error --get --data-urlencode "directory=${dir}" "http://127.0.0.1:${port}/session/status"); then
+	if ! active=$(_opencode_curl --fail --silent --show-error "http://127.0.0.1:${port}/api/session/active"); then
 		echo "OpenCode server status could not be queried; refusing to restart."
 		return 1
 	fi
 
-	if [[ "$status" != "{}" ]]; then
-		echo "OpenCode has active agents; refusing to restart."
-		echo "$status"
+	if ! active_count=$(printf '%s' "$active" | perl -MJSON::PP -e '
+		my $response = decode_json(do { local $/; <STDIN> });
+		my $sessions = ref($response) eq "HASH" ? $response->{data} : undef;
+		die "Unexpected OpenCode API response\n" unless ref($sessions) eq "HASH";
+		print scalar keys %$sessions;
+	'); then
+		echo "OpenCode active-session response was invalid; refusing to restart." >&2
 		return 1
 	fi
 
-	systemctl --user reload-or-restart opencode.service
+	if [[ "${active_count}" -gt 0 ]]; then
+		echo "OpenCode has ${active_count} active session(s); refusing to restart."
+		return 1
+	fi
+
+	_opencode_check_cpu_quota || return 1
+	systemctl --user restart opencode-shared-4096-cpuquota.service
 }
 
 function lbd() {
@@ -144,16 +176,19 @@ function ganga_session() {
 function op() {
 	_opencode_auth || return 1
 	local port="${OPENCODE_PORT:-4096}"
+	local opencode_bin="${OPENCODE_BIN:-${HOME}/.opencode/bin/opencode}"
 	local dir="${PWD:-$(pwd -P)}"
 	local tmux_env="${TMUX:-}"
 	local tmux_pane_env="${TMUX_PANE:-}"
 	if [[ -d "/proc/${BASHPID}/cwd" ]]; then
 		dir="/proc/${BASHPID}/cwd"
 	fi
-	TMUX="${tmux_env}" TMUX_PANE="${tmux_pane_env}" \
-		opencode attach "http://127.0.0.1:${port}" --dir "${dir}" \
-			--username "${OPENCODE_SERVER_USERNAME:-opencode}" \
-			--password "${OPENCODE_SERVER_PASSWORD}" "$@"
+	TMUX="${tmux_env}" TMUX_PANE="${tmux_pane_env}" OPENCODE_SERVER_USERNAME="${OPENCODE_SERVER_USERNAME:-opencode}" OPENCODE_SERVER_PASSWORD="${OPENCODE_SERVER_PASSWORD}" \
+		taskset --cpu-list 0 nice -n 10 "${opencode_bin}" --server "http://127.0.0.1:${port}" "$@" "${dir}"
+}
+
+function opconnect() {
+	op "$@"
 }
 
 function fssh() {
