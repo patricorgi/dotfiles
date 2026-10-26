@@ -3,10 +3,12 @@
 [mgr]
 prepend_keymap = [
   # Send the hovered path to the local terminal clipboard through tmux's OSC 52 support.
+  { on = [ "c", "c" ], run = "shell -- printf '%s\\n' \"$@\" | tmux load-buffer -w -", desc = "Copy file path to clipboard" },
   { on = [ "c", "p" ], run = "shell -- printf '%s\\n' \"$@\" | tmux load-buffer -w -", desc = "Copy file path to clipboard" },
   { on = "<C-c>", run = "close", desc = "Close current tab" },
   { on = "q", run = "plugin autosession-cursor -- save-and-quit", desc = "Save session and quit" },
   { on = "T", run = "plugin toggle-pane max-preview", desc = "Maximize or restore preview pane" },
   { on = [ "M", "s" ], run = "plugin sshfs -- menu", desc = "Open SSHFS options" },
   { on = [ "M", "m" ], run = "plugin sshfs -- mount --jump", desc = "Mount SSHFS host and jump" },
+   { on = [ "g", "z" ], run = "plugin root-zoom", desc = "Display ROOT macro with zoom" },
 ]

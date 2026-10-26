@@ -3,7 +3,8 @@ set -u
 
 # Yazi may outlive an SSH connection. Read X11 variables from the newest
 # attached tmux client instead of using Yazi's stale environment.
-if [[ -n ${TMUX:-} ]]; then
+if ! { [[ -n ${DISPLAY:-} ]] && xdpyinfo >/dev/null 2>&1; } \
+  && [[ -n ${TMUX:-} ]]; then
   client_pid=$(tmux display-message -p '#{client_pid}' 2>/dev/null || true)
   client_pids=""
   [[ -n $client_pid ]] && client_pids="$client_pid"
@@ -31,6 +32,9 @@ fi
 if [[ -n ${SSH_CONNECTION:-} && -n ${DISPLAY:-} ]]; then
   for viewer in mupdf-gl zathura; do
     if command -v "$viewer" >/dev/null; then
+      if [[ $viewer == mupdf-gl ]]; then
+        exec "$viewer" -r 180 -A 8 "$@"
+      fi
       exec "$viewer" "$@"
     fi
   done

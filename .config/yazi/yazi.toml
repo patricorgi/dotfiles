@@ -117,6 +117,7 @@ prepend_preloaders = [
 # ]
 previewers = [
   { url = "*/", run = "folder", sync = true },
+  { url = "*.C", run = "root-preview" },
   # Code
   { mime = "text/*", run = "code" },
   { mime = "*/xml", run = "code" },
