@@ -1,0 +1,199 @@
+-- [[ Basic Autocommands ]]
+--  See `:help lua-guide-autocommands`
+local custom_utils = require("config.utils")
+
+local function augroup(name)
+    return vim.api.nvim_create_augroup('lazyvim_' .. name, { clear = true })
+end
+
+-- Highlight when yanking (copying) text
+--  Try it with `yap` in normal mode
+--  See `:help vim.highlight.on_yank()`
+vim.api.nvim_create_autocmd('TextYankPost', {
+    desc = 'Highlight when yanking (copying) text',
+    group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
+    callback = function()
+        vim.highlight.on_yank({ higroup = "CurSearch" })
+    end,
+})
+
+-- Restore cursor position
+vim.api.nvim_create_autocmd({ 'BufReadPost' }, {
+    pattern = { '*' },
+    callback = function()
+        vim.api.nvim_exec2('silent! normal! g`"zv', { output = false })
+    end,
+})
+
+-- Big file
+vim.filetype.add {
+    pattern = {
+        ['.*'] = {
+            function(path, buf)
+                if vim.bo[buf].filetype ~= 'bigfile' and path and vim.fn.getfsize(path) > vim.g.bigfile_size then
+                    vim.opt.cursorline = false
+                    return 'bigfile'
+                else
+                    return nil
+                end
+            end,
+        },
+    },
+}
+
+vim.api.nvim_create_autocmd({ 'FileType' }, {
+    group = augroup 'bigfile',
+    pattern = 'bigfile',
+    callback = function(ev)
+        vim.b.minianimate_disable = true
+        vim.schedule(function()
+            vim.bo[ev.buf].syntax = vim.filetype.match { buf = ev.buf } or ''
+        end)
+    end,
+})
+
+-- vim.api.nvim_create_autocmd({"BufRead", "BufNewFile"}, {
+--   pattern = "*.C",
+--   callback = function()
+--     vim.bo.filetype = "c"   -- treat as C instead of cpp
+--     vim.notify("Disabling diagnostic for .C")
+--     vim.diagnostic.enable(false, {bufnr = 0})
+--   end,
+--   group = vim.api.nvim_create_augroup("UppercaseC", { clear = true }),
+-- })
+
+vim.api.nvim_create_autocmd('TermOpen', {
+    pattern = '*',
+    callback = function()
+        vim.opt_local.number = false
+        vim.opt_local.relativenumber = false
+    end,
+})
+
+vim.api.nvim_create_augroup('IrreplaceableWindows', { clear = true })
+vim.api.nvim_create_autocmd('BufWinEnter', {
+    group = 'IrreplaceableWindows',
+    pattern = '*',
+    callback = function()
+        local filetypes = { 'OverseerList', 'neo-tree' }
+        local buftypes = { 'nofile', 'terminal' }
+        if vim.tbl_contains(buftypes, vim.bo.buftype) and vim.tbl_contains(filetypes, vim.bo.filetype) then
+            vim.cmd 'set winfixbuf'
+        end
+    end,
+})
+
+vim.api.nvim_create_autocmd('VimResized', {
+    pattern = '*',
+    callback = function()
+        -- File buffers
+        vim.cmd 'wincmd =' -- Equalize window sizes
+
+        -- DAP UI
+        custom_utils.func_on_window('dapui_stacks', function()
+            require 'dapui'.open({ reset = true })
+        end)
+
+        -- OverseerList
+        custom_utils.reset_overseerlist_width()
+    end,
+})
+
+-- Override mapping in quickfix window
+vim.api.nvim_create_autocmd('FileType', {
+    pattern = 'qf',
+    callback = function()
+        -- Unmap <CR> in quickfix window (if needed)
+        vim.keymap.set('n', '<CR>', '<CR>', { buffer = true, desc = 'Default Enter in quickfix' })
+        -- Enable cursorline only in quickfix window
+        vim.opt_local.cursorline = true
+    end,
+})
+
+local function fcn_quickfix_text(info)
+  local items = vim.fn.getqflist({ id = info.id, items = 0 }).items
+  local text = {}
+
+  for index = info.start_idx, info.end_idx do
+    local item = items[index]
+    table.insert(text, string.format("|%d col %d| %s", item.lnum, item.col, item.text))
+  end
+
+  return text
+end
+
+local fcn_quickfix_namespace = vim.api.nvim_create_namespace("fcn_quickfix_highlights")
+
+local function highlight_fcn_quickfix()
+  local mocha = require("catppuccin.palettes").get_palette("mocha")
+  vim.api.nvim_set_hl(0, "FCNQuickfixFailed", { fg = mocha.red })
+  vim.api.nvim_set_hl(0, "FCNQuickfixConverged", { fg = mocha.green })
+  vim.api.nvim_set_hl(0, "FCNQuickfixText", { fg = mocha.text })
+
+  local quickfix = vim.fn.getqflist({ winid = 0 })
+  local winid = quickfix.winid
+  local qf_bufnr = vim.api.nvim_win_get_buf(winid)
+  vim.api.nvim_buf_clear_namespace(qf_bufnr, fcn_quickfix_namespace, 0, -1)
+
+  for row, line in ipairs(vim.api.nvim_buf_get_lines(qf_bufnr, 0, -1, false)) do
+    local group = "FCNQuickfixText"
+    if line:find("STATUS=FAILED", 1, true) then
+      group = "FCNQuickfixFailed"
+    elseif line:find("STATUS=CONVERGED", 1, true) or line:find("STATUS=OK", 1, true) then
+      group = "FCNQuickfixConverged"
+    end
+
+    vim.api.nvim_buf_set_extmark(qf_bufnr, fcn_quickfix_namespace, row - 1, 0, {
+      end_col = #line,
+      hl_group = group,
+    })
+  end
+end
+
+vim.api.nvim_create_user_command("FCN", function()
+  local bufnr = vim.api.nvim_get_current_buf()
+  local lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
+  local items = {}
+
+  for index, line in ipairs(lines) do
+    if line:match("FCN=.*FROM MIGRAD") then
+      local fcn = line:match("FCN=([^%s]+)") or "unknown"
+      local status = line:match("STATUS=([^%s]+)") or "unknown"
+      local calls = line:match("%s(%d+)%s+CALLS") or "unknown"
+      local total = line:match("%s(%d+)%s+TOTAL") or "unknown"
+      local edm = "unknown"
+
+      for next_index = index + 1, #lines do
+        local next_line = lines[next_index]
+        if next_line:match("FCN=.*FROM MIGRAD") then
+          break
+        end
+
+        edm = next_line:match("EDM=%s*([^%s]+)") or edm
+        if edm ~= "unknown" then
+          break
+        end
+      end
+
+      table.insert(items, {
+        bufnr = bufnr,
+        lnum = index,
+        col = 1,
+        text = string.format("FCN=%s  STATUS=%s  CALLS=%s  TOTAL=%s  EDM=%s", fcn, status, calls, total, edm),
+      })
+    end
+  end
+
+  if #items == 0 then
+    vim.notify("No MIGRAD FCN entries in the current buffer", vim.log.levels.WARN)
+    return
+  end
+
+  vim.fn.setqflist({}, "r", {
+    title = "MIGRAD progress",
+    items = items,
+    quickfixtextfunc = fcn_quickfix_text,
+  })
+  vim.cmd("copen")
+  highlight_fcn_quickfix()
+end, { desc = "List current-buffer MIGRAD progress in quickfix" })

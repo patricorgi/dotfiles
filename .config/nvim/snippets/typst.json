@@ -8,5 +8,23 @@
       ")"
     ],
     "description": "Corner label"
+  },
+  "twocol": {
+    "prefix": "twocol",
+    "body": ["#grid(columns: (1fr, 1fr), [", "$1", "],[", "$2", "])"],
+    "description": "Two columns with #grid"
+  },
+  "threecol": {
+    "prefix": "threecol",
+    "body": [
+      "#grid(columns: (1fr, 1fr, 1fr), [",
+      "$1",
+      "],[",
+      "$2",
+      "],[",
+      "$3",
+      "])"
+    ],
+    "description": "Three columns with #grid"
   }
 }
