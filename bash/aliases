@@ -17,6 +17,9 @@ alias cp='cp -i' # confirm override when copying
 alias v='nvim'
 alias vo='nvim -O'
 alias vd='nvim -d'
+fcn() {
+	nvim "$@" -c 'FCN'
+}
 
 # utilities
 alias p='python3'
