@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# Enable fzf path completion for the `v` alias.
+complete -o default -F _fzf_path_completion v
+
+_rl_fzf_completion() {
+	local cur="${COMP_WORDS[COMP_CWORD]}"
+	local trigger="${FZF_COMPLETION_TRIGGER-**}"
+
+	if [[ "$cur" == *"$trigger" ]]; then
+		local query="${cur%"$trigger"}"
+		local selected
+
+		selected=$(
+			rg --files \
+				-g '*.root' \
+				-g '*.C' |
+			_fzf_complete -m -- -q "$query" |
+			tr '\n' ' '
+		)
+
+		COMPREPLY=("${selected:-$query}")
+		printf '\e[5n'
+	else
+		_fzf_handle_dynamic_completion rl
+	fi
+}
+
+complete -o default -F _rl_fzf_completion rl
