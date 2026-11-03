@@ -1,6 +1,6 @@
 # A TOML linter such as https://taplo.tamasfe.dev/ can use this schema to validate your config.
 # If you encounter any issues, please make an issue at https://github.com/yazi-rs/schemas.
-"$schema" = "https://yazi-rs.github.io/schemas/yazi.json"
+# schema = "https://yazi-rs.github.io/schemas/yazi.json"
 
 [mgr]
 linemode = "size_and_mtime"
@@ -22,8 +22,8 @@ ueberzug_scale = 1
 
 [opener]
 edit = [
-  { run = 'nvim "$@"', block = true, for = "macos" },
-  { run = 'nvim "$@"', block = true, for = "unix" },
+  { run = 'NVIM_FROM_YAZI=1 nvim "$@"', block = true, desc = "nvim", for = "macos" },
+  { run = 'NVIM_FROM_YAZI=1 nvim "$@"', block = true, desc = "nvim", for = "unix" },
   { run = 'code "%*"', orphan = true, for = "windows" },
 ]
 extract = [
@@ -36,6 +36,7 @@ open = [
   { run = 'start "" "%1"', orphan = true, desc = "Open", for = "windows" },
 ]
 play = [
+  { run = 'open "$@"', orphan = true, for = "unix" },
   { run = 'mpv --vo=libmpv --geometry=50% --no-border --focus-on=open --mute=yes "$@"', orphan = true, for = "unix" },
   { run = 'mpv "%1"', orphan = true, for = "windows" },
   { run = '''mediainfo "$1"; echo "Press enter to exit"; read''', block = true, desc = "Show media info", for = "unix" },
@@ -46,21 +47,53 @@ reveal = [
   { run = '''exiftool "$1"; echo "Press enter to exit"; read''', block = true, desc = "Show EXIF", for = "unix" },
 ]
 rootbrowse = [{ run = 'rootbrowse "$1"', orphan = true, for = "unix" }]
-root = [{ run = '~/dotfiles/scripts/run_root_macro.sh "$1"', for = "unix", desc = "root -l" }]
+rbtuple = [{ run = '''bash -lc 'source "$HOME/dotfiles/bash/functions"; rbtuple "$@"' rbtuple "$@"''', desc = "rbtuple", orphan = true, for = "unix" }]
+root = [{ run = 'exec "${XDG_CONFIG_HOME:-$HOME/.config}/yazi/scripts/yazi_root.sh" "$@"', block = false, orphan = true, for = "unix", desc = "Load macro in bkg" }]
+root_no_pull = [{ run = 'exec "${XDG_CONFIG_HOME:-$HOME/.config}/yazi/scripts/yazi_root_without_pull.sh" "$1"', block = false, orphan = true, for = "unix", desc = "Display without pull" }]
+root_zoom = [{ run = 'exec "${XDG_CONFIG_HOME:-$HOME/.config}/yazi/scripts/yazi_root_zoom_prompt.sh" "$1"', block = true, orphan = false, for = "unix", desc = "Display with axis zoom" }]
+root_compare_2d = [{ run = 'exec "${XDG_CONFIG_HOME:-$HOME/.config}/yazi/scripts/yazi_root_compare_2d.sh" "$@"', block = false, orphan = true, for = "unix", desc = "Compare selected 2D macro pairs" }]
+rootpair = [{ run = '''dir="$1"; set --; for name in h_mjpsipi2h.C h_mjpsipih.C h_mjpsik2h.C h_mjpsikh.C; do macro="$dir/$name"; [ -f "$macro" ] && set -- "$@" "$macro"; done; [ "$#" -gt 0 ] && exec "${XDG_CONFIG_HOME:-$HOME/.config}/yazi/scripts/yazi_root.sh" "$@"''', block = false, orphan = true, for = "unix", desc = "Open h and 2h pi/K macros" }]
+exotics10x = [{ run = 'YAZI_SCALE_EXOTICS=10 exec "${XDG_CONFIG_HOME:-$HOME/.config}/yazi/scripts/yazi_root.sh" "$@"', block = false, orphan = true, for = "unix", desc = "Load macro, scale exotic PDFs 10x" }]
 sioyek = [{ run = 'sioyek "$1"', orphan = true, for = "unix" }]
+skim = [{ run = 'open -a "Preview" "$1"', desc = "Preview", orphan = true, for = "macos" }]
+x11_pdf = [{ run = 'bash "${XDG_CONFIG_HOME:-$HOME/.config}/yazi/scripts/yazi_x11_pdf.sh" "$@"', desc = "Open via X11", for = "linux" }]
+x11_png = [{ run = '''if [ -n "$SSH_CONNECTION" ] && [ -n "$DISPLAY" ]; then for viewer in mupdf-gl feh nsxiv sxiv imv eog ristretto; do if command -v "$viewer" >/dev/null; then exec "$viewer" "$@"; fi; done; fi; exec xdg-open "$@"''', desc = "Open via X11", for = "linux" }]
+zathura = [{ run = 'zathura "$1"', orphan = true, for = "unix" }]
+yac = [{ name = "YAC", run = 'open -a "YACReader" "$1"', orphan = true, for = "macos"}]
 
 [open]
 prepend_rules = [
-  { mime = "application/pdf", use = [
-    "sioyek",
+  { url = "*/", use = [
+    "rootpair",
+    "edit",
+    "open",
     "reveal",
   ] },
-  { name = "*.root", use = [
-    "rootbrowse",
+  { mime = "application/pdf", use = [
+    "x11_pdf",
+    "open",
+    "skim",
+    "zathura",
+    "reveal",
   ] },
-  { name = "*.C", use = [
-    "root",
+  { mime = "image/png", use = [
+    "x11_png",
+    "open",
   ] },
+  { url = "*.root", use = [
+    "rbtuple",
+  ] },
+  { mime = "application/zip", use = [
+    "yac",
+  ] },
+    { url = "*.C", use = [
+      "root",
+      "root_compare_2d",
+      "root_no_pull",
+      "root_zoom",
+      "exotics10x",
+     "edit",
+   ] },
 ]
 
 [tasks]
@@ -73,13 +106,18 @@ suppress_preload = false
 
 [plugin]
 prepend_preloaders = [
-  { name = "/Users/patricorgi/SSHFS/**", run = "noop" },
-  { name = "/Volumes/**", run = "noop" },
+  { url = "/Users/patricorgi/SSHFS/**", run = "noop" },
+  { url = "/Volumes/**", run = "noop" },
   { mime = 'application/pdf', run = "noop" },
 ]
-prepend_previewers = [{ name = "/Users/patricorgi/SSHFS/**", run = "noop" }]
+# prepend_previewers = [
+#   { name = "/Users/patricorgi/SSHFS/**", run = "noop" },
+#   { url = "/Users/patricorgi/SSHFS/**", run = "noop" },
+# ]
 previewers = [
-  { name = "*/", run = "folder", sync = true },
+  { url = "*/", run = "folder", sync = true },
+  { url = "/Users/patricorgi/SSHFS/**/*.pdf", run = "sshfs-pdf" },
+  { url = "*.C", run = "root-preview" },
   # Code
   { mime = "text/*", run = "code" },
   { mime = "*/xml", run = "code" },
@@ -121,16 +159,6 @@ rename_offset = [0, 1, 50, 3]
 rename_origin = "hovered"
 rename_title = "Rename:"
 
-# trash
-trash_offset = [0, 2, 50, 3]
-trash_origin = "top-center"
-trash_title = "Move {n} selected file{s} to trash? (y/N)"
-
-# delete
-delete_offset = [0, 2, 50, 3]
-delete_origin = "top-center"
-delete_title = "Delete {n} selected file{s} permanently? (y/N)"
-
 # filter
 filter_offset = [0, 2, 50, 3]
 filter_origin = "top-center"
@@ -151,20 +179,24 @@ shell_offset = [0, 2, 50, 3]
 shell_origin = "top-center"
 shell_title = ["Shell:", "Shell (block):"]
 
-# overwrite
+[confirm]
+trash_offset = [0, 2, 50, 3]
+trash_origin = "top-center"
+trash_title = "Move {n} selected file{s} to trash? (y/N)"
+
+delete_offset = [0, 2, 50, 3]
+delete_origin = "top-center"
+delete_title = "Delete {n} selected file{s} permanently? (y/N)"
+
 overwrite_offset = [0, 2, 50, 3]
 overwrite_origin = "top-center"
 overwrite_title = "Overwrite an existing file? (y/N)"
 
-# quit
 quit_offset = [0, 2, 50, 3]
 quit_origin = "top-center"
 quit_title = "{n} task{s} running, sure to quit? (y/N)"
 
-[select]
+[pick]
 open_offset = [0, 1, 50, 7]
 open_origin = "hovered"
 open_title = "Open with:"
-
-[log]
-enabled = false
