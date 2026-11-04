@@ -19,8 +19,6 @@ count_selected = { fg = "#1e1e2e", bg = "#94e2d5" }
 border_style  = { fg = "#7f849c" }
 border_symbol = "│"
 
-syntect_theme = "~/.config/yazi/Catppuccin-mocha.tmTheme"
-
 [tabs]
 active   = { fg = "#1e1e2e", bg = "#cdd6f4", bold = true }
 inactive = { fg = "#cdd6f4", bg = "#45475a" }
