@@ -63,6 +63,8 @@ yac = [{ name = "YAC", run = 'open -a "YACReader" "$1"', orphan = true, for = "m
 
 [open]
 prepend_rules = [
+  # FreeCAD documents are ZIP containers. Use their macOS file association.
+  { url = "*.[fF][cC][sS][tT][dD]", use = ["open", "reveal"] },
   { url = "*/", use = [
     "rootpair",
     "edit",

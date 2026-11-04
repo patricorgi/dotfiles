@@ -2,6 +2,7 @@
 
 [mgr]
 prepend_keymap = [
+  { on = [ "s", "s" ], run = "shell --orphan -- /usr/bin/osascript -e 'on run argv' -e 'tell application id \"com.runningwithcrayons.Alfred\" to action argv as type \"file\"' -e 'end run' \"$@\"", desc = "Alfred Universal Actions for selected files" },
   # Send the hovered path to the local terminal clipboard through tmux's OSC 52 support.
   { on = [ "c", "c" ], run = "shell -- printf '%s\\n' \"$@\" | tmux load-buffer -w -", desc = "Copy file path to clipboard" },
   { on = [ "c", "p" ], run = "shell -- printf '%s\\n' \"$@\" | tmux load-buffer -w -", desc = "Copy file path to clipboard" },
