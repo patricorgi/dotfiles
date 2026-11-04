@@ -28,6 +28,7 @@ install
 .config/karabiner/automatic_backups
 .config/flashspace
 .config/yazi/plugins/*
+.config/yazi-latte/plugins/
 !.config/yazi/plugins/autosession-cursor.yazi/
 !.config/yazi/plugins/autosession-cursor.yazi/**
 !.config/yazi/plugins/sshfs-pdf.yazi/
