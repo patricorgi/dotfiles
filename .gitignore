@@ -35,6 +35,8 @@ install
 !.config/yazi/plugins/sshfs-pdf.yazi/**
 .config/nvim/spell
 .config/kitty/font.conf
+.config/kitty/local.conf
+.config/kitty/redact.txt
 scripts/server-icons.txt
 AGENTS.md
 .config/opencode/package-lock.json
