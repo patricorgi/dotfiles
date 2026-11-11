@@ -1,0 +1,29 @@
+textures a persist
+
+# Keep one small record per window: origin, destination and start time.
+startgroup
+    viewport_size 0.03 0.01
+    output_texture a
+    animation_step 0
+    shaders active-tab-slide
+endgroup
+startgroup
+    viewport_size 0.03 0.01
+    output_texture persist
+    animation_step 0
+    var int PASS 1
+    shaders active-tab-slide
+endgroup
+startgroup
+    animation_start tab-change
+    animation_duration 180
+    animation_stop 200
+    animation_step 8
+    var int PASS 2
+    shaders active-tab-slide
+endgroup
+startgroup
+    animation_step 0
+    var int PASS 3
+    shaders active-tab-slide active-tab-shadow
+endgroup

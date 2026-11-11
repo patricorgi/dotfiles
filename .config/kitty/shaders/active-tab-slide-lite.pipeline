@@ -1,0 +1,4 @@
+startgroup
+    animation_step 0
+    shaders active-tab-slide-lite
+endgroup
