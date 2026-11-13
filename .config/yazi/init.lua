@@ -10,6 +10,7 @@ end
 setup_plugin("sshfs", {
 	custom_hosts_file = os.getenv("HOME") .. "/.config/yazi/sshfs.list",
 	mount_dir = os.getenv("HOME") .. "/SSHFS",
+	ui = { picker = "fzf" },
 	sshfs_options = {
 		"reconnect",
 		"ConnectTimeout=5",

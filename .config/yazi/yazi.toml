@@ -112,37 +112,46 @@ prepend_preloaders = [
   { url = "/Volumes/**", run = "noop" },
   { mime = 'application/pdf', run = "noop" },
 ]
+preloaders = [
+  { mime = "image/{avif,hei?,jxl}", run = "nopreview magick" },
+  { mime = "image/svg+xml", run = "nopreview svg" },
+  { mime = "image/*", run = "nopreview image" },
+  { mime = "video/*", run = "nopreview video" },
+  { mime = "application/pdf", run = "nopreview pdf" },
+  { mime = "font/*", run = "nopreview font" },
+  { mime = "application/ms-opentype", run = "nopreview font" },
+]
 # prepend_previewers = [
 #   { name = "/Users/patricorgi/SSHFS/**", run = "noop" },
 #   { url = "/Users/patricorgi/SSHFS/**", run = "noop" },
 # ]
 previewers = [
   { url = "*/", run = "folder", sync = true },
-  { url = "/Users/patricorgi/SSHFS/**/*.pdf", run = "sshfs-pdf" },
-  { url = "*.C", run = "root-preview" },
+  { url = "/Users/patricorgi/SSHFS/**/*.pdf", run = "nopreview sshfs-pdf" },
+  { url = "*.C", run = "nopreview root-preview --fallback=code" },
   # Code
-  { mime = "text/*", run = "code" },
-  { mime = "*/xml", run = "code" },
-  { mime = "*/javascript", run = "code" },
-  { mime = "*/x-wine-extension-ini", run = "code" },
+  { mime = "text/*", run = "nopreview code" },
+  { mime = "*/xml", run = "nopreview code" },
+  { mime = "*/javascript", run = "nopreview code" },
+  { mime = "*/x-wine-extension-ini", run = "nopreview code" },
   # JSON
-  { mime = "application/json", run = "json" },
+  { mime = "application/json", run = "nopreview json" },
   # Image
   { mime = "image/vnd.djvu", run = "noop" },
-  { mime = "image/*", run = "image" },
+  { mime = "image/*", run = "nopreview image" },
   # Video
-  { mime = "video/*", run = "video" },
+  { mime = "video/*", run = "nopreview video" },
   # PDF
-  { mime = "application/pdf", run = "pdf" },
+  { mime = "application/pdf", run = "nopreview pdf" },
   # Archive
-  { mime = "application/zip", run = "archive" },
-  { mime = "application/gzip", run = "archive" },
-  { mime = "application/x-tar", run = "archive" },
-  { mime = "application/x-bzip", run = "archive" },
-  { mime = "application/x-bzip2", run = "archive" },
-  { mime = "application/x-7z-compressed", run = "archive" },
-  { mime = "application/x-rar", run = "archive" },
-  { mime = "application/xz", run = "archive" },
+  { mime = "application/zip", run = "nopreview archive" },
+  { mime = "application/gzip", run = "nopreview archive" },
+  { mime = "application/x-tar", run = "nopreview archive" },
+  { mime = "application/x-bzip", run = "nopreview archive" },
+  { mime = "application/x-bzip2", run = "nopreview archive" },
+  { mime = "application/x-7z-compressed", run = "nopreview archive" },
+  { mime = "application/x-rar", run = "nopreview archive" },
+  { mime = "application/xz", run = "nopreview archive" },
 ]
 
 [input]

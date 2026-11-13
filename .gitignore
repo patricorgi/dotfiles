@@ -33,6 +33,8 @@ install
 !.config/yazi/plugins/autosession-cursor.yazi/**
 !.config/yazi/plugins/sshfs-pdf.yazi/
 !.config/yazi/plugins/sshfs-pdf.yazi/**
+!.config/yazi/plugins/nopreview.yazi/
+!.config/yazi/plugins/nopreview.yazi/**
 .config/nvim/spell
 .config/kitty/font.conf
 .config/kitty/local.conf

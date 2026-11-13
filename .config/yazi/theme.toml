@@ -1,9 +1,6 @@
 [mgr]
 cwd = { fg = "#94e2d5" }
 
-hovered         = { fg = "#1e1e2e", bg = "#94e2d5" }
-preview_hovered = { fg = "#1e1e2e", bg = "#cdd6f4" }
-
 find_keyword  = { fg = "#f9e2af", italic = true }
 find_position = { fg = "#f5c2e7", bg = "reset", italic = true }
 
@@ -18,6 +15,12 @@ count_selected = { fg = "#1e1e2e", bg = "#94e2d5" }
 
 border_style  = { fg = "#7f849c" }
 border_symbol = "│"
+
+[indicator]
+current = { fg = "#1e1e2e", bg = "#94e2d5" }
+preview = { fg = "#1e1e2e", bg = "#cdd6f4" }
+
+parent = { fg = "#cdd6f4", bg = "#45475a" }
 
 [tabs]
 active   = { fg = "#1e1e2e", bg = "#cdd6f4", bold = true }
