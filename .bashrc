@@ -61,7 +61,12 @@ fi
 # FZF
 if [ -x "$HOME/.fzf/bin/fzf" ]; then
 	[[ ":$PATH:" != *":$HOME/.fzf/bin:"* ]] && export PATH="$PATH:$HOME/.fzf/bin"
-	_source_cached_hook fzf "$HOME/.fzf/bin/fzf" --bash
+	if "$HOME/.fzf/bin/fzf" --help | command grep -q -- '--bash'; then
+		_source_cached_hook fzf "$HOME/.fzf/bin/fzf" --bash
+	else
+		[ -r "$HOME/.fzf/shell/completion.bash" ] && source "$HOME/.fzf/shell/completion.bash"
+		[ -r "$HOME/.fzf/shell/key-bindings.bash" ] && source "$HOME/.fzf/shell/key-bindings.bash"
+	fi
 
 	source "$HOME/dotfiles/bash/fzf_helpers"
 fi

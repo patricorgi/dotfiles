@@ -2,10 +2,18 @@
 
 function s() {
 	reset
-	if [[ -x "$HOME/.ssh/sshfs_on_login.py" ]]; then
-		"$HOME/.ssh/sshfs_on_login.py" "$@" </dev/null >/dev/null 2>&1 &
+	local sshfs_args=("$@")
+	if [[ -n ${REX_SESSION:-} || -n ${REX_BLOCK:-} ]]; then
+		sshfs_args=(--controlpath-only "$@")
 	fi
-	kitty +kitten ssh "$@" || ssh "$@"
+	if [[ -x "$HOME/.ssh/sshfs_on_login.py" ]]; then
+		"$HOME/.ssh/sshfs_on_login.py" "${sshfs_args[@]}" </dev/null >/dev/null 2>&1 &
+	fi
+	if [[ -n ${REX_SESSION:-} || -n ${REX_BLOCK:-} ]]; then
+		command ssh "$@"
+	else
+		kitty +kitten ssh "$@" || ssh "$@"
+	fi
 }
 
 function _opencode_auth() {
