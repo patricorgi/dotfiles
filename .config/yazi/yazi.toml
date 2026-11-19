@@ -41,6 +41,9 @@ play = [
   { run = 'mpv "%1"', orphan = true, for = "windows" },
   { run = '''mediainfo "$1"; echo "Press enter to exit"; read''', block = true, desc = "Show media info", for = "unix" },
 ]
+iina = [
+  { run = 'exec python3 -S "${XDG_CONFIG_HOME:-$HOME/.config}/yazi/scripts/yazi_iina.py" -- "$@"', desc = "IINA (reuse instance)", for = "macos" },
+]
 reveal = [
   { run = 'open -R "$1"', desc = "Reveal", for = "macos" },
   { run = 'explorer /select, "%1"', orphan = true, desc = "Reveal", for = "windows" },
@@ -63,6 +66,7 @@ yac = [{ name = "YAC", run = 'open -a "YACReader" "$1"', orphan = true, for = "m
 
 [open]
 prepend_rules = [
+  { mime = "video/*", use = ["iina", "play", "reveal"] },
   # FreeCAD documents are ZIP containers. Use their macOS file association.
   { url = "*.[fF][cC][sS][tT][dD]", use = ["open", "reveal"] },
   { url = "*/", use = [
@@ -108,9 +112,8 @@ suppress_preload = false
 
 [plugin]
 prepend_preloaders = [
-  { url = "/Users/patricorgi/SSHFS/**", run = "noop" },
+  { url = "/Users/*/SSHFS/**", run = "noop" },
   { url = "/Volumes/**", run = "noop" },
-  { mime = 'application/pdf', run = "noop" },
 ]
 preloaders = [
   { mime = "image/{avif,hei?,jxl}", run = "nopreview magick" },
@@ -122,12 +125,12 @@ preloaders = [
   { mime = "application/ms-opentype", run = "nopreview font" },
 ]
 # prepend_previewers = [
-#   { name = "/Users/patricorgi/SSHFS/**", run = "noop" },
-#   { url = "/Users/patricorgi/SSHFS/**", run = "noop" },
+#   { name = "/Users/*/SSHFS/**", run = "noop" },
+#   { url = "/Users/*/SSHFS/**", run = "noop" },
 # ]
 previewers = [
   { url = "*/", run = "folder", sync = true },
-  { url = "/Users/patricorgi/SSHFS/**/*.pdf", run = "nopreview sshfs-pdf" },
+  { url = "/Users/*/SSHFS/**/*.pdf", run = "nopreview sshfs-pdf" },
   { url = "*.C", run = "nopreview root-preview --fallback=code" },
   # Code
   { mime = "text/*", run = "nopreview code" },
@@ -138,11 +141,11 @@ previewers = [
   { mime = "application/json", run = "nopreview json" },
   # Image
   { mime = "image/vnd.djvu", run = "noop" },
-  { mime = "image/*", run = "nopreview image" },
+  { mime = "image/*", run = "nopreview fit-image" },
   # Video
-  { mime = "video/*", run = "nopreview video" },
+  { mime = "video/*", run = "nopreview fit-video" },
   # PDF
-  { mime = "application/pdf", run = "nopreview pdf" },
+  { mime = "application/pdf", run = "nopreview fit-pdf" },
   # Archive
   { mime = "application/zip", run = "nopreview archive" },
   { mime = "application/gzip", run = "nopreview archive" },

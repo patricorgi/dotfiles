@@ -35,9 +35,18 @@ install
 !.config/yazi/plugins/sshfs-pdf.yazi/**
 !.config/yazi/plugins/nopreview.yazi/
 !.config/yazi/plugins/nopreview.yazi/**
+!.config/yazi/plugins/fit-image.yazi/
+!.config/yazi/plugins/fit-image.yazi/**
+!.config/yazi/plugins/fit-pdf.yazi/
+!.config/yazi/plugins/fit-pdf.yazi/**
+!.config/yazi/plugins/fit-video.yazi/
+!.config/yazi/plugins/fit-video.yazi/**
 
 # Machine-local state and generated files
+/.config/yazi/sshfs.list
 /.config/mpv/watch_later/
+__pycache__/
+*.pyc
 .config/nvim/spell
 .config/kitty/font.conf
 .config/kitty/local.conf

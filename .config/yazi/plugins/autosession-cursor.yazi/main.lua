@@ -74,11 +74,8 @@ local function filter_session(session)
 	return filtered
 end
 
-local save_and_quit = ya.sync(function(state, session)
-	if #session.tabs > 0 then
-		ps.pub_to(0, state.event, session)
-	end
-	ya.emit("quit", {})
+local get_event = ya.sync(function(state)
+	return state.event
 end)
 
 local restore_session = ya.sync(function(state, unavailable)
@@ -144,7 +141,10 @@ return {
 
 	entry = function(_, job)
 		if job.args[1] == "save-and-quit" then
-			save_and_quit(filter_session(get_current_session()))
+			local event = get_event()
+			local session = filter_session(get_current_session())
+			ya.emit("quit", {})
+			if #session.tabs > 0 then ps.pub_to(0, event, session) end
 		elseif job.args[1] == "remember-fallbacks" then
 			remember_fallbacks()
 		elseif job.args[1] == "apply-restored-session" then

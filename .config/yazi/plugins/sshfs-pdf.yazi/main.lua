@@ -49,7 +49,7 @@ function M:render(job)
 		end
 	end
 
-	local _, err = ya.image_show(cache, job.area)
+	local _, err = require("fit-image"):show(job, cache)
 	ya.preview_widget(job, err)
 	return err == nil
 end
