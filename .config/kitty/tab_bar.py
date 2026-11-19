@@ -1,45 +1,114 @@
 """Draw rounded active tabs and cached kzw host usage at the right edge."""
 
+import re
 import time
+from functools import wraps
 from typing import NamedTuple
 
 from kitty.fast_data_types import add_timer, get_boss, get_options, mark_tab_bar_dirty
 from kitty.fast_data_types import set_tab_bar_render_data, viewport_for_window, wcswidth
 from kitty.tab_bar import TabBar, as_rgb, draw_tab_with_separator
+from kitty.window import Window
 
-LEFT_CORNER = '\ue100'
-RIGHT_CORNER = '\ue101'
-CPU_ICON = '\U000f061a'     # Nerd Fonts md-chip
+WORKSPACE_ICON = '\uebeb'   # Nerd Fonts cod-layout
+HOST_ICON = '\U000f08b9'    # User-selected host glyph
+CPU_ICON = '\U000f0ee0'     # Nerd Fonts md-cpu_64_bit
 MEMORY_ICON = '\uefc5'      # Nerd Fonts fa-memory
+WORKSPACE_COLOR = 0xcba6f7  # Mocha mauve
+HOST_COLOR = 0x89b4fa       # Mocha blue
+SEPARATOR_COLOR = 0x9399b2  # Mocha Overlay 2, matching light tab indices
 USAGE_COLORS = (0xa6e3a1, 0xf9e2af, 0xf38ba8)  # Mocha green, yellow, red
+LOCAL_COLOR = 0x89b4fa  # Mocha blue, independent of active workspace colors
+
+
+def local_tab(tab):
+    kitty_tab = get_boss().tab_for_id(tab.tab_id)
+    if kitty_tab is None:
+        return False
+    windows = list(kitty_tab)
+    if len(windows) != 1:
+        return False
+    values = windows[0].user_vars
+    return (re.fullmatch(r'kzw-[0-9a-f]{32}', values.get('kzw_local', '')) is not None and
+            re.fullmatch(r'[0-9a-f]{32}', values.get('kzw_local_owner', '')) is not None and
+            not values.get('kzw_pane') and not values.get('kzw_workspace'))
+
+
+def privacy_enabled(os_window_id):
+    manager = get_boss().os_window_map.get(os_window_id)
+    if manager is None:
+        return False
+    for kitty_tab in manager.tabs:
+        for window in kitty_tab:
+            spec = getattr(window, 'current_marker_spec', None)
+            if (isinstance(spec, (tuple, list)) and len(spec) == 2 and spec[0] == 'function'
+                    and isinstance(spec[1], str) and spec[1].rsplit('/', 1)[-1] == 'privacy_marker.py'):
+                return True
+    return False
+
+
+def mask_identity(text, os_window_id):
+    manager = get_boss().os_window_map.get(os_window_id)
+    record = getattr(manager, '_kzw_resource_usage', None)
+    if record and privacy_enabled(os_window_id):
+        names = {record.get(key) for key in ('host', 'workspace')} - {None, ''}
+        for name in sorted(names, key=len, reverse=True):
+            text = text.replace(name, '•' * wcswidth(name))
+    return text
+
+
+def zoom_title_span(tab):
+    if getattr(tab, 'layout_name', '') != 'stack' or getattr(tab, 'num_window_groups', 0) < 2:
+        return None
+    kitty_tab = get_boss().tab_for_id(tab.tab_id)
+    if kitty_tab is None or kitty_tab.active_window is None:
+        return None
+    active = kitty_tab.active_window
+    if not kitty_tab.name and tab.title == active.title:
+        return 0, len(tab.title)
+    windows = list(kitty_tab)
+    panes = [window.user_vars.get('kzw_pane', '') for window in windows]
+    if (not all(isinstance(pane, str) and re.fullmatch(r'kzw-[0-9a-f]{32}', pane) for pane in panes)
+            or len(set(panes)) != len(windows)):
+        return None
+    selected = next((i for i, window in enumerate(windows) if window.id == active.id), None)
+    if selected is None:
+        return None
+    labels = tab.title.split(' · ')
+    if len(labels) != len(windows):
+        state = active.user_vars.get('kzw_command_state', '')
+        status = ('running' if state == 'running' else 'exit ' + state[5:]
+                  if isinstance(state, str) and re.fullmatch(r'exit:-?[0-9]{1,10}', state) else None)
+        if len(labels) != len(windows) + 1 or status is None or labels[selected + 1] != status:
+            return None
+    start = sum(len(label) + 3 for label in labels[:selected])
+    return start, start + len(labels[selected])
 
 
 def draw_title(draw_data, screen, tab, before, max_tab_length, index, is_last, extra_data):
+    title = mask_identity(tab.title, tab.os_window_id)
+    span = zoom_title_span(tab)
+    if span is not None:
+        start, end = span
+        color = '0;0;0' if tab.is_active else '255;255;255'
+        foreground = draw_data.tab_fg(tab)
+        normal = ';'.join(str((foreground >> shift) & 255) for shift in (16, 8, 0))
+        weight = '1' if screen.cursor.bold else '22'
+        prefix, name, suffix = (mask_identity(part, tab.os_window_id) for part in
+                                (tab.title[:start], tab.title[start:end], tab.title[end:]))
+        title = prefix + f'\x1b[1;38;2;{color}m' + name + f'\x1b[{weight};38;2;{normal}m' + suffix
+    if title != tab.title:
+        tab = tab._replace(title=title)
     if not tab.is_active or max_tab_length < 4:
         return draw_tab_with_separator(
             draw_data, screen, tab, before, max_tab_length, index, is_last, extra_data)
 
     template = draw_data.active_title_template or draw_data.title_template
-    number = '{fmt.fg._585b70}{index}{fmt.fg.tab}'  # Mocha Surface 2
     padded = draw_data._replace(
-        active_title_template=template.strip().replace('{index}', number, 1),
+        active_title_template=template.strip(),
         leading_spaces=1, trailing_spaces=1)
-    start = screen.cursor.x
-    end = draw_tab_with_separator(
+    return draw_tab_with_separator(
         padded, screen, tab, before, max_tab_length, index, is_last, extra_data)
-    if end - start < 3 or extra_data.for_layout:
-        return end
-
-    cursor = screen.cursor
-    x, fg, bg = cursor.x, cursor.fg, cursor.bg
-    cursor.fg = as_rgb(draw_data.tab_bg(tab))
-    cursor.bg = as_rgb(int(draw_data.default_bg))
-    cursor.x = start
-    screen.draw(LEFT_CORNER)
-    cursor.x = end - 1
-    screen.draw(RIGHT_CORNER)
-    cursor.x, cursor.fg, cursor.bg = x, fg, bg
-    return end
 
 
 def usage_color(value):
@@ -56,21 +125,80 @@ def resource_segments(tab, neutral):
     if not record or manager.active_tab is None:
         return []
     window = manager.active_tab.active_window
-    if window is None or window.user_vars.get('kzw_workspace') != record['workspace'] or \
-            window.user_vars.get('kzw_origin', '') != record['origin']:
+    if window is None:
+        return []
+    values = window.user_vars
+    local = bool(values.get('kzw_local'))
+    if (values.get('kzw_local_workspace' if local else 'kzw_workspace') != record['workspace'] or
+            values.get('kzw_local_origin' if local else 'kzw_origin', '') != record['origin']):
         return []
     fresh = time.monotonic() < record['expires']
-    segments = [(f"{record['host']} · ", neutral)]
-    for index, (icon, key) in enumerate(((CPU_ICON, 'cpu'), (MEMORY_ICON, 'ram'))):
+    segments = [(f"{WORKSPACE_ICON} {mask_identity(record['workspace'], tab.os_window_id)}", WORKSPACE_COLOR),
+                (' · ', SEPARATOR_COLOR),
+                (f"{HOST_ICON} {mask_identity(record['host'], tab.os_window_id)}", HOST_COLOR)]
+    detach = getattr(manager, '_kzw_detach_in_progress', None)
+    if (isinstance(detach, dict) and detach.get('workspace') == record['workspace'] and
+            detach.get('origin') == record['origin']):
+        return segments + [(' · ', SEPARATOR_COLOR), ('Detaching…', 0xf9e2af), (' ', neutral)]
+    states = {values.get('kzw_connection', '') for kitty_tab in manager.tabs for window in kitty_tab
+              for values in (getattr(window, 'user_vars', {}),)
+              if values.get('kzw_workspace') == record['workspace'] and values.get('kzw_origin', '') == record['origin']}
+    state = record.get('connection', '')
+    if 'connection' in record and time.monotonic() >= record.get('connection_expires', 0):
+        state = 'stalled'
+    states.add(state)
+    labels = (('offline', 'Waiting for network…'),
+              ('stalled', 'Connection stalled…'), ('reconnecting', 'Reconnecting…'),
+              ('restoring', 'Restoring…'), ('connecting', 'Connecting…'))
+    label = next((label for state, label in labels if state in states), None)
+    if label is not None:
+        return segments + [(' · ', SEPARATOR_COLOR), (label, 0xf9e2af), (' ', neutral)]
+    for icon, key in ((CPU_ICON, 'cpu'), (MEMORY_ICON, 'ram')):
+        segments.append((' · ', SEPARATOR_COLOR))
         value = record[key] if fresh else None
         text = f'{value:.0f}%' if value is not None else '—'
         segments.append((f'{icon} {text}', usage_color(value) if value is not None else neutral))
-        segments.append((' · ' if index == 0 else ' ', neutral))
+    segments.append((' ', neutral))
     return segments
 
 
 def draw_tab(draw_data, screen, tab, before, max_tab_length, index, is_last, extra_data):
-    end = draw_title(draw_data, screen, tab, before, max_tab_length, index, is_last, extra_data)
+    manager = get_boss().os_window_map.get(tab.os_window_id)
+    indices = getattr(getattr(manager, 'tab_bar', None), '_kzw_tab_indices', {})
+    index = indices.get(tab.tab_id, index)
+    if local_tab(tab):
+        cursor = screen.cursor
+        title = mask_identity(tab.title, tab.os_window_id)
+        title = ''.join(c for c in title if c.isprintable())[:100]
+        if not title or title in ('Local', 'kzw', 'kzw.local_tabs'):
+            title = '?'
+        label = ' ' + title + ' '
+        width = min(wcswidth(label), max(1, max_tab_length))
+        if not extra_data.for_layout and draw_data.tab_bar_edge in ('top', 'bottom'):
+            segments = resource_segments(tab, int(draw_data.inactive_fg))
+            reserved = sum(wcswidth(text) for text, _ in segments) + 2 if segments else 0
+            if screen.columns - reserved - width < before + 2:
+                reserved = 0  # Hide status rather than overwrite a real tab.
+            start = max(before, screen.columns - reserved - width)
+            cursor.bg = as_rgb(int(draw_data.default_bg))
+            cursor.bold = cursor.italic = False
+            screen.draw(' ' * (start - cursor.x))
+            if manager is not None:
+                manager.tab_bar._kzw_local_start = (tab.tab_id, start)
+        cursor.fg = as_rgb(LOCAL_COLOR)
+        cursor.bg = as_rgb(0x313244 if tab.is_active else int(draw_data.default_bg))
+        cursor.bold, cursor.italic = tab.is_active, False
+        if width < wcswidth(label):
+            truncated = ''
+            for char in label:
+                if wcswidth(truncated + char) > width - 1:
+                    break
+                truncated += char
+            label = truncated + '…'
+        screen.draw(label)
+        end = cursor.x
+    else:
+        end = draw_title(draw_data, screen, tab, before, max_tab_length, index, is_last, extra_data)
     if is_last and not extra_data.for_layout and draw_data.tab_bar_edge in ('top', 'bottom'):
         neutral = int(draw_data.inactive_fg)
         segments = resource_segments(tab, neutral)
@@ -96,6 +224,33 @@ def draw_tab(draw_data, screen, tab, before, max_tab_length, index, is_last, ext
 native_layout = getattr(TabBar.layout, '_native_layout', TabBar.layout)
 draw_tab._equal_margins = True
 draw_tab._kzw_resources = True
+draw_tab._kzw_privacy = True
+draw_tab._kzw_connection = True
+draw_tab._kzw_connecting = True
+draw_tab._kzw_network_pause = True
+draw_tab._kzw_detaching = True
+draw_tab._kzw_local_tabs = True
+draw_tab._kzw_local_program = True
+
+
+def redraw_after_marker_change(native):
+    @wraps(native)
+    def changed(window, *args, **kwargs):
+        try:
+            return native(window, *args, **kwargs)
+        finally:
+            manager = get_boss().os_window_map.get(window.os_window_id)
+            if manager is not None and getattr(manager.tab_bar.draw_func, '_kzw_privacy', False):
+                manager.update_tab_bar_data()
+                manager.mark_tab_bar_dirty()
+
+    changed._privacy_native = native
+    return changed
+
+
+for marker_action in ('toggle_marker', 'set_marker', 'remove_marker'):
+    action = getattr(Window, marker_action)
+    setattr(Window, marker_action, redraw_after_marker_change(getattr(action, '_privacy_native', action)))
 
 
 def layout(self):
@@ -149,7 +304,26 @@ draw_tab._slide_lite = True
 
 
 def update_horizontal(self, data):
-    changed = native_update_horizontal(self, data)
+    alignment = None
+    if getattr(self.draw_func, '_kzw_local_tabs', False):
+        self._kzw_tab_indices = {tab.tab_id: i for i, tab in enumerate(data, 1)}
+        self._kzw_local_start = None
+        data = [tab for tab in data if not local_tab(tab)] + [tab for tab in data if local_tab(tab)]
+        if any(local_tab(tab) for tab in data):
+            alignment = self.align
+            self.align = lambda: None  # Local defines a left/right layout, not one centered cluster.
+    try:
+        changed = native_update_horizontal(self, data)
+    finally:
+        if alignment is not None:
+            self.align = alignment
+    if getattr(self, '_kzw_local_start', None) is not None:
+        tab_id, start = self._kzw_local_start
+        self.tab_extents = [item._replace(x=item.x._replace(start=start)) if item.tab_id == tab_id else item
+                            for item in self.tab_extents]
+    if any(tab.is_active and local_tab(tab) for tab in data):
+        self._tab_slide = None  # Do not animate the workspace highlight onto Local.
+        return changed
     if not getattr(self.draw_func, '_slide_lite', False) or \
             'active-tab-slide-lite' not in get_options().custom_shaders:
         return changed

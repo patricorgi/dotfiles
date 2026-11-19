@@ -44,6 +44,7 @@ install
 
 # Machine-local state and generated files
 /.config/yazi/sshfs.list
+/.config/kzw/installed-bridges
 /.config/mpv/watch_later/
 __pycache__/
 *.pyc
@@ -65,3 +66,4 @@ archive
 /.config/colima/
 /.config/Ladybird/
 .config/junction
+scripts/tests
