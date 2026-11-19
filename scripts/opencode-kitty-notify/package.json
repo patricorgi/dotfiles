@@ -1,0 +1,8 @@
+{
+  "name": "opencode-kitty-session-notify",
+  "version": "0.2.2",
+  "type": "module",
+  "exports": {
+    "./tui": "./tui.js"
+  }
+}
