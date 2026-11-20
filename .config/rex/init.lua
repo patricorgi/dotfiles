@@ -1,0 +1,30 @@
+-- Migrated from kitty/mappings.conf. Unchanged Rex defaults are omitted.
+rex.bind("ctrl+m", "pane.send_key", { key = "enter" })
+rex.bind("ctrl+h", "pane.send_key", { key = "backspace" })
+rex.bind("alt+b", "pane.send_key", { key = "alt+b" })
+rex.bind("alt+f", "pane.send_key", { key = "alt+f" })
+
+rex.bind("alt+cmd+1", "client.tab.goto", { index = 1 })
+rex.bind("alt+cmd+2", "client.tab.goto", { index = 2 })
+rex.bind("alt+cmd+3", "client.tab.goto", { index = 3 })
+rex.bind("alt+cmd+4", "client.tab.goto", { index = 4 })
+rex.bind("alt+cmd+5", "client.tab.goto", { index = 5 })
+rex.bind("alt+cmd+6", "client.tab.goto", { index = 6 })
+rex.bind("alt+cmd+7", "client.tab.goto", { index = 7 })
+rex.bind("alt+cmd+8", "client.tab.goto", { index = 8 })
+rex.bind("alt+cmd+9", "client.tab.goto", { index = 9 })
+
+rex.bind("ctrl+shift+t", "client.tab.new")
+rex.bind("ctrl+shift+enter", "pane.split", { direction = "auto" })
+rex.bind("ctrl+shift+n", "client.window.new")
+rex.bind("alt+h", "pane.focus", { direction = "left" })
+rex.bind("alt+j", "pane.focus", { direction = "down" })
+rex.bind("alt+k", "pane.focus", { direction = "up" })
+rex.bind("alt+l", "pane.focus", { direction = "right" })
+rex.bind("ctrl+shift+z", "pane.zoom")
+
+-- Recognize utility prefixes on the Mac; lhcb-login handles the completed key.
+rex.bind("ctrl+space>shift+q", "client.key.forward")
+rex.bind("ctrl+space>h", "client.key.forward")
+rex.bind("ctrl+space>y", "client.key.forward")
+rex.bind("ctrl+space>ctrl+space", "pane.send_key", { key = "ctrl+space" })
